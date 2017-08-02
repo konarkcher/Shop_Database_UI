@@ -3,10 +3,13 @@
 /*
 
 # But not these directories...
+!sqlmanager
 
 # And not these files...
 !.gitignore
 !ui.py
 !db.py
+!sqlmanager/*.py
 
 # But definitely these...
+sqlmanager/*.pyc
