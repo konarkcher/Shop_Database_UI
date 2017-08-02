@@ -16,3 +16,6 @@ class sqlite3Adapter:
 
 	def commit(self):
 		self.sqliteConnection.commit()
+
+	def select_all(self, tableName=""):
+		yield from self.sqliteCursor.execute("SELECT * FROM " + tableName)
