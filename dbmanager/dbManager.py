@@ -15,6 +15,26 @@ class dbManager:
 			return
 		self.adapter.add_row(tableName, rowArray)
 
+	def delete(self, tableName="", idArray=[]):
+		if not idArray:
+			return
+		self.adapter.delete(tableName, idArray)
+
+	def reserve(self, idArray=[]):
+		if not idArray:
+			return
+		self.adapter.reserve(idArray)
+
+	def decrease(self, idArray=[]):
+		if not idArray:
+			return
+		self.adapter.decrease(idArray)
+
+	def update(self, id, rowArray=[]):
+		if not rowArray or (id < 0):
+			return
+		self.adapter.update(id, rowArray)
+
 	def commit(self):
 		self.adapter.commit()
 
