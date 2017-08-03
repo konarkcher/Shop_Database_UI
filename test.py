@@ -1,9 +1,9 @@
 from dbmanager import dbManager
 from dbmanager import sqlite3Adapter
 
-sql3Adpt = sqlite3Adapter.sqlite3Adapter("db/test.db") 
+sql3Adpt = sqlite3Adapter.sqlite3Adapter("db/test.db", "id") 
 db = dbManager.dbManager(sql3Adpt)
-
+	
 
 # Create table
 sql3Adpt.sqliteCursor.execute('''CREATE TABLE stocks
@@ -18,12 +18,24 @@ db.add_row("stocks",[3,'2006-01-05','BUY','RHAT2',100,35.14])
 db.add_row("stocks",[4,'2006-01-05','BUY','RHAT3',100,35.14])
 
 # Save (commit) the changes
-db.commit()
+#db.commit()
+
+print("================Nothing deleted======================")
 
 for row in db.select_all("stocks"):
 	print(row)
 
-sql3Adpt.sqliteCursor.execute("DELETE FROM stocks")
+
+db.delete("stocks", [1,4])
+
+
+print("================{1,4} deleted======================")
+
+
+for row in db.select_all("stocks"):
+	print(row)
+
+db.delete("stocks", [2,3] )
 
 sql3Adpt.sqliteCursor.execute("DROP TABLE stocks")
 
