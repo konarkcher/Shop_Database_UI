@@ -4,13 +4,13 @@
 
 # But not these directories...
 !dbmanager
+!ui/
 
 # And not these files...
 !.gitignore
-!ui.py
 !db.py
 !test.py
 !dbmanager/*.py
+!ui/*.py
 
 # But definitely these...
-dbmanager/*.pyc
