@@ -4,9 +4,49 @@ import rus_locale as locale
 APP_NAME = 'Shop UI'
 
 
+class DbList(wx.ListCtrl):
+    def __init__(self, parent):
+        super(DbList, self).__init__(parent, style=wx.LC_REPORT)
+
+        self.InsertColumn(0, locale.id_col)
+        self.InsertColumn(1, locale.name_col)
+        self.InsertColumn(2, locale.price_col)
+
+
 class ShopTab(wx.Panel):
     def __init__(self, parent):
         super(ShopTab, self).__init__(parent)
+
+        button_sizer = wx.GridSizer(4, 1, 10, 0)  # rows, cols, vgap, hgap
+
+        buttons = [wx.Button(self, label=locale.add_button),
+                   wx.Button(self, label=locale.delete_button),
+                   wx.Button(self, label=locale.to_cart_button)]
+        for button in buttons:
+            button_sizer.Add(button, 1, wx.EXPAND)
+
+        for func, button in zip([self.on_add, self.on_delete, self.on_to_cart],
+                                buttons):
+            self.Bind(wx.EVT_BUTTON, func, button)
+
+        db_list = DbList(self)
+
+        outer_sizer = wx.BoxSizer(wx.HORIZONTAL)
+
+        outer_sizer.Add(db_list, 4, wx.EXPAND)
+        outer_sizer.AddSpacer(4)
+        outer_sizer.Add(button_sizer, 1, wx.TOP)
+
+        self.SetSizer(outer_sizer)
+
+    def on_add(self, e):
+        print('on add')
+
+    def on_delete(self, e):
+        print('on delete')
+
+    def on_to_cart(self, e):
+        print('on to cart')
 
 
 class CustomerTab(wx.Panel):
@@ -70,6 +110,11 @@ class MainWindow(wx.Frame):
         pass
 
 
-app = wx.App(False)
-MainWindow(None, APP_NAME)
-app.MainLoop()
+def main():
+    app = wx.App(False)
+    MainWindow(None, APP_NAME)
+    app.MainLoop()
+
+
+if __name__ == '__main__':
+    main()
