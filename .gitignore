@@ -9,6 +9,7 @@
 # And not these files...
 !.gitignore
 !db.py
+!test.py
 !dbmanager/*.py
 !ui/*.py
 
