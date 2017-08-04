@@ -1,16 +1,13 @@
 import wx
+import ObjectListView as olv
 import rus_locale as locale
 
 APP_NAME = 'Shop UI'
 
 
-class DbList(wx.ListCtrl):
+class DbOlv(olv.ObjectListView):
     def __init__(self, parent):
-        super(DbList, self).__init__(parent, style=wx.LC_REPORT)
-
-        self.InsertColumn(0, locale.id_col)
-        self.InsertColumn(1, locale.name_col)
-        self.InsertColumn(2, locale.price_col)
+        super(DbOlv, self).__init__(parent, style=wx.LC_REPORT)
 
 
 class ShopTab(wx.Panel):
@@ -29,7 +26,8 @@ class ShopTab(wx.Panel):
                                 buttons):
             self.Bind(wx.EVT_BUTTON, func, button)
 
-        db_list = DbList(self)
+        # db_list = DbList(self)
+        db_list = DbOlv(self)
 
         outer_sizer = wx.BoxSizer(wx.HORIZONTAL)
 
@@ -95,9 +93,12 @@ class MainWindow(wx.Frame):
         self.Bind(wx.EVT_MENU, self.on_about, about_item)
 
     def init_toolbar(self):
-        toolbar = self.CreateToolBar()
-        set_tool = toolbar.AddTool(wx.ID_ANY, 'Settings', wx.Bitmap('set.png'))
-        toolbar.Realize()
+        tb = self.CreateToolBar()
+        # set_tool = toolbar.AddTool(wx.ID_ANY, '', wx.Bitmap('set.png'))
+        set_tool = tb.AddTool(wx.ID_ANY, '',
+                              wx.Image('set.png',
+                                       wx.BITMAP_TYPE_PNG).ConvertToBitmap())
+        tb.Realize()
 
         self.Bind(wx.EVT_TOOL, self.on_set, set_tool)
 
@@ -107,7 +108,7 @@ class MainWindow(wx.Frame):
         dlg.Destroy()
 
     def on_set(self, event):
-        pass
+        print('on set')
 
 
 def main():
