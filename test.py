@@ -7,7 +7,7 @@ db = dbManager.dbManager(sql3Adpt)
 
 # Create table
 sql3Adpt.sqliteCursor.execute('''CREATE TABLE stocks
-             (ID INTEGER PRIMARY KEY AUTOINCREMENT,name varchar(100), count INT, price INT, reserved boolean)''')
+             (ID INTEGER PRIMARY KEY AUTOINCREMENT,name varchar(100), count INT, price INT, reserved INT DEFAULT 0)''')
 
 sql3Adpt.sqliteCursor.execute("CREATE UNIQUE INDEX stoks_ind ON stocks (id)")
 
