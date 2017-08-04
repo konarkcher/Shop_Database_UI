@@ -1,7 +1,11 @@
 import sqlite3
 
 class sqlite3Adapter:
-	"""docstring for sqlite3Adapter"""
+	"""docstring for sqlite3Adapter
+		
+		now this class is signature influenced in cause of add_row(...) function.
+
+	"""
 	_path = ""
 	_idColumnName =""
 
@@ -14,7 +18,7 @@ class sqlite3Adapter:
 		self.sqliteCursor = self.sqliteConnection.cursor()
 
 	def add_row(self, tableName="", rowArray=[]):
-		self.sqliteCursor.execute("INSERT INTO " + tableName + " VALUES (" + str(rowArray)[1:-1] + ")")
+		self.sqliteCursor.execute("INSERT INTO " + tableName + " (name, count, price) VALUES (" + str(rowArray)[1:-1] + ")")
 
 	def delete(self, tableName="", idArray=[]):
 		self.sqliteCursor.execute("DELETE FROM " + tableName + " WHERE " + self._idColumnName + " IN (" + str(idArray)[1:-1] + ") ")
