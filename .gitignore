@@ -1,16 +1,18 @@
 # Ignore everything
 *
-/*
 
 # But not these directories...
-!dbmanager
+!dbmanager/
 !ui/
 
 # And not these files...
 !.gitignore
+
 !db.py
 !test.py
 !dbmanager/*.py
+
 !ui/*.py
+!ui/*.png
 
 # But definitely these...
