@@ -3,10 +3,7 @@ shop_tab = 'Магазин'
 customer_tab = 'Покупатели'
 
 # list column labels
-id_col = 'ID'
-name_col = 'Название товара'
-count_col = 'Количество'
-price_col = 'Цена'
+col = ['ID', 'Название товара', 'Количество', 'Цена', 'Зарезервировано']
 
 # button labels
 add_button = 'Добавить наименование'

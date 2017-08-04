@@ -5,29 +5,15 @@ import rus_locale as locale
 APP_NAME = 'Shop UI'
 
 
-class Product(object):
-    def __init__(self, id, name, count, price):
-        self.id = id
-        self.name = name
-        self.count = count
-        self.price = price
-
-
 class DbOlv(olv.ObjectListView):
     def __init__(self, parent):
         super(DbOlv, self).__init__(parent, style=wx.LC_REPORT)
 
-        self.SetColumns([
-            olv.ColumnDefn(locale.id_col, valueGetter='id'),
-            olv.ColumnDefn(locale.name_col, valueGetter='name'),
-            olv.ColumnDefn(locale.count_col, valueGetter='count'),
-            olv.ColumnDefn(locale.price_col, valueGetter='price')
-        ])
-
-        for column, prop in zip(self.columns, [1, 5, 2, 2]):
-            column.isSpaceFilling = True
-            column.freeSpaceProportion = prop
-            column.minimumWidth = prop * 40
+        for (index, name), prop in zip(enumerate(locale.col), [1, 5, 2, 2, 2]):
+            new_col = olv.ColumnDefn(name, isSpaceFilling=True,
+                                     valueGetter=index, minimumWidth=prop * 40)
+            new_col.freeSpaceProportion = prop
+            self.AddColumnDefn(new_col)
 
         self.CreateCheckStateColumn()
 
@@ -52,9 +38,9 @@ class ShopTab(wx.Panel):
 
         db_list = DbOlv(self)
 
-        test_data = [Product(0, 'toy', 5, 100),
-                     Product(1, 'car', 10, 200),
-                     Product(2, 'plane', 100, 5000)]
+        test_data = [(0, 'toy', 5, 100),
+                     (1, 'car', 10, 200),
+                     (2, 'plane', 100, 5000)]
         db_list.SetObjects(test_data)
 
         outer_sizer = wx.BoxSizer(wx.HORIZONTAL)
