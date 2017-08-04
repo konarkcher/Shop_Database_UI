@@ -7,15 +7,15 @@ db = dbManager.dbManager(sql3Adpt)
 
 # Create table
 sql3Adpt.sqliteCursor.execute('''CREATE TABLE stocks
-             (id int,date text, trans text, symbol text, qty real, price real)''')
+             (ID INTEGER PRIMARY KEY AUTOINCREMENT,name varchar(100), count INT, price INT, reserved INT DEFAULT 0)''')
 
 sql3Adpt.sqliteCursor.execute("CREATE UNIQUE INDEX stoks_ind ON stocks (id)")
 
 # Insert a row of data
-db.add_row("stocks",[1,'2006-01-05','BUY','RHAT0',100,35.14])
-db.add_row("stocks",[2,'2006-01-05','BUY','RHAT1',100,35.14])
-db.add_row("stocks",[3,'2006-01-05','BUY','RHAT2',100,35.14])
-db.add_row("stocks",[4,'2006-01-05','BUY','RHAT3',100,35.14])
+db.add_row("stocks",["product", 3, 100])
+db.add_row("stocks",["product", 3, 100])
+db.add_row("stocks",["product", 3, 100])
+db.add_row("stocks",["product", 3, 100])
 
 # Save (commit) the changes
 #db.commit()
