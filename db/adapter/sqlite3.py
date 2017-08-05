@@ -1,6 +1,6 @@
 import sqlite3
 
-class sqlite3Adapter:
+class Sqlite3:
 	"""docstring for sqlite3Adapter
 		
 		now this class is signature influenced in cause of add_row(...) function.

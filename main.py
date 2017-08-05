@@ -1,6 +1,7 @@
 import wx
 
-import dbmanager
+import db
+import db.adapter
 import gui.mainframe
 
 

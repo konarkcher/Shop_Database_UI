@@ -2,8 +2,9 @@
 *
 
 # But not these directories...
+!data/
 !db/
-!dbmanager/
+!db/adapter/
 !gui/
 !gui/icon/
 !gui/locale/

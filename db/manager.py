@@ -1,4 +1,4 @@
-class dbManager:
+class DbManager:
 	"""Db managment class"""
 	
 	path = ""

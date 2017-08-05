@@ -1,42 +1,38 @@
-from dbmanager import dbManager
-from dbmanager import sqlite3Adapter
+import db
+import db.adapter
 
-sql3Adpt = sqlite3Adapter.Sqlite3Adapter("db/test.db", "id")
-db = dbManager.dbManager(sql3Adpt)
-	
+sql3Adpt = db.adapter.Sqlite3("data/test.db", "id")
+database = db.DbManager(sql3Adpt)
 
 # Create table
-# sql3Adpt.sqliteCursor.execute('''CREATE TABLE stocks
-#              (ID INTEGER PRIMARY KEY AUTOINCREMENT,name varchar(100),
-# count INT, price INT, reserved INT DEFAULT 0)''')
+sql3Adpt.sqliteCursor.execute('''CREATE TABLE stocks
+             (ID INTEGER PRIMARY KEY AUTOINCREMENT,name varchar(100), 
+             count INT, price INT, reserved INT DEFAULT 0)''')
 
-# sql3Adpt.sqliteCursor.execute("CREATE UNIQUE INDEX stoks_ind ON stocks (id)")
+sql3Adpt.sqliteCursor.execute("CREATE UNIQUE INDEX stoks_ind ON stocks (id)")
 
 # Insert a row of data
-db.add_row("stocks",["product", 3, 100])
-db.add_row("stocks",["product", 3, 100])
-db.add_row("stocks",["product", 3, 100])
-db.add_row("stocks",["product", 3, 100])
+database.add_row("stocks", ["product", 3, 100])
+database.add_row("stocks", ["product", 3, 100])
+database.add_row("stocks", ["product", 3, 100])
+database.add_row("stocks", ["product", 3, 100])
 
 # Save (commit) the changes
-#db.commit()
+database.commit()
 
 print("================Nothing deleted======================")
 
-for row in db.select_all("stocks"):
-	print(row)
+for row in database.select_all("stocks"):
+    print(row)
 
-
-db.delete("stocks", [1,4])
-
+database.delete("stocks", [1, 4])
 
 print("================{1,4} deleted======================")
 
+for row in database.select_all("stocks"):
+    print(row)
 
-for row in db.select_all("stocks"):
-	print(row)
-
-db.delete("stocks", [2,3] )
+database.delete("stocks", [2, 3])
 
 # sql3Adpt.sqliteCursor.execute("DROP TABLE stocks")
 
