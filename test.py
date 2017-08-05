@@ -1,15 +1,15 @@
 import db
 import db.adapter
 
-sql3Adpt = db.adapter.Sqlite3("data/test.db", "id")
+sql3Adpt = db.adapter.Sqlite3("data/test.db")
 database = db.DbManager(sql3Adpt)
 
 # Create table
-sql3Adpt.sqliteCursor.execute('''CREATE TABLE stocks
+sql3Adpt.sqlite_cursor.execute('''CREATE TABLE stocks
              (ID INTEGER PRIMARY KEY AUTOINCREMENT,name varchar(100), 
              count INT, price INT, reserved INT DEFAULT 0)''')
 
-sql3Adpt.sqliteCursor.execute("CREATE UNIQUE INDEX stoks_ind ON stocks (id)")
+sql3Adpt.sqlite_cursor.execute("CREATE UNIQUE INDEX stoks_ind ON stocks (id)")
 
 # Insert a row of data
 database.add_row("stocks", ["product", 3, 100])
@@ -34,7 +34,7 @@ for row in database.select_all("stocks"):
 
 database.delete("stocks", [2, 3])
 
-# sql3Adpt.sqliteCursor.execute("DROP TABLE stocks")
+sql3Adpt.sqlite_cursor.execute("DROP TABLE stocks")
 
 sql3Adpt.sqlite_connection.commit()
 
