@@ -44,4 +44,5 @@ class Sqlite3:
         self.sqlite_connection.commit()
 
     def select_all(self, table_name=""):
-        yield from self.sqlite_cursor.execute("SELECT * FROM {}".format(table_name))
+        yield from self.sqlite_cursor.execute("SELECT * FROM {}"
+            .format(table_name))
