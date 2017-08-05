@@ -1,42 +1,42 @@
 class DbManager:
-	"""Db managment class"""
+    """Db managment class"""
 
-	def __init__(self, adapter):
-		self.adapter = adapter
-		self.adapter.connect()
+    def __init__(self, adapter):
+        self.adapter = adapter
+        self.adapter.connect()
 
-	def __str__(self):
-		return "This is dbManager with " + self.adapter 
+    def __str__(self):
+        return "This is dbManager with " + self.adapter 
 
-	def add_row(self, tableName="", rowArray=[]):
-		if not rowArray or not tableName:
-			return
-		self.adapter.add_row(tableName, rowArray)
+    def add_row(self, table_name="", row_array=list()):
+        if not row_array or not table_name:
+            return
+        self.adapter.add_row(table_name, row_array)
 
-	def delete(self, tableName="", idArray=[]):
-		if not idArray:
-			return
-		self.adapter.delete(tableName, idArray)
+    def delete(self, table_name="", id_array=list()):
+        if not id_array:
+            return
+        self.adapter.delete(table_name, id_array)
 
-	def reserve(self, idArray=[]):
-		if not idArray:
-			return
-		self.adapter.reserve(idArray)
+    def reserve(self, id_array=list()):
+        if not id_array:
+            return
+        self.adapter.reserve(id_array)
 
-	def decrease(self, idArray=[]):
-		if not idArray:
-			return
-		self.adapter.decrease(idArray)
+    def decrease(self, id_array=list()):
+        if not id_array:
+            return
+        self.adapter.decrease(id_array)
 
-	def update(self, id, rowArray=[]):
-		if not rowArray or (id < 0):
-			return
-		self.adapter.update(id, rowArray)
+    def update(self, id, row_array=list()):
+        if not row_array or (id < 0):
+            return
+        self.adapter.update(id, row_array)
 
-	def commit(self):
-		self.adapter.commit()
+    def commit(self):
+        self.adapter.commit()
 
-	def select_all(self, tableName=""):
-		if not tableName:
-			return
-		yield from self.adapter.select_all(tableName)
+    def select_all(self, table_name=""):
+        if not table_name:
+            return
+        yield from self.adapter.select_all(table_name)
