@@ -2,17 +2,16 @@
 *
 
 # But not these directories...
+!db/
 !dbmanager/
-!ui/
+!gui/
+!gui/icon/
+!gui/locale/
 
 # And not these files...
 !.gitignore
 
-!db.py
-!test.py
-!dbmanager/*.py
-
-!ui/*.py
-!ui/*.png
+!*.py
+!gui/icon/*.png
 
 # But definitely these...
