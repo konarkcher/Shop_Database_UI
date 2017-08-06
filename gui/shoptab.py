@@ -2,6 +2,8 @@ import wx
 
 import ObjectListView as Olv
 
+import db
+import db.adapter
 from .locale import rus as locale
 
 
@@ -24,6 +26,24 @@ class ShopTab(wx.Panel):
     def __init__(self, parent):
         super(ShopTab, self).__init__(parent)
 
+        button_sizer = self._get_buttons()
+
+        self.db_list = DbOlv(self)
+
+        outer_sizer = wx.BoxSizer(wx.HORIZONTAL)
+
+        outer_sizer.Add(self.db_list, 1, wx.EXPAND)
+        outer_sizer.AddSpacer(4)
+        outer_sizer.Add(button_sizer, 0, wx.TOP)
+
+        self.SetSizer(outer_sizer)
+
+        self.database = db.DbManager(db.adapter.Sqlite3('./data/shop'))
+        self._set_db_data()
+
+        self.Bind(wx.EVT_WINDOW_DESTROY, self._on_destroy, self)
+
+    def _get_buttons(self):
         button_sizer = wx.GridSizer(4, 1, 10, 0)  # rows, cols, vgap, hgap
 
         buttons = [wx.Button(self, label=locale.ADD_BUTTON),
@@ -32,30 +52,23 @@ class ShopTab(wx.Panel):
         for button in buttons:
             button_sizer.Add(button, 1, wx.EXPAND)
 
-        for func, button in zip([self.on_add, self.on_delete, self.on_to_cart],
-                                buttons):
+        for func, button in zip([self._on_add, self._on_delete,
+                                 self._on_to_cart], buttons):
             self.Bind(wx.EVT_BUTTON, func, button)
 
-        db_list = DbOlv(self)
+        return button_sizer
 
-        test_data = [(0, 'toy', 5, 100),
-                     (1, 'car', 10, 200),
-                     (2, 'plane', 100, 5000)]
-        db_list.SetObjects(test_data)
+    def _set_db_data(self):
+        self.db_list.SetObjects(list(self.database.select_all('storage')))
 
-        outer_sizer = wx.BoxSizer(wx.HORIZONTAL)
-
-        outer_sizer.Add(db_list, 1, wx.EXPAND)
-        outer_sizer.AddSpacer(4)
-        outer_sizer.Add(button_sizer, 0, wx.TOP)
-
-        self.SetSizer(outer_sizer)
-
-    def on_add(self, e):
+    def _on_add(self, e):
         print('on add')
 
-    def on_delete(self, e):
+    def _on_delete(self, e):
         print('on delete')
 
-    def on_to_cart(self, e):
+    def _on_to_cart(self, e):
         print('on to cart')
+
+    def _on_destroy(self, event):
+        self.database.close_connection()

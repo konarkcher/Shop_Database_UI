@@ -50,3 +50,6 @@ class Sqlite3:
     def select_all(self, table_name=""):
         yield from self.sqlite_cursor.execute("SELECT * FROM {}"
                                               .format(table_name))
+
+    def close_connection(self):
+        self.sqlite_connection.close()
