@@ -12,7 +12,7 @@ sql3Adpt.sqlite_cursor.execute('''CREATE TABLE stocks
 sql3Adpt.sqlite_cursor.execute("CREATE UNIQUE INDEX stoks_ind ON stocks (id)")
 
 # Insert a row of data
-database.add_row("stocks", ["product", 3, 100])
+database.add_row("stocks1", ["product", 3, 100])
 database.add_row("stocks", ["product", 3, 100])
 database.add_row("stocks", ["product", 3, 100])
 database.add_row("stocks", ["product", 3, 100])
@@ -25,7 +25,7 @@ print("================Nothing deleted======================")
 for row in database.select_all("stocks"):
     print(row)
 
-database.delete("stocks", [1, 4])
+database.delete("stocks", [1, 4, 5])
 
 print("================{1,4} deleted======================")
 
