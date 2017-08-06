@@ -1,7 +1,5 @@
 import wx
 
-import db
-import db.adapter
 import gui.mainframe
 
 

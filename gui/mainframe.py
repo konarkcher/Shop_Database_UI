@@ -19,8 +19,8 @@ class MainFrame(wx.Frame):
 
         self.path_to_icons = path_to_icons
 
-        self.init_menubar()
-        self.init_toolbar()
+        self._init_menubar()
+        self._init_toolbar()
 
         panel = wx.Panel(self)
         notebook = ShopNotebook(panel)
@@ -29,10 +29,10 @@ class MainFrame(wx.Frame):
         sizer.Add(notebook, 1, wx.EXPAND)
         panel.SetSizer(sizer)
 
-        self.SetSize((900, 500))  # TODO: make constant
+        self.SetSize((900, 500))
         self.Show(True)
 
-    def init_menubar(self):
+    def _init_menubar(self):
         menu_bar = wx.MenuBar()
 
         # file_menu = wx.Menu() # TODO: add compatibility for non-mac
@@ -45,24 +45,24 @@ class MainFrame(wx.Frame):
 
         self.SetMenuBar(menu_bar)
 
-        self.Bind(wx.EVT_MENU, self.on_about, about_item)
+        self.Bind(wx.EVT_MENU, self._on_about, about_item)
 
-    def init_toolbar(self):
+    def _init_toolbar(self):
         toolbar = self.CreateToolBar()
         # set_tool = toolbar.AddTool(wx.ID_ANY, '', wx.Bitmap('set.png'))
-        set_tool = toolbar.AddTool(wx.ID_ANY, locale.SET, self.get_icon('set'))
+        set_tool = toolbar.AddTool(wx.ID_ANY, locale.SETTINGS,
+                                   self._get_icon('set'))
         toolbar.Realize()
 
-        self.Bind(wx.EVT_TOOL, self.on_set, set_tool)
+        self.Bind(wx.EVT_TOOL, self._on_set, set_tool)
 
-    def on_about(self, event):
-        dlg = wx.MessageDialog(self, locale.ABOUT_DIAL, locale.ABOUT_ITEM)
-        dlg.ShowModal()
-        dlg.Destroy()
+    def _on_about(self, event):
+        wx.MessageBox(locale.ABOUT_DIAL, locale.ABOUT_ITEM,
+                      wx.OK | wx.ICON_INFORMATION)
 
-    def on_set(self, event):
+    def _on_set(self, event):
         print('on set')
 
-    def get_icon(self, filename):
+    def _get_icon(self, filename):
         return wx.Image('{}{}.png'.format(self.path_to_icons, filename),
                         wx.BITMAP_TYPE_PNG).ConvertToBitmap()
