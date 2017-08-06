@@ -7,7 +7,7 @@ HELP = 'Помощь'
 ABOUT_ITEM = 'О {}'.format(APP_NAME)
 
 # toolbar item labels
-SET = 'Настройки'
+SETTINGS = 'Настройки'
 
 # dialog messages
 ABOUT_DIAL = 'Программа для учёта товаров сферического магазина в вакууме'
