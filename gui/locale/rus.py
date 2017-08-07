@@ -29,3 +29,7 @@ SET_DB = 'Выбор базы данных'
 
 SQLITE_DB = 'Sqlite3'
 FILE = 'Файл:'
+
+# .buttons
+ACCEPT = 'Принять'
+CANCEL = 'Отмена'
