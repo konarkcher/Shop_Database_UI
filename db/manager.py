@@ -8,10 +8,10 @@ class Manager:
     def __str__(self):
         return "This is DbManager with " + self.adapter
 
-    def add_row(self, table_name="", row_array=list()):
+    def add_row(self, table_name="", row_sig="", row_array=list()):
         if not row_array or not table_name:
             return
-        self.adapter.add_row(table_name, row_array)
+        self.adapter.add_row(table_name,  row_sig, row_array)
         self.commit()
 
     def delete(self, table_name="", id_array=list()):
