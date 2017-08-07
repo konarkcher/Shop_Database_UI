@@ -1,7 +1,8 @@
-from . import Order
+from .singleton import SingletonMeta
+from .order import Order
 
 
-class Shop:
+class Shop(metaclass=SingletonMeta):
     def __init__(self):
         self.database = None
         self.order = Order()

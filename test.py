@@ -2,7 +2,7 @@ import db
 import db.adapter
 
 sql3Adpt = db.adapter.Sqlite3("data/test.db")
-database = db.DbManager(sql3Adpt)
+database = db.Manager(sql3Adpt)
 
 # Create table
 sql3Adpt.sqlite_cursor.execute('''CREATE TABLE stocks

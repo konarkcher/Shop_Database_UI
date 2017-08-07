@@ -2,8 +2,6 @@ import wx
 
 import ObjectListView as Olv
 
-import db
-import db.adapter
 from .locale import rus as locale
 
 
@@ -38,11 +36,6 @@ class ShopTab(wx.Panel):
 
         self.SetSizer(outer_sizer)
 
-        self.database = db.DbManager(db.adapter.Sqlite3('./data/shop'))
-        self._set_db_data()
-
-        self.Bind(wx.EVT_WINDOW_DESTROY, self._on_destroy, self)
-
     def _get_buttons(self):
         button_sizer = wx.GridSizer(4, 1, 10, 0)  # rows, cols, vgap, hgap
 
@@ -58,9 +51,6 @@ class ShopTab(wx.Panel):
 
         return button_sizer
 
-    def _set_db_data(self):
-        self.db_list.SetObjects(list(self.database.select_all('storage')))
-
     def _on_add(self, e):
         print('on add')
 
@@ -69,6 +59,3 @@ class ShopTab(wx.Panel):
 
     def _on_to_cart(self, e):
         print('on to cart')
-
-    def _on_destroy(self, event):
-        self.database.close_connection()
