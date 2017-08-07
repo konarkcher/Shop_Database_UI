@@ -1,4 +1,4 @@
-class DbManager:
+class Manager:
     """Db managment class"""
 
     def __init__(self, adapter):

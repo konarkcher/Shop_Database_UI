@@ -2,6 +2,7 @@ import wx
 
 from . import shoptab
 from . import customertab
+from . import dialog
 from .locale import rus as locale
 
 
@@ -61,7 +62,9 @@ class MainFrame(wx.Frame):
                       wx.OK | wx.ICON_INFORMATION)
 
     def _on_set(self, event):
-        print('on set')
+        dlg = dialog.DbSetDial(self)
+        dlg.ShowModal()
+        dlg.Destroy()
 
     def _get_icon(self, filename):
         return wx.Image('{}{}.png'.format(self.path_to_icons, filename),
