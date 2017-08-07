@@ -1,3 +1,5 @@
+import platform
+
 import wx
 
 from . import shoptab
@@ -50,9 +52,8 @@ class MainFrame(wx.Frame):
 
     def _init_toolbar(self):
         toolbar = self.CreateToolBar()
-        # set_tool = toolbar.AddTool(wx.ID_ANY, '', wx.Bitmap('set.png'))
-        set_tool = toolbar.AddSimpleTool(wx.ID_ANY, self._get_icon('set'),
-                                         locale.SETTINGS)
+        set_tool = toolbar.AddTool(wx.ID_ANY, locale.SETTINGS,
+                                   self._get_icon('set'))
         toolbar.Realize()
 
         self.Bind(wx.EVT_TOOL, self._on_set, set_tool)
@@ -67,6 +68,7 @@ class MainFrame(wx.Frame):
         dlg.Destroy()
 
     def _get_icon(self, filename):
-        return wx.Bitmap('{}{}.png'.format(self.path_to_icons, filename))
-        # return wx.Image('{}{}.png'.format(self.path_to_icons, filename),
-        #                 wx.BITMAP_TYPE_PNG).ConvertToBitmap()
+        path = '{}{}.png'.format(self.path_to_icons, filename)
+        if platform.system() == 'Linux':
+            return wx.ImageFromBitmap(wx.Image(path).Rescale(30, 30))
+        return wx.Bitmap(path)
