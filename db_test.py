@@ -1,5 +1,7 @@
 import db
 import db.adapter
+import model
+
 
 sql3Adpt = db.adapter.Sqlite3("data/test.db")
 database = db.DbManager(sql3Adpt)
