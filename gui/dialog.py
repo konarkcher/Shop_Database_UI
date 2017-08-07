@@ -34,12 +34,12 @@ class SqliteTab(wx.Panel):
         accept_btn = wx.Button(self, label=locale.ACCEPT)
         cancel_btn = wx.Button(self, label=locale.CANCEL)
         for btn in [accept_btn, cancel_btn]:
-            bottom_sizer.Add(btn, 1, wx.EXPAND)
+            bottom_sizer.Add(btn, 1, wx.BOTTOM | wx.EXPAND)
 
         outer_sizer = wx.BoxSizer(wx.VERTICAL)
 
-        outer_sizer.Add(top_sizer, 1, wx.LEFT | wx.RIGHT | wx.TOP | wx.EXPAND)
-        outer_sizer.Add(bottom_sizer, 1, wx.BOTTOM | wx.EXPAND)
+        outer_sizer.Add(top_sizer, 1, wx.EXPAND)
+        outer_sizer.Add(bottom_sizer, 0, wx.BOTTOM | wx.EXPAND)
 
         self.SetSizer(outer_sizer)
 
@@ -57,5 +57,5 @@ class DbSetDial(wx.Dialog):
         sizer.Add(notebook, 1, wx.EXPAND)
         panel.SetSizer(sizer)
 
-        self.SetSize((400, 150))
+        self.SetSize((400, 200))
         self.SetTitle(locale.SET_DB)

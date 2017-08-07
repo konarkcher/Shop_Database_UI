@@ -70,5 +70,5 @@ class MainFrame(wx.Frame):
     def _get_icon(self, filename):
         path = '{}{}.png'.format(self.path_to_icons, filename)
         if platform.system() == 'Linux':
-            return wx.ImageFromBitmap(wx.Image(path).Rescale(30, 30))
+            return (wx.Image(path).Rescale(40, 40)).ConvertToBitmap()
         return wx.Bitmap(path)
