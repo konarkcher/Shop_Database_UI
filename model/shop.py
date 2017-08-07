@@ -1,12 +1,11 @@
+import db
+import db.adapter
 from .order import Order
-from db import DbManager
-from db.adapter import Sqlite3
 from .singleton import SingletonMeta
 
 
 class Shop(metaclass=SingletonMeta):
-
-    _customers_sig = "first_name, second_name, telephone, adress"
+    _customers_sig = "first_name, second_name, telephone, address"
     _products_sig = "name, count, price"
 
     def __init__(self):
@@ -14,23 +13,23 @@ class Shop(metaclass=SingletonMeta):
         self.order = Order()
 
     def create_db(self, path):
-        self.database = DbManager(Sqlite3(path))
+        self.database = db.Manager(db.adapter.Sqlite3(path))
         self.database.adapter.execute('''CREATE TABLE products
              (ID INTEGER PRIMARY KEY AUTOINCREMENT,
-             name varchar(100), 
+             name VARCHAR(100), 
              count INT, price INT, 
              reserved INT DEFAULT 0)''')
         self.database.adapter.execute('''CREATE TABLE customers
              (ID INTEGER PRIMARY KEY AUTOINCREMENT,
-             first_name varchar(30), 
-             second_name varchar(30), 
-             telephone varchar(30), 
-             adress varchar(200))''')
+             first_name VARCHAR(30), 
+             second_name VARCHAR(30), 
+             telephone VARCHAR(30), 
+             adress VARCHAR(200))''')
 
     def open_db(self, path):
-        if not self.database:
+        if self.database is not None:
             self.database.close_connection()
-        self.database = DbManager(Sqlite3(path))
+        self.database = db.Manager(db.adapter.Sqlite3(path))
 
     def add_product(self, product):
         self.database.add_row("products",
