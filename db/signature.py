@@ -6,10 +6,19 @@ class Column:
         self.description = description  # approx type for db
 
 
-class Base:
+class Table:
     def __init__(self, name):
         self.name = name
         self.columns = list()
 
-    def append(self, column):
+    def add_column(self, column):
         self.columns.append(column)
+
+
+class Database:
+    def __init__(self, name):
+        self.name = name
+        self.tables = list()
+
+    def add_table(self, table):
+        self.tables.append(table)
