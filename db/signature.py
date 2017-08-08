@@ -19,6 +19,8 @@ class Database:
     def __init__(self, name):
         self.name = name
         self.tables = dict()
+        self.create_order = list()
 
     def add_table(self, table):
+        self.create_order.append(table.name)
         self.tables[table.name] = table
