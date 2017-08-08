@@ -16,8 +16,24 @@ ABOUT_DIAL = 'Программа для учёта товаров сфериче
 SHOP_TAB = 'Магазин'
 CART_TAB = 'Корзина'
 
-# list column labels
-COL = ['ID', 'Название товара', 'Количество', 'Цена', 'Зарезервировано']
+# products column labels
+ID = 'ID'
+PRODUCT_NAME = 'Название товара'
+COUNT = 'Количество'
+PRICE = 'Цена'
+RESERVED = 'Зарезервировано'
+
+# customers column labels
+CUSTOMER_NAME = 'Имя'
+SURNAME = 'Фамилия'
+PHONE = 'Телефон'
+ALL_SUM = 'Общая сумма'
+
+
+# deals column labels
+CUSTOMER_ID = 'ID покупателя'
+BUYS = 'Покупки'
+DTTM = 'Дата и время'
 
 # button labels
 ADD_BUTTON = 'Добавить наименование'
