@@ -3,10 +3,10 @@ import platform
 import wx
 
 import model
-from . import shoptab
+from model import enums
 from . import customertab
 from . import dialog
-from .dialogans import DlgAnswer
+from . import shoptab
 from .locale import rus as locale
 
 
@@ -70,12 +70,7 @@ class MainFrame(wx.Frame):
     def _on_set(self, event):
         with dialog.DbSetDial(self) as dlg:
             if dlg.ShowModal() == wx.OK:
-                ans, data = dlg.get_res()
-
-                if ans is DlgAnswer.SQLITE_CREATE:
-                    self.shop.create_db(data)
-                elif ans is DlgAnswer.SQLITE_OPEN:
-                    self.shop.open_db(data)
+                self.shop.connect_db(*dlg.get_data())
 
     def _get_icon(self, filename):
         path = '{}{}.png'.format(self.path_to_icons, filename)
