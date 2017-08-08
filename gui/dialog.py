@@ -13,7 +13,7 @@ class SqliteTab(wx.Panel):
         sizer = wx.BoxSizer(wx.HORIZONTAL)
         sizer.Add(wx.StaticText(self, label=locale.FILE), 0, wx.LEFT, border=1)
 
-        self.path_text = wx.StaticText(self)
+        self.path_text = wx.StaticText(self, style=wx.ST_ELLIPSIZE_MIDDLE)
         sizer.Add(self.path_text, 1)
 
         open_btn = wx.Button(self, label='...', size=(30, -1))
