@@ -14,7 +14,7 @@ ABOUT_DIAL = 'Программа для учёта товаров сфериче
 
 # tab labels
 SHOP_TAB = 'Магазин'
-CUSTOMER_TAB = 'Покупатели'
+CART_TAB = 'Корзина'
 
 # list column labels
 COL = ['ID', 'Название товара', 'Количество', 'Цена', 'Зарезервировано']

@@ -76,5 +76,6 @@ class Shop(metaclass=SingletonMeta):
     def delete_customer(self, id_list):
         self.database.delete("customers", id_list)
 
-    def close_connection(self):  # некие действия перед выключением программ
-        self.database.close_connection()
+    def close_connection(self):
+        if self.database is not None:
+            self.database.close_connection()

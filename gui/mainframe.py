@@ -2,9 +2,11 @@ import platform
 
 import wx
 
+import model
 from . import shoptab
 from . import customertab
 from . import dialog
+from .dialogans import DlgAnswer
 from .locale import rus as locale
 
 
@@ -13,7 +15,7 @@ class ShopNotebook(wx.Notebook):
         super(ShopNotebook, self).__init__(parent)
 
         self.AddPage(shoptab.ShopTab(self), locale.SHOP_TAB)
-        self.AddPage(customertab.CustomerTab(self), locale.CUSTOMER_TAB)
+        self.AddPage(customertab.CustomerTab(self), locale.CART_TAB)
 
 
 class MainFrame(wx.Frame):
@@ -32,6 +34,8 @@ class MainFrame(wx.Frame):
         sizer.Add(notebook, 1, wx.EXPAND)
         panel.SetSizer(sizer)
 
+        self.shop = model.Shop()
+
         self.SetSize((900, 500))
         self.Show(True)
 
@@ -47,6 +51,7 @@ class MainFrame(wx.Frame):
         menu_bar.Append(help_menu, locale.HELP)
 
         self.SetMenuBar(menu_bar)
+        self.Bind(wx.EVT_CLOSE, self._on_close)
 
         self.Bind(wx.EVT_MENU, self._on_about, about_item)
 
@@ -63,12 +68,21 @@ class MainFrame(wx.Frame):
                       wx.OK | wx.ICON_INFORMATION)
 
     def _on_set(self, event):
-        dlg = dialog.DbSetDial(self)
-        dlg.ShowModal()
-        dlg.Destroy()
+        with dialog.DbSetDial(self) as dlg:
+            if dlg.ShowModal() == wx.OK:
+                ans, data = dlg.get_res()
+
+                if ans is DlgAnswer.SQLITE_CREATE:
+                    self.shop.create_db(data)
+                elif ans is DlgAnswer.SQLITE_OPEN:
+                    self.shop.open_db(data)
 
     def _get_icon(self, filename):
         path = '{}{}.png'.format(self.path_to_icons, filename)
-        if platform.system() == 'Linux':
-            return (wx.Image(path).Rescale(40, 40)).ConvertToBitmap()
-        return wx.Bitmap(path)
+        if platform.system() == 'Darwin':
+            return wx.Bitmap(path)
+        return (wx.Image(path).Rescale(40, 40)).ConvertToBitmap()
+
+    def _on_close(self, e):
+        self.shop.close_connection()
+        self.Destroy()
