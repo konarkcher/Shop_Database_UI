@@ -18,7 +18,7 @@ class Table:
 class Database:
     def __init__(self, name):
         self.name = name
-        self.tables = list()
+        self.tables = dict()
 
     def add_table(self, table):
-        self.tables.append(table)
+        self.tables[table.name] = table
