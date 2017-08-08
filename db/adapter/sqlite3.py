@@ -8,9 +8,8 @@ class Sqlite3:
     now this class is signature influenced in cause of add_row(...) function.
 
     """
-    _path = ""
+
     _id_column_name = "id"
-    _insert_format = "name, count, price"
 
     def __init__(self, path_to_db):
         self._path = path_to_db
@@ -19,14 +18,18 @@ class Sqlite3:
         self.sqlite_connection = sqlite3.connect(self._path)
         self.sqlite_cursor = self.sqlite_connection.cursor()
 
-    def add_row(self, table_name="", row_array=list()):
+    def add_row(self, table_name="", row_sig="", row_array=list()):
+        print(row_sig)
+        print(row_array)
         self.sqlite_cursor.execute("INSERT INTO {} ({}) VALUES ({})"
-                                   .format(table_name, self._insert_format,
+                                   .format(table_name,
+                                           row_sig,
                                            str(row_array)[1:-1]))
 
     def delete(self, table_name="", id_array=list()):
         self.sqlite_cursor.execute("DELETE FROM {} WHERE {} IN ({})"
-                                   .format(table_name, self._id_column_name,
+                                   .format(table_name,
+                                           self._id_column_name,
                                            str(id_array)[1:-1]))
 
     def decrease(self, id_array=list()):
@@ -53,3 +56,6 @@ class Sqlite3:
 
     def close_connection(self):
         self.sqlite_connection.close()
+
+    def execute(self, exec_str):
+        self.sqlite_cursor.execute(exec_str)

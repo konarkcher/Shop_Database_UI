@@ -14,7 +14,7 @@ ABOUT_DIAL = 'Программа для учёта товаров сфериче
 
 # tab labels
 SHOP_TAB = 'Магазин'
-CUSTOMER_TAB = 'Покупатели'
+CART_TAB = 'Корзина'
 
 # list column labels
 COL = ['ID', 'Название товара', 'Количество', 'Цена', 'Зарезервировано']
@@ -23,3 +23,13 @@ COL = ['ID', 'Название товара', 'Количество', 'Цена'
 ADD_BUTTON = 'Добавить наименование'
 DELETE_BUTTON = 'Удалить'
 TO_CART_BUTTON = 'Добавить в корзину'
+
+# set db labels
+SET_DB = 'Выбор базы данных'
+
+SQLITE_DB = 'Sqlite3'
+FILE = 'Файл:'
+
+# .buttons
+ACCEPT = 'Принять'
+CANCEL = 'Отмена'

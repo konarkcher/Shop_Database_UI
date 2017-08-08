@@ -8,6 +8,7 @@
 !gui/
 !gui/icon/
 !gui/locale/
+!model/
 
 # And not these files...
 !.gitignore
