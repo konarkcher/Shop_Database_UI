@@ -64,6 +64,14 @@ class Manager:
         except Exception as e:
             raise DbException(e.args[0])
 
+    def select_by_id(self, table_name="", id_array=list()):
+        if not id_array:
+            return []
+        try:
+            yield from self.adapter.select_by_id(table_name, id_array)
+        except Exception as e:
+            raise DbException(e.args[0])
+
     def close_connection(self):
         try:
             self.adapter.close_connection()

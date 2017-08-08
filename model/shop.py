@@ -3,6 +3,7 @@ import db.adapter
 from model import enums
 from .order import Order
 from .singleton import SingletonMeta
+from db import exception
 
 
 class Shop(metaclass=SingletonMeta):
@@ -14,26 +15,31 @@ class Shop(metaclass=SingletonMeta):
         self.order = Order()
 
     def connect_db(self, db_type, action, data):
-        print(db_type, action, data)
+        if(action == enums.Action.CREATE):
+            self.create_db(data, db_type)
+        elif(action == enums.Action.OPEN):
+            self.open_db(data, db_type)
 
-    def create_db(self, path):
-        self.database = db.Manager(db.adapter.Sqlite3(path))
-        self.database.adapter.execute('''CREATE TABLE products
-             (ID INTEGER PRIMARY KEY AUTOINCREMENT,
-             name VARCHAR(100), 
-             count INT, price INT, 
-             reserved INT DEFAULT 0)''')
-        self.database.adapter.execute('''CREATE TABLE customers
-             (ID INTEGER PRIMARY KEY AUTOINCREMENT,
-             first_name VARCHAR(30), 
-             second_name VARCHAR(30), 
-             telephone VARCHAR(30), 
-             adress VARCHAR(200))''')
+    def create_db(self, path, db_type):
+        if(db_type == enums.DbType.SQLITE):
+            self.database = db.Manager(db.adapter.Sqlite3(path))
+            self.database.adapter.execute('''CREATE TABLE products
+                 (ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                 name VARCHAR(100), 
+                 count INT, price INT, 
+                 reserved INT DEFAULT 0)''')
+            self.database.adapter.execute('''CREATE TABLE customers
+                 (ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                 first_name VARCHAR(30), 
+                 second_name VARCHAR(30), 
+                 telephone VARCHAR(30), 
+                 address VARCHAR(200))''')
 
-    def open_db(self, path):
-        if self.database is not None:
-            self.database.close_connection()
-        self.database = db.Manager(db.adapter.Sqlite3(path))
+    def open_db(self, path, db_type):
+        if(db_type == enums.DbType.SQLITE):
+            if self.database is not None:
+                self.database.close_connection()
+            self.database = db.Manager(db.adapter.Sqlite3(path))
 
     def add_product(self, product):
         self.database.add_row("products",
@@ -58,7 +64,7 @@ class Shop(metaclass=SingletonMeta):
         self.order = Order()
 
     def get_order(self):  # все get - получение list для таблицы
-        pass
+        return list(self.database.select_by_id("products",self.order.get_cart()))
 
     def get_products(self):
         return list(self.database.select_all("products"))

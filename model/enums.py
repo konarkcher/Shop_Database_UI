@@ -1,7 +1,7 @@
 import enum
 
 
-class Db(enum.Enum):
+class DbType(enum.Enum):
     NOT_CHOSEN = enum.auto()
     SQLITE = enum.auto()
     POSTGRES = enum.auto()

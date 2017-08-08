@@ -8,7 +8,7 @@ class SqliteTab(wx.Panel):
     def __init__(self, parent):
         super(SqliteTab, self).__init__(parent)
 
-        self._db_type = enums.Db.SQLITE
+        self._db_type = enums.DbType.SQLITE
         self._action = enums.Action.NOT_CHOSEN
 
         sizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -48,7 +48,7 @@ class DbSetDial(wx.Dialog):
     def __init__(self, parent):
         super(DbSetDial, self).__init__(parent)
 
-        self._data = (enums.Db.NOT_CHOSEN, enums.Action.NOT_CHOSEN, None)
+        self._data = (enums.DbType.NOT_CHOSEN, enums.Action.NOT_CHOSEN, None)
 
         panel = wx.Panel(self)
 

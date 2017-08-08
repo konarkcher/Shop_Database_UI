@@ -11,5 +11,12 @@ class Order:
     def set_customer(self, customer_id):
         self.customer = customer_id
 
+    def get_cart(self):
+        if not self._cart:
+            return []
+        else:
+            return self._cart
+
     def remove_from_cart(self, products_id):
-        pass
+        st = set(products_id)
+        self._cart = [x for x in self._cart if x not in st]

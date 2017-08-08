@@ -19,8 +19,6 @@ class Sqlite3:
         self.sqlite_cursor = self.sqlite_connection.cursor()
 
     def add_row(self, table_name="", row_sig="", row_array=list()):
-        print(row_sig)
-        print(row_array)
         self.sqlite_cursor.execute("INSERT INTO {} ({}) VALUES ({})"
                                    .format(table_name,
                                            row_sig,
@@ -53,6 +51,13 @@ class Sqlite3:
     def select_all(self, table_name=""):
         yield from self.sqlite_cursor.execute("SELECT * FROM {}"
                                               .format(table_name))
+
+    def select_by_id(self, table_name="", id_array=list()):
+        yield from self.sqlite_cursor.execute("SELECT * FROM {} WHERE {} IN ({})"
+                                   .format(
+                                       table_name,
+                                       self._id_column_name,
+                                       str(id_array)[1:-1]))
 
     def close_connection(self):
         self.sqlite_connection.close()

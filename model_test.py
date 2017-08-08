@@ -2,10 +2,11 @@ import model
 
 shop = model.Shop()
 
-try:
-	shop.create_db("data/model_test.db")	
-except Exception as e:
-	shop.open_db("data/model_test.db")
+
+#try:
+shop.create_db("data/model_test.db", model.Db().SQLITE)	
+# except Exception as e:
+# 	shop.open_db("data/model_test.db")
 
 products = [[1, "cookie", 42, 1, 0],
             [1, "milk", 15, 2, 0],
@@ -22,13 +23,26 @@ shop.add_customer(model.Customer([0,
                                  "8-800-555-35-35",
                                  "NY, Wall Stret 17, 32 floor"]))
 
+
+print(shop.get_products())
+
+print(shop.get_order())
+
 shop.to_cart([1, 2, 3])
 
-# shop.remove_from_cart(2)
+print(shop.get_order())
+
+shop.remove_from_cart([2])
+
+print(shop.get_order())
 
 shop.to_cart([4])
 
-# shop.remove_from_cart([1,2])
+print(shop.get_order())
+
+shop.remove_from_cart([1,2])
+
+
 
 print("=================Customers===============")
 
