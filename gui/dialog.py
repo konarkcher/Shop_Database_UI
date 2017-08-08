@@ -1,6 +1,6 @@
 import wx
 
-from .dialogans import DlgAnswer
+from model import enums
 from .locale import rus as locale
 
 
@@ -8,12 +8,13 @@ class SqliteTab(wx.Panel):
     def __init__(self, parent):
         super(SqliteTab, self).__init__(parent)
 
-        self._res = DlgAnswer.NOT_CHOSEN
+        self._db_type = enums.Db.SQLITE
+        self._action = enums.Action.NOT_CHOSEN
 
         sizer = wx.BoxSizer(wx.HORIZONTAL)
         sizer.Add(wx.StaticText(self, label=locale.FILE), 0, wx.LEFT, border=1)
 
-        self.path_text = wx.StaticText(self)
+        self.path_text = wx.StaticText(self, style=wx.ST_ELLIPSIZE_MIDDLE)
         sizer.Add(self.path_text, 1)
 
         open_btn = wx.Button(self, label='...', size=(30, -1))
@@ -30,25 +31,24 @@ class SqliteTab(wx.Panel):
         with wx.FileDialog(self, '',
                            style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST) as dlg:
             if dlg.ShowModal() != wx.ID_CANCEL:
-                self._res = DlgAnswer.SQLITE_OPEN
+                self._action = enums.Action.OPEN
                 self.path_text.SetLabelText(dlg.GetPath())
 
     def _on_create(self, e):
         with wx.FileDialog(self, '', style=wx.FD_SAVE) as dlg:
             if dlg.ShowModal() != wx.ID_CANCEL:
-                self._res = DlgAnswer.SQLITE_CREATE
+                self._action = enums.Action.CREATE
                 self.path_text.SetLabelText(dlg.GetPath())
 
-    def get_res(self):
-        return self._res, self.path_text.GetLabelText()
+    def get_data(self):
+        return self._db_type, self._action, self.path_text.GetLabelText()
 
 
 class DbSetDial(wx.Dialog):
     def __init__(self, parent):
         super(DbSetDial, self).__init__(parent)
 
-        self._res = DlgAnswer.NOT_CHOSEN
-        self._data = None
+        self._data = (enums.Db.NOT_CHOSEN, enums.Action.NOT_CHOSEN, None)
 
         panel = wx.Panel(self)
 
@@ -78,9 +78,9 @@ class DbSetDial(wx.Dialog):
         self.SetTitle(locale.SET_DB)
 
     def _on_accept(self, e):
-        self._res, self._data = self.notebook.GetCurrentPage().get_res()
+        self._data = self.notebook.GetCurrentPage().get_data()
 
-        if self._res is DlgAnswer.NOT_CHOSEN:
+        if self._data[1] is enums.Action.NOT_CHOSEN:
             return
 
         self.EndModal(wx.OK)
@@ -88,5 +88,5 @@ class DbSetDial(wx.Dialog):
     def _on_cancel(self, e):
         self.EndModal(wx.CANCEL)
 
-    def get_res(self):
-        return self._res, self._data
+    def get_data(self):
+        return self._data

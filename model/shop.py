@@ -1,5 +1,6 @@
 import db
 import db.adapter
+from model import enums
 from .order import Order
 from .singleton import SingletonMeta
 
@@ -11,6 +12,9 @@ class Shop(metaclass=SingletonMeta):
     def __init__(self):
         self.database = None
         self.order = Order()
+
+    def connect_db(self, db_type, action, data):
+        print(db_type, action, data)
 
     def create_db(self, path):
         self.database = db.Manager(db.adapter.Sqlite3(path))
