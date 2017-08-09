@@ -5,7 +5,7 @@ import wx
 import model
 from model import enums
 from . import customertab
-from . import dialog
+from . import dbdialog
 from . import shoptab
 from .locale import rus as locale
 
@@ -68,7 +68,7 @@ class MainFrame(wx.Frame):
                       wx.OK | wx.ICON_INFORMATION)
 
     def _on_set(self, event):
-        with dialog.DbSetDial(self) as dlg:
+        with dbdialog.DbSetDial(self) as dlg:
             if dlg.ShowModal() == wx.OK:
                 self.shop.connect_db(*dlg.get_data())
 
