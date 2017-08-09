@@ -1,23 +1,8 @@
 import wx
 
-import ObjectListView as Olv
-
+from model.db_description import storage
+from .dbview import DbView
 from .locale import rus as locale
-
-
-class DbOlv(Olv.ObjectListView):
-    def __init__(self, parent):
-        super(DbOlv, self).__init__(parent, style=wx.LC_REPORT)
-
-        for (index, name), prop in zip(enumerate(locale.COL), [1, 5, 2, 2, 2]):
-            new_col = Olv.ColumnDefn(name, isSpaceFilling=True,
-                                     valueGetter=index, minimumWidth=prop * 40)
-            new_col.freeSpaceProportion = prop
-            self.AddColumnDefn(new_col)
-
-        self.CreateCheckStateColumn()
-
-        self.SetEmptyListMsg('No items or db is not connected')
 
 
 class ShopTab(wx.Panel):
@@ -26,7 +11,7 @@ class ShopTab(wx.Panel):
 
         button_sizer = self._get_buttons()
 
-        self.db_list = DbOlv(self)
+        self.db_list = DbView(self, storage['products'])
 
         outer_sizer = wx.BoxSizer(wx.HORIZONTAL)
 

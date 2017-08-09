@@ -24,3 +24,6 @@ class Database:
     def add_table(self, table):
         self.create_order.append(table.name)
         self.tables[table.name] = table
+
+    def __getitem__(self, item):
+        return self.tables[item]
