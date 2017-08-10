@@ -1,8 +1,42 @@
 import wx
 
 from .dbview import DbView
+from gui.locale import rus as locale
 
 
 class DbPanel(wx.Panel):
-    def __init__(self, parent, table):
-        pass
+    def __init__(self, parent, table_name, add_label):
+        super(DbPanel, self).__init__(parent)
+
+        self.table_name = table_name
+
+        self.button_sizer = wx.BoxSizer(wx.VERTICAL)
+        self.button_sizer.Add(self._get_view_buttons(add_label), 0)
+
+        self.db_list = DbView(self, table_name)
+
+        self.outer_sizer = wx.BoxSizer(wx.HORIZONTAL)
+
+        self.outer_sizer.Add(self.db_list, 1, wx.EXPAND)
+        self.outer_sizer.AddSpacer(4)
+
+        self.outer_sizer.Add(self.button_sizer, 0, wx.EXPAND)
+        self.SetSizer(self.outer_sizer)
+
+    def _get_view_buttons(self, add_label):
+        sizer = wx.GridSizer(2, 1, 10, 0)
+
+        buttons = [wx.Button(self, label=add_label),
+                   wx.Button(self, label=locale.DELETE_BUTTON)]
+
+        for func, button in zip([self._on_add, self._on_delete], buttons):
+            sizer.Add(button, 1, wx.EXPAND)
+            self.Bind(wx.EVT_BUTTON, func, button)
+
+        return sizer
+
+    def _on_add(self, e):
+        print('on add')
+
+    def _on_delete(self, e):
+        print('on delete')
