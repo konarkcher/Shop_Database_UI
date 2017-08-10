@@ -38,8 +38,8 @@ class Shop(metaclass=SingletonMeta):
                                product.count,
                                product.price])
 
-    def delete_product(self, id_list):
-        self.database.delete("products", id_list)
+    def delete_from(self, table_name, id_list):
+        self.database.delete(table_name, id_list)
 
     def to_cart(self, id_list):
         self.order.to_cart(id_list)
@@ -52,15 +52,15 @@ class Shop(metaclass=SingletonMeta):
 
     def clear_order(self):
         self.order = Order()
+        self.ui_set_products()
 
     def get_order(self):  # все get - получение list для таблицы
         return list(self.database.select_by_id("products", self.order.get_cart()))
 
-    def get_products(self):
-        return list(self.database.select_all("products"))
-
-    def get_customers(self):
-        return list(self.database.select_all("customers"))
+    def get_from(self, table_name):
+        if self.database is None:
+            return list()
+        return self.database.select_all(table_name)
 
     def set_customer(self, id):
         self.order.set_customer(id)
@@ -71,10 +71,13 @@ class Shop(metaclass=SingletonMeta):
                               [customer.first_name,
                                customer.second_name,
                                customer.telephone,
-                               customer.adress])
+                               customer.address])
 
-    def delete_customer(self, id_list):
-        self.database.delete("customers", id_list)
+    def ui_set_products(self):
+        pass
+
+    def ui_set_order(self):
+        pass
 
     def close_connection(self):
         if self.database is not None:
