@@ -15,18 +15,18 @@ class Shop(metaclass=SingletonMeta):
         self.order = Order()
 
     def connect_db(self, db_type, action, data):
-        if(action == enums.Action.CREATE):
+        if action is enums.Action.CREATE:
             self.create_db(data, db_type)
-        elif(action == enums.Action.OPEN):
+        elif action is enums.Action.OPEN:
             self.open_db(data, db_type)
 
     def create_db(self, path, db_type):
-        if(db_type == enums.DbType.SQLITE):
+        if db_type is enums.DbType.SQLITE:
             self.database = db.Manager(db.adapter.Sqlite3(path))
             self.database.create_tables()
 
     def open_db(self, path, db_type):
-        if(db_type == enums.DbType.SQLITE):
+        if db_type is enums.DbType.SQLITE:
             if self.database is not None:
                 self.database.close_connection()
             self.database = db.Manager(db.adapter.Sqlite3(path))
@@ -50,12 +50,13 @@ class Shop(metaclass=SingletonMeta):
     def place_order(self):
         pass
 
-    def clear_order(self):
+    def clear_order(self):  # TODO: add return of products
         self.order = Order()
         self.ui_set_products()
 
-    def get_order(self):  # все get - получение list для таблицы
-        return list(self.database.select_by_id("products", self.order.get_cart()))
+    def get_order(self):
+        return list(
+            self.database.select_by_id("products", self.order.get_cart()))
 
     def get_from(self, table_name):
         if self.database is None:

@@ -29,16 +29,21 @@ SURNAME = 'Фамилия'
 PHONE = 'Телефон'
 ALL_SUM = 'Общая сумма'
 
-
 # deals column labels
 CUSTOMER_ID = 'ID покупателя'
 BUYS = 'Покупки'
 DTTM = 'Дата и время'
 
+CUSTOMER_NOT_CHOSEN = 'Покупатель не выбран'
+
 # button labels
 ADD_BUTTON = 'Добавить наименование'
 DELETE_BUTTON = 'Удалить'
 TO_CART_BUTTON = 'Добавить в корзину'
+
+CHOOSE_CUSTOMER_BTN = 'Выбрать покупателя'
+PLACE_ORDER_BTN = 'Оформить заказ'
+CLEAR_ORDER_BTN = 'Сбросить заказ'
 
 # set db labels
 SET_DB = 'Выбор базы данных'

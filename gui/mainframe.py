@@ -3,7 +3,6 @@ import platform
 import wx
 
 import model
-from model import enums
 from . import customertab
 from . import dbdialog
 from . import shoptab
