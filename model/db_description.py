@@ -10,7 +10,7 @@ products.add_column(db.Column('count', locale.COUNT, 2,
                               'INT NOT NULL CHECK (count >= 0)'))
 products.add_column(db.Column('price', locale.PRICE, 2,
                               'INT CHECK (price >= 0)'))
-products.add_column(db.Column('reserved', locale.RESERVED, 2,
+products.add_column(db.Column('reserved', locale.RESERVED, 3,
                               'INT DEFAULT 0 CHECK (reserved >= 0)'))
 
 customers = db.Table('customers')
@@ -39,3 +39,9 @@ storage = db.Database('storage')
 storage.add_table(products)
 storage.add_table(customers)
 storage.add_table(deals)
+
+order = db.Table('order')
+order.add_column(db.Column('product_id', locale.ID, 1, ''))
+order.add_column(db.Column('name', locale.PRODUCT_NAME, 5, ''))
+order.add_column(db.Column('price', locale.PRICE, 2, ''))
+order.add_column(db.Column('count', locale.COUNT, 2, ''))

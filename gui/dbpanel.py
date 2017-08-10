@@ -5,23 +5,23 @@ from gui.locale import rus as locale
 
 
 class DbPanel(wx.Panel):
-    def __init__(self, parent, table_name, add_label):
+    def __init__(self, parent, table, add_label):
         super(DbPanel, self).__init__(parent)
 
-        self.table_name = table_name
+        self.table = table
 
         self.button_sizer = wx.BoxSizer(wx.VERTICAL)
         self.button_sizer.Add(self._get_view_buttons(add_label), 0)
 
-        self.db_list = DbView(self, table_name)
+        self.db_list = DbView(self, table)
 
-        self.outer_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        outer_sizer = wx.BoxSizer(wx.HORIZONTAL)
 
-        self.outer_sizer.Add(self.db_list, 1, wx.EXPAND)
-        self.outer_sizer.AddSpacer(4)
+        outer_sizer.Add(self.db_list, 1, wx.EXPAND)
+        outer_sizer.AddSpacer(4)
+        outer_sizer.Add(self.button_sizer, 0, wx.EXPAND)
 
-        self.outer_sizer.Add(self.button_sizer, 0, wx.EXPAND)
-        self.SetSizer(self.outer_sizer)
+        self.SetSizer(outer_sizer)
 
     def _get_view_buttons(self, add_label):
         sizer = wx.GridSizer(2, 1, 10, 0)
