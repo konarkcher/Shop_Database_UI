@@ -9,11 +9,14 @@
 !gui/icon/
 !gui/locale/
 !model/
+!db/adapter/scripts
+!db/adapter/scripts/sqlite
 
 # And not these files...
 !.gitignore
 
 !*.py
+!*.sql
 !gui/icon/*.png
 
 # But definitely these...

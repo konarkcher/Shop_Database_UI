@@ -9,10 +9,9 @@ class Sqlite3:
 
     """
 
-    _id_column_name = "id"
-
     def __init__(self, path_to_db):
         self._path = path_to_db
+        self._id_column_name = "id"
 
     def connect(self):
         self.sqlite_connection = sqlite3.connect(self._path)
