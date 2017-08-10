@@ -1,46 +1,30 @@
 import wx
 
+from .dbpanel import DbPanel
+import model
+from model.db_description import products
 from model.db_description import storage
-from .dbview import DbView
 from .locale import rus as locale
 
 
-class ShopTab(wx.Panel):
+class ShopTab(DbPanel):
     def __init__(self, parent):
-        super(ShopTab, self).__init__(parent)
+        super(ShopTab, self).__init__(parent, storage[products.name],
+                                      locale.ADD_BUTTON)
 
-        button_sizer = self._get_buttons()
+        self.db_list.CreateCheckStateColumn()
+        self.shop = model.Shop()
 
-        self.db_list = DbView(self, storage['products'])
+        self.button_sizer.AddSpacer(50)
+        to_cart_btn = wx.Button(self, label=locale.TO_CART_BUTTON)
+        self.button_sizer.Add(to_cart_btn, 0, wx.EXPAND)
 
-        outer_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.Bind(wx.EVT_BUTTON, self._on_to_cart, to_cart_btn)
+        self.shop.ui_set_products = self.set_data
 
-        outer_sizer.Add(self.db_list, 1, wx.EXPAND)
-        outer_sizer.AddSpacer(4)
-        outer_sizer.Add(button_sizer, 0, wx.TOP)
+    def set_data(self):
+        data = [model.Product(x) for x in self.shop.get_from(products.name)]
+        self.db_list.SetObjects(data)
 
-        self.SetSizer(outer_sizer)
-
-    def _get_buttons(self):
-        button_sizer = wx.GridSizer(4, 1, 10, 0)  # rows, cols, vgap, hgap
-
-        buttons = [wx.Button(self, label=locale.ADD_BUTTON),
-                   wx.Button(self, label=locale.DELETE_BUTTON),
-                   wx.Button(self, label=locale.TO_CART_BUTTON)]
-        for button in buttons:
-            button_sizer.Add(button, 1, wx.EXPAND)
-
-        for func, button in zip([self._on_add, self._on_delete,
-                                 self._on_to_cart], buttons):
-            self.Bind(wx.EVT_BUTTON, func, button)
-
-        return button_sizer
-
-    def _on_add(self, e):
-        print('on add')
-
-    def _on_delete(self, e):
-        print('on delete')
-
-    def _on_to_cart(self, e):
-        print('on to cart')
+    def _on_to_cart(self):
+        pass

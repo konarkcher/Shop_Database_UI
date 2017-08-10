@@ -5,4 +5,4 @@ class Customer:
         self.first_name = from_db[1]
         self.second_name = from_db[2]
         self.telephone = from_db[3]
-        self.adress = from_db[4]
+        self.address = from_db[4]

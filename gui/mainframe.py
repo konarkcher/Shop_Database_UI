@@ -28,10 +28,10 @@ class MainFrame(wx.Frame):
         self._init_toolbar()
 
         panel = wx.Panel(self)
-        notebook = ShopNotebook(panel)
+        self.notebook = ShopNotebook(panel)
 
         sizer = wx.BoxSizer()
-        sizer.Add(notebook, 1, wx.EXPAND)
+        sizer.Add(self.notebook, 1, wx.EXPAND)
         panel.SetSizer(sizer)
 
         self.shop = model.Shop()
@@ -71,6 +71,7 @@ class MainFrame(wx.Frame):
         with dbdialog.DbSetDial(self) as dlg:
             if dlg.ShowModal() == wx.OK:
                 self.shop.connect_db(*dlg.get_data())
+                self.shop.clear_order()
 
     def _get_icon(self, filename):
         path = '{}{}.png'.format(self.path_to_icons, filename)
