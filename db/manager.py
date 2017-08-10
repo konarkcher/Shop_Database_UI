@@ -1,3 +1,6 @@
+from .exception import DbException
+
+
 class Manager:
     """Db managment class"""
 
@@ -75,5 +78,11 @@ class Manager:
     def close_connection(self):
         try:
             self.adapter.close_connection()
+        except Exception as e:
+            raise DbException(e.args[0])
+
+    def create_tables(self):
+        try:
+            self.adapter.create_tables()
         except Exception as e:
             raise DbException(e.args[0])

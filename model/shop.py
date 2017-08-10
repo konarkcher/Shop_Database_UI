@@ -23,17 +23,7 @@ class Shop(metaclass=SingletonMeta):
     def create_db(self, path, db_type):
         if(db_type == enums.DbType.SQLITE):
             self.database = db.Manager(db.adapter.Sqlite3(path))
-            self.database.adapter.execute('''CREATE TABLE products
-                 (ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                 name VARCHAR(100), 
-                 count INT, price INT, 
-                 reserved INT DEFAULT 0)''')
-            self.database.adapter.execute('''CREATE TABLE customers
-                 (ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                 first_name VARCHAR(30), 
-                 second_name VARCHAR(30), 
-                 telephone VARCHAR(30), 
-                 address VARCHAR(200))''')
+            self.database.create_tables()
 
     def open_db(self, path, db_type):
         if(db_type == enums.DbType.SQLITE):
@@ -64,7 +54,7 @@ class Shop(metaclass=SingletonMeta):
         self.order = Order()
 
     def get_order(self):  # все get - получение list для таблицы
-        return list(self.database.select_by_id("products",self.order.get_cart()))
+        return list(self.database.select_by_id("products", self.order.get_cart()))
 
     def get_products(self):
         return list(self.database.select_all("products"))

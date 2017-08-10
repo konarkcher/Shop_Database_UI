@@ -53,14 +53,20 @@ class Sqlite3:
                                               .format(table_name))
 
     def select_by_id(self, table_name="", id_array=list()):
-        yield from self.sqlite_cursor.execute("SELECT * FROM {} WHERE {} IN ({})"
-                                   .format(
-                                       table_name,
-                                       self._id_column_name,
-                                       str(id_array)[1:-1]))
+        yield from self.sqlite_cursor.execute(
+            "SELECT * FROM {} WHERE {} IN ({})"
+            .format(
+                table_name,
+                self._id_column_name,
+                str(id_array)[1:-1]))
 
     def close_connection(self):
         self.sqlite_connection.close()
+
+    def create_tables(self):
+        qry = open('db/adapter/scripts/sqlite/create.sql', 'r').read()
+        self.sqlite_cursor.executescript(qry)
+        self.sqlite_connection.commit()
 
     def execute(self, exec_str):
         self.sqlite_cursor.execute(exec_str)
