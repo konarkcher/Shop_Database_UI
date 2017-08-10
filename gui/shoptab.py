@@ -25,5 +25,10 @@ class ShopTab(DbPanel):
         data = [model.Product(x) for x in self.shop.get_from('products')]
         self.db_list.SetObjects(data)
 
+    def _on_delete(self, e):
+        kill_list = self.db_list.GetCheckedObjects()
+        self.shop.delete_from('products', [x.id for x in kill_list])
+        self.db_list.RemoveObjects(kill_list)
+
     def _on_to_cart(self):
         pass
