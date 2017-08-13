@@ -16,9 +16,9 @@ products.add_column(db.Column('reserved', locale.RESERVED, 3,
 customers = db.Table('customers')
 customers.add_column(db.Column('customer_id', locale.ID, 1,
                                'INTEGER PRIMARY KEY AUTOINCREMENT'))
-customers.add_column(db.Column('name', locale.CUSTOMER_NAME, 5,
-                               'VARCHAR(100) NOT NULL'))
 customers.add_column(db.Column('surname', locale.SURNAME, 5,
+                               'VARCHAR(100) NOT NULL'))
+customers.add_column(db.Column('name', locale.CUSTOMER_NAME, 5,
                                'VARCHAR(100) NOT NULL'))
 customers.add_column(db.Column('phone', locale.PHONE, 4,
                                'INT'))
