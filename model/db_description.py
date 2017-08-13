@@ -2,7 +2,7 @@ import db
 from gui.locale import rus as locale
 
 products = db.Table('products')
-products.add_column(db.Column('product_id', locale.ID, 1,
+products.add_column(db.Column('id', locale.ID, 1,
                               'INTEGER PRIMARY KEY AUTOINCREMENT'))
 products.add_column(db.Column('name', locale.PRODUCT_NAME, 4,
                               'VARCHAR(100) UNIQUE NUT NULL'))
@@ -14,26 +14,20 @@ products.add_column(db.Column('reserved', locale.RESERVED, 3,
                               'INT DEFAULT 0 CHECK (reserved >= 0)'))
 
 customers = db.Table('customers')
-customers.add_column(db.Column('customer_id', locale.ID, 1,
+customers.add_column(db.Column('id', locale.ID, 1,
                                'INTEGER PRIMARY KEY AUTOINCREMENT'))
 customers.add_column(db.Column('surname', locale.SURNAME, 4,
                                'VARCHAR(100) NOT NULL'))
 customers.add_column(db.Column('name', locale.CUSTOMER_NAME, 4,
                                'VARCHAR(100) NOT NULL'))
-<<<<<<< HEAD
-customers.add_column(db.Column('phone', locale.PHONE, 4,
-                               'INT'))
-customers.add_column(db.Column('all_sum', locale.ALL_SUM, 3,
-                               'INT DEFAULT 0 CHECK (all_sum >= 0)'))
-=======
 customers.add_column(db.Column('phone', locale.PHONE, 3,
                                'VARCHAR(30)'))
 customers.add_column(db.Column('address', locale.ADDRESS, 5,
                                'VARCHAR(200) NOT NULL'))
->>>>>>> dev
+
 
 deals = db.Table('deals')
-deals.add_column(db.Column('deal_id', locale.ID, 1,
+deals.add_column(db.Column('id', locale.ID, 1,
                            'INTEGER PRIMARY KEY AUTOINCREMENT'))
 deals.add_column(db.Column('customer_id', locale.CUSTOMER_ID, 2,
                            'INTEGER FOREIGN KEY customers'))

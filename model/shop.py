@@ -47,25 +47,23 @@ class Shop(metaclass=SingletonMeta):
         self.order.to_cart(prod_list)
         self.database.reserve(
             "products",
-            [[x.product_id, x.count] for x in prod_list])
+            [[x.id, x.count] for x in prod_list])
         self.ui_set_order()
 
     def remove_from_cart(self, prod_list):
         self.order.remove_from_cart(prod_list)
         self.database.unreserve(
             "products",
-            [[x.product_id, x.count] for x in prod_list])
+            [[x.id, x.count] for x in prod_list])
         self.ui_set_order()
 
     def place_order(self):
         pass
 
     def clear_order(self):  # TODO: add return of products
-        for p in self.order.get_cart():
-            print(p)
         self.database.unreserve(
             "products",
-            [[x.product_id, x.count] for x in self.order.get_cart()])
+            [[x.id, x.count] for x in self.order.get_cart()])
         self.order = Order()
         self.ui_set_order()
 
