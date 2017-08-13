@@ -23,6 +23,7 @@ class ShopTab(DbPanel):
 
     def set_data(self):
         data = [model.Product(x) for x in self.shop.get_from('products')]
+        print(list(self.shop.get_from('products')))
         self.db_list.SetObjects(data)
 
     def _on_delete(self, e):
