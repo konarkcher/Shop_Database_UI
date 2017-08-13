@@ -12,6 +12,7 @@ class Sqlite3:
     def __init__(self, path_to_db):
         self._path = path_to_db
         self._id_column_name = "id"
+        self._reserved_column_name = "reserved"
 
     def connect(self):
         self.sqlite_connection = sqlite3.connect(self._path)
@@ -34,10 +35,31 @@ class Sqlite3:
             return
         self.adapter.decrease(id_array)
 
-    def reserve(self, id_array=list()):
-        if not id_array:
-            return
-        self.adapter.reserve(id_array)
+    def reserve(self, table_name="", pair_array=list()):
+        for pair in pair_array:
+            self.sqlite_cursor.execute(
+                "UPDATE {} SET {} = {} + {} WHERE {} = {}".format(
+                    table_name,
+                    self._reserved_column_name,
+                    self._reserved_column_name,
+                    pair[1],
+                    self._id_column_name,
+                    pair[0]
+                ))
+        self.sqlite_connection.commit()
+
+    def unreserve(self, table_name="", pair_array=list()):
+        for pair in pair_array:
+            self.sqlite_cursor.execute(
+                "UPDATE {} SET {} = {} - {} WHERE {} = {}".format(
+                    table_name,
+                    self._reserved_column_name,
+                    self._reserved_column_name,
+                    pair[1],
+                    self._id_column_name,
+                    pair[0]
+                ))
+        self.sqlite_connection.commit()
 
     def update(self, id, row_array=list()):
         if not row_array or (id < 0):

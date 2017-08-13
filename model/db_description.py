@@ -25,6 +25,7 @@ customers.add_column(db.Column('phone', locale.PHONE, 3,
 customers.add_column(db.Column('address', locale.ADDRESS, 5,
                                'VARCHAR(200) NOT NULL'))
 
+
 deals = db.Table('deals')
 deals.add_column(db.Column('id', locale.ID, 1,
                            'INTEGER PRIMARY KEY AUTOINCREMENT'))

@@ -43,19 +43,27 @@ class Shop(metaclass=SingletonMeta):
     def delete_from(self, table_name, id_list):
         self.database.delete(table_name, id_list)
 
-    def to_cart(self, id_list):
-        self.order.to_cart(id_list)
-        self.database.reserve(id_list)
+    def to_cart(self, prod_list):
+        self.order.to_cart(prod_list)
+        self.database.reserve(
+            "products",
+            [[x.id, x.count] for x in prod_list])
         self.ui_set_order()
 
-    def remove_from_cart(self, id_list):
-        self.order.remove_from_cart(id_list)
+    def remove_from_cart(self, prod_list):
+        self.order.remove_from_cart(prod_list)
+        self.database.unreserve(
+            "products",
+            [[x.id, x.count] for x in prod_list])
         self.ui_set_order()
 
     def place_order(self):
         pass
 
     def clear_order(self):  # TODO: add return of products
+        self.database.unreserve(
+            "products",
+            [[x.id, x.count] for x in self.order.get_cart()])
         self.order = Order()
         self.ui_set_order()
 
@@ -63,7 +71,10 @@ class Shop(metaclass=SingletonMeta):
         if self.database is None:
             return list()
         return list(
-            self.database.select_by_id("products", self.order.get_cart()))
+            self.database.select_by_id(
+                "products",
+                [x.id for x in self.order.get_cart()])
+        )
 
     def get_from(self, table_name):
         if self.database is None:
