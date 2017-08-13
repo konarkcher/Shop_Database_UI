@@ -3,6 +3,7 @@ import ObjectListView as Olv
 
 import model
 from .dbview import DbView
+from .customerdialog import CustomerDial
 from model.db_description import order
 from .locale import rus as locale
 
@@ -32,6 +33,7 @@ class CustomerTab(wx.Panel):
         self.SetSizer(self.outer_sizer)
 
         self.shop = model.Shop()
+        self.shop.ui_set_order = self.set_order
 
     def _get_buttons(self):
         self.customer_btn = wx.Button(self, label=locale.CHOOSE_CUSTOMER_BTN)
@@ -46,8 +48,25 @@ class CustomerTab(wx.Panel):
                               border=10)
         self.column_sizer.Add(clear_order_btn, 0, wx.EXPAND)
 
-    def _on_change_customer(self):
+        self.Bind(wx.EVT_BUTTON, self._on_change_customer, self.customer_btn)
+        self.Bind(wx.EVT_BUTTON, self._on_place_order, place_order_btn)
+        self.Bind(wx.EVT_BUTTON, self._on_clear_order, clear_order_btn)
+
+    def _on_change_customer(self, e):
+        with CustomerDial(self) as dlg:
+            if dlg.ShowModal() == wx.OK:
+                pass
+
+    def _on_place_order(self, e):
         pass
 
-    def _on_place_order(self):
+    def _on_clear_order(self, e):
+        pass
+
+    def set_order(self):
+        self.shop.ui_set_products()
+        self.db_list.SetObjects(self.shop.get_order())
+        self._display_customer()
+
+    def _display_customer(self):
         pass

@@ -9,7 +9,7 @@ from .locale import rus as locale
 class ShopTab(DbPanel):
     def __init__(self, parent):
         super(ShopTab, self).__init__(parent, storage['products'],
-                                      locale.ADD_BUTTON)
+                                      locale.ADD_PRODUCT)
 
         self.db_list.CreateCheckStateColumn()
         self.shop = model.Shop()

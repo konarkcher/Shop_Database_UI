@@ -37,9 +37,10 @@ DTTM = 'Дата и время'
 CUSTOMER_NOT_CHOSEN = 'Покупатель не выбран'
 
 # button labels
-ADD_BUTTON = 'Добавить наименование'
+ADD_PRODUCT = 'Добавить наименование'
 DELETE_BUTTON = 'Удалить'
 TO_CART_BUTTON = 'Добавить в корзину'
+ADD_CUSTOMER = 'Добавить покупателя'
 
 CHOOSE_CUSTOMER_BTN = 'Выбрать покупателя'
 PLACE_ORDER_BTN = 'Оформить заказ'
@@ -54,3 +55,7 @@ FILE = 'Файл:'
 # .buttons
 ACCEPT = 'Принять'
 CANCEL = 'Отмена'
+
+# customer choice
+CHOOSE_CUSTOMER_TITLE = 'Выбор покупателя'
+CHOOSE = 'Выбрать'

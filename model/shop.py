@@ -52,7 +52,7 @@ class Shop(metaclass=SingletonMeta):
 
     def clear_order(self):  # TODO: add return of products
         self.order = Order()
-        self.ui_set_products()
+        self.ui_set_order()
 
     def get_order(self):
         return list(
