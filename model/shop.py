@@ -7,7 +7,7 @@ from db import exception
 
 
 class Shop(metaclass=SingletonMeta):
-    _customers_sig = "first_name, second_name, telephone, address"
+    _customers_sig = "surname, name, telephone, address"
     _products_sig = "name, count, price"
 
     def __init__(self):
@@ -43,14 +43,18 @@ class Shop(metaclass=SingletonMeta):
 
     def to_cart(self, id_list):
         self.order.to_cart(id_list)
+        self.database.reserve(id_list)
+        self.ui_set_order()
 
     def remove_from_cart(self, id_list):
         self.order.remove_from_cart(id_list)
+        self.ui_set_order()
 
     def place_order(self):
         pass
 
     def clear_order(self):  # TODO: add return of products
+        self.database
         self.order = Order()
         self.ui_set_order()
 

@@ -20,6 +20,8 @@ customers.add_column(db.Column('surname', locale.SURNAME, 5,
                                'VARCHAR(100) NOT NULL'))
 customers.add_column(db.Column('name', locale.CUSTOMER_NAME, 5,
                                'VARCHAR(100) NOT NULL'))
+customers.add_column(db.Column('adress', locale.ADRESS, 5,
+                               'VARCHAR(200) NOT NULL'))
 customers.add_column(db.Column('phone', locale.PHONE, 4,
                                'INT'))
 customers.add_column(db.Column('all_sum', locale.ALL_SUM, 3,
