@@ -76,9 +76,9 @@ class Shop(metaclass=SingletonMeta):
     def add_customer(self, customer):
         self.database.add_row("customers",
                               self._customers_sig,
-                              [customer.first_name,
-                               customer.second_name,
-                               customer.telephone,
+                              [customer.surname,
+                               customer.name,
+                               customer.phone,
                                customer.address])
 
     def ui_set_products(self):
