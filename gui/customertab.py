@@ -55,7 +55,7 @@ class CustomerTab(wx.Panel):
     def _on_change_customer(self, e):
         with CustomerDial(self) as dlg:
             if dlg.ShowModal() == wx.OK:
-                pass
+                self.shop.set_customer_id(dlg.get_id())
 
     def _on_place_order(self, e):
         pass

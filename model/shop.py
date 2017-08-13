@@ -70,8 +70,8 @@ class Shop(metaclass=SingletonMeta):
             return list()
         return self.database.select_all(table_name)
 
-    def set_customer(self, id):
-        self.order.set_customer(id)
+    def set_customer_id(self, id):
+        self.order.set_customer_id(id)
 
     def add_customer(self, customer):
         self.database.add_row("customers",
