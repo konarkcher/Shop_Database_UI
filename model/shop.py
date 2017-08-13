@@ -1,5 +1,7 @@
 import db
 import db.adapter
+from .db_description import customers
+from .db_description import products
 from model import enums
 from .order import Order
 from .singleton import SingletonMeta
@@ -7,12 +9,14 @@ from db import exception
 
 
 class Shop(metaclass=SingletonMeta):
-    _customers_sig = "surname, name, telephone, address"
-    _products_sig = "name, count, price"
-
+    
     def __init__(self):
         self.database = None
         self.order = Order()
+        self._customers_sig = str([x.name 
+            for x in customers.columns[1:]])[1:-1]
+        self._products_sig = str([x.name 
+            for x in products.columns[1:-1]])[1:-1]
 
     def connect_db(self, db_type, action, data):
         if action is enums.Action.CREATE:

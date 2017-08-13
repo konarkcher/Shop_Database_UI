@@ -10,7 +10,7 @@ CREATE TABLE customers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     surname VARCHAR(30), 
     name VARCHAR(30), 
-    telephone VARCHAR(30), 
+    phone VARCHAR(30), 
     address VARCHAR(200)
 );
 
