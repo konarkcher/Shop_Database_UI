@@ -3,51 +3,75 @@ from db import exception
 
 shop = model.Shop()
 
-
-# try:
-shop.create_db("data/model_test.db", model.DbType.SQLITE)
-# except Exception as e:
-# 	shop.open_db("data/model_test.db", model.DbType.SQLITE)
+try:
+    shop.create_db("data/model_test.db", model.DbType.SQLITE)
+except Exception as e:
+    shop.open_db("data/model_test.db", model.DbType.SQLITE)
 
 products = [[1, "cookie", 42, 1, 0],
-            [1, "milk", 15, 2, 0],
-            [1, "potatoes", 11, 3, 0],
-            [1, "vodka", 11, 4, 0]
+            [2, "milk", 15, 2, 0],
+            [3, "potatoes", 11, 3, 0],
+            [4, "vodka", 11, 4, 0]
             ]
+
+prodP = []
 
 for prod in products:
     shop.add_product(model.Product(prod))
-
-shop.add_customer(model.Customer([0,
-                                  "Vasya",
-                                  "Pupkin",
-                                  "8-800-555-35-35",
-                                  "NY, Wall Stret 17, 32 floor"]))
+    prodP.append(model.Product(prod))
 
 
-print(shop.get_products())
+customer = model.Customer([0,
+                           "Vasya",
+                           "Pupkin",
+                           "8-800-555-35-35",
+                           "NY, Wall Stret 17, 32 floor"])
+shop.add_customer(customer)
 
-print(shop.get_order())
 
-shop.to_cart([1, 2, 3])
+print(list(shop.get_from("products")))
 
-print(shop.get_order())
 
-shop.remove_from_cart([2])
+for p in prodP:
+	p.count = 1
 
-print(shop.get_order())
+shop.to_cart(prodP)
 
-shop.to_cart([4])
+print("=================Products================")
 
-print(shop.get_order())
+print(list(shop.get_from("products")))
 
-shop.remove_from_cart([1, 2])
+shop.remove_from_cart([prodP[3]])
+
+
+print("============Products {removed last}=======")
+
+print(list(shop.get_from("products")))
+
+
+shop.clear_order()
+
+# print(shop.get_order())
+
+# shop.to_cart([1, 2, 3])
+
+# print(shop.get_order())
+
+# shop.remove_from_cart([2])
+
+# print(shop.get_order())
+
+# shop.to_cart([4])
+
+# print(shop.get_order())
+
+# shop.remove_from_cart([1, 2])
 
 
 print("=================Customers===============")
 
-print(shop.get_customers())
+print(list(shop.get_from("customers")))
 
 print("=================Products================")
 
-print(shop.get_products())
+print(list(shop.get_from("products")))

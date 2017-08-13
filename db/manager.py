@@ -17,8 +17,11 @@ class Manager:
     def add_row(self, table_name="", row_sig="", row_array=list()):
         if not row_array or not table_name:
             return
-        self.adapter.add_row(table_name,  row_sig, row_array)
-        self.commit()
+        try:
+            self.adapter.add_row(table_name,  row_sig, row_array)
+            self.commit()
+        except Exception as e:
+            raise DbException(e.args[0])
 
     def delete(self, table_name="", id_array=list()):
         if not id_array:
@@ -29,11 +32,20 @@ class Manager:
         except Exception as e:
             raise DbException(e.args[0])
 
-    def reserve(self, id_array=list()):
-        if not id_array:
+    def reserve(self, table_name="", pair_array=list()):
+        if ((not pair_array) or (not table_name)):
             return
         try:
-            self.adapter.reserve(id_array)
+            self.adapter.reserve(table_name, pair_array)
+            self.commit()
+        except Exception as e:
+            raise DbException(e.args[0])
+
+    def unreserve(self, table_name="", pair_array=list()):
+        if ((not pair_array) or (not table_name)):
+            return
+        try:
+            self.adapter.unreserve(table_name, pair_array)
             self.commit()
         except Exception as e:
             raise DbException(e.args[0])

@@ -14,7 +14,7 @@ sql3Adpt.sqlite_cursor.execute('''CREATE TABLE stocks
 sql3Adpt.sqlite_cursor.execute("CREATE UNIQUE INDEX stoks_ind ON stocks (id)")
 
 # Insert a row of data
-database.add_row("stocks1", ["product", 3, 100])
+database.add_row("stocks", ["product", 3, 100])
 database.add_row("stocks", ["product", 3, 100])
 database.add_row("stocks", ["product", 3, 100])
 database.add_row("stocks", ["product", 3, 100])
