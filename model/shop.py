@@ -47,28 +47,25 @@ class Shop(metaclass=SingletonMeta):
         self.order.to_cart(prod_list)
         self.database.reserve(
             "products",
-            [[x.id, x.count] for x in prod_list])
+            [[x.product_id, x.count] for x in prod_list])
         self.ui_set_order()
 
     def remove_from_cart(self, prod_list):
         self.order.remove_from_cart(prod_list)
         self.database.unreserve(
             "products",
-            [[x.id, x.count] for x in prod_list])
+            [[x.product_id, x.count] for x in prod_list])
         self.ui_set_order()
 
     def place_order(self):
         pass
 
     def clear_order(self):  # TODO: add return of products
-<<<<<<< HEAD
         for p in self.order.get_cart():
             print(p)
         self.database.unreserve(
             "products",
-            [[x.id, x.count] for x in self.order.get_cart()])
-=======
->>>>>>> dev
+            [[x.product_id, x.count] for x in self.order.get_cart()])
         self.order = Order()
         self.ui_set_order()
 
@@ -92,9 +89,9 @@ class Shop(metaclass=SingletonMeta):
     def add_customer(self, customer):
         self.database.add_row("customers",
                               self._customers_sig,
-                              [customer.first_name,
-                               customer.second_name,
-                               customer.telephone,
+                              [customer.surname,
+                               customer.name,
+                               customer.phone,
                                customer.address])
 
     def ui_set_products(self):

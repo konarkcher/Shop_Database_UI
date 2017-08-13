@@ -5,8 +5,7 @@ class Product:
         self.name = from_db[1]
         self.count = from_db[2]
         self.price = from_db[3]
-<<<<<<< HEAD
-        self.reserve = from_db[4]
+        self.reserved = from_db[4]
 
     def __str__(self):
     	return """	Id: {}
@@ -14,11 +13,8 @@ class Product:
     	count: {}
     	price: {}
 		reserve: {}""".format(
-    		     	self.id,
+    		     	self.product_id,
     		     	self.name,
     		     	self.count,
     		     	self.price,
-    		     	self.reserve)
-=======
-        self.reserved = from_db[4]
->>>>>>> dev
+    		     	self.reserved)
