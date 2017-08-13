@@ -27,7 +27,7 @@ RESERVED = 'Зарезервировано'
 CUSTOMER_NAME = 'Имя'
 SURNAME = 'Фамилия'
 PHONE = 'Телефон'
-ADRESS = 'Адрес'
+ADDRESS = 'Адрес'
 ALL_SUM = 'Общая сумма'
 
 # deals column labels

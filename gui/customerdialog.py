@@ -27,7 +27,6 @@ class CustomerDial(wx.Dialog):
 
         panel.db_list.SetObjects([model.Customer(x) for x in
                                   self.shop.get_from('customers')])
-        print(list(self.shop.get_from('customers')))
 
         self.SetSize((900, 300))
         self.SetTitle(locale.CHOOSE_CUSTOMER_TITLE)
