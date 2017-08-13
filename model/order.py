@@ -1,8 +1,8 @@
 class Order:
 
     def __init__(self):
-        self._cart = list()  # list of Products
-        self.customer = None  # id
+        self._cart = list()  # list of Product's
+        self.customer_id = None
         self.sum = 0
 
     def to_cart(self, products):  # products = additional list of Product
@@ -14,8 +14,8 @@ class Order:
             self._cart.append(p)
 
 
-    def set_customer(self, customer_id):
-        self.customer = customer_id
+    def set_customer_id(self, customer_id):
+        self.customer_id = customer_id
 
     def get_cart(self):
         if not self._cart:

@@ -20,6 +20,8 @@ class Shop(metaclass=SingletonMeta):
         elif action is enums.Action.OPEN:
             self.open_db(data, db_type)
 
+        self.clear_order()
+
     def create_db(self, path, db_type):
         if db_type is enums.DbType.SQLITE:
             self.database = db.Manager(db.adapter.Sqlite3(path))
@@ -59,15 +61,20 @@ class Shop(metaclass=SingletonMeta):
         pass
 
     def clear_order(self):  # TODO: add return of products
+<<<<<<< HEAD
         for p in self.order.get_cart():
             print(p)
         self.database.unreserve(
             "products",
             [[x.id, x.count] for x in self.order.get_cart()])
+=======
+>>>>>>> dev
         self.order = Order()
         self.ui_set_order()
 
     def get_order(self):
+        if self.database is None:
+            return list()
         return list(
             self.database.select_by_id(
                 "products",
@@ -79,8 +86,8 @@ class Shop(metaclass=SingletonMeta):
             return list()
         return self.database.select_all(table_name)
 
-    def set_customer(self, id):
-        self.order.set_customer(id)
+    def set_customer_id(self, id):
+        self.order.set_customer_id(id)
 
     def add_customer(self, customer):
         self.database.add_row("customers",

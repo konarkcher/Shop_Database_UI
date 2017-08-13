@@ -1,4 +1,6 @@
 import platform
+import os
+import pickle
 
 import wx
 
@@ -7,6 +9,8 @@ from . import customertab
 from . import dbdialog
 from . import shoptab
 from .locale import rus as locale
+
+DEFAULT_DB_PATH = '.shop_db_cache'
 
 
 class ShopNotebook(wx.Notebook):
@@ -34,6 +38,7 @@ class MainFrame(wx.Frame):
         panel.SetSizer(sizer)
 
         self.shop = model.Shop()
+        self._open_default_db()
 
         self.SetSize((900, 500))
         self.Show(True)
@@ -70,7 +75,9 @@ class MainFrame(wx.Frame):
         with dbdialog.DbSetDial(self) as dlg:
             if dlg.ShowModal() == wx.OK:
                 self.shop.connect_db(*dlg.get_data())
-                self.shop.clear_order()
+
+                with open(DEFAULT_DB_PATH, 'wb') as f:
+                    pickle.dump(dlg.get_data(), f)
 
     def _get_icon(self, filename):
         path = '{}{}.png'.format(self.path_to_icons, filename)
@@ -81,3 +88,8 @@ class MainFrame(wx.Frame):
     def _on_close(self, e):
         self.shop.close_connection()
         self.Destroy()
+
+    def _open_default_db(self):
+        if os.path.isfile(DEFAULT_DB_PATH):
+            with open(DEFAULT_DB_PATH, 'rb') as f:
+                self.shop.connect_db(*pickle.load(f))
