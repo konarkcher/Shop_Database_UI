@@ -6,7 +6,13 @@ class Order:
         self.sum = 0
 
     def to_cart(self, products):  # products = additional list of Product
-        self._cart += products
+        for p in products:
+            for elem in self._cart:
+                if elem.id == p.id:
+                    elem.count += p.count
+                    break
+            self._cart.append(p)
+
 
     def set_customer(self, customer_id):
         self.customer = customer_id
