@@ -25,7 +25,9 @@ class CustomerDial(wx.Dialog):
         self.Bind(wx.EVT_BUTTON, self._on_choose, choose_btn)
         self.Bind(wx.EVT_BUTTON, self._on_cancel, cancel_btn)
 
-        panel.db_list.SetObjects(list(self.shop.get_from('customers')))
+        panel.db_list.SetObjects([model.Customer(x) for x in
+                                  self.shop.get_from('customers')])
+        print(list(self.shop.get_from('customers')))
 
         self.SetSize((900, 300))
         self.SetTitle(locale.CHOOSE_CUSTOMER_TITLE)
