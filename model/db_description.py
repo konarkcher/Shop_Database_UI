@@ -31,10 +31,10 @@ deals.add_column(db.Column('id', locale.ID, 1,
                            'INTEGER PRIMARY KEY AUTOINCREMENT'))
 deals.add_column(db.Column('customer_id', locale.CUSTOMER_ID, 2,
                            'INTEGER FOREIGN KEY customers'))
-deals.add_column(db.Column('products', locale.BUYS, 6,
-                           'some sort of array '))  # TODO: find array
 deals.add_column(db.Column('dttm', locale.DTTM, 3,
                            'dttm'))  # TODO: fix date
+deals.add_column(db.Column('products', locale.BUYS, 6,
+                           'some sort of array '))  # TODO: find array
 
 storage = db.Database('storage')
 storage.add_table(products)

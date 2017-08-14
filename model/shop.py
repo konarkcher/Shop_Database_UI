@@ -2,20 +2,27 @@ import db
 import db.adapter
 from .db_description import customers
 from .db_description import products
+from .db_description import deals
 from model import enums
 from .order import Order
 from .singleton import SingletonMeta
+from .check_creator import CheckCreator
 from db import exception
+from datetime import datetime
 
 
 class Shop(metaclass=SingletonMeta):
+
     def __init__(self):
         self.database = None
         self.order = Order()
+        self._check_creator = CheckCreator()
         self._customers_sig = str([x.name
                                    for x in customers.columns[1:]])[1:-1]
         self._products_sig = str([x.name
                                   for x in products.columns[1:-1]])[1:-1]
+        self._deals_sig = str([x.name
+                               for x in deals.columns[1:-1]])[1:-1]
 
     def connect_db(self, db_type, action, data):
         if action is enums.Action.CREATE:
@@ -61,7 +68,16 @@ class Shop(metaclass=SingletonMeta):
         self.ui_display_order()
 
     def place_order(self):
-        pass
+        _now = datetime.now()
+        deal_id = self.database.add_row("deals",
+                              self._deals_sig,
+                              [self.order.get_customer().id,
+                               _now
+                               ])
+        self._check_creator.write_chck(
+            "data/checks/{}.txt".format(deal_id),
+            self.order,
+            _now)
 
     def clear_order(self):  # TODO: add return of products
         if self.database is None:

@@ -64,3 +64,6 @@ CHOOSE_CUSTOMER_TITLE = 'Выбор покупателя'
 CHOOSE = 'Выбрать'
 
 SUM = 'Сумма: '
+
+#check stuff
+CUSTOMER_TITLE = "Покупатель"

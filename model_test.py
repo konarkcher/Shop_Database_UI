@@ -54,8 +54,10 @@ print("============Products {removed last}=======")
 
 print(list(shop.get_from("products")))
 
+shop.place_order()
 
 shop.clear_order()
+
 
 # print(shop.get_order())
 

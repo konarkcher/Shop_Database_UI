@@ -8,3 +8,6 @@ class Customer:
 
     def get_initials(self):
         return '{} {}.'.format(self.surname, self.name[0])
+
+    def get_full_name(self):
+        return '{} {}.'.format(self.surname, self.name)

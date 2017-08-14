@@ -18,8 +18,9 @@ class Manager:
         if not row_array or not table_name:
             return
         try:
-            self.adapter.add_row(table_name,  row_sig, row_array)
-            self.commit()
+            #autocommit inside
+            rid = self.adapter.add_row(table_name,  row_sig, row_array)
+            return rid
         except Exception as e:
             raise DbException(e.args[0])
 

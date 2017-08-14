@@ -22,7 +22,12 @@ class Sqlite3:
         self.sqlite_cursor.execute("INSERT INTO {} ({}) VALUES ({})"
                                    .format(table_name,
                                            row_sig,
-                                           str(row_array)[1:-1]))
+                                           ("?, "*len(row_array))[:-2]
+                                           ),
+                                   tuple(row_array)
+                                   )
+        self.sqlite_connection.commit()
+        return self.sqlite_cursor.lastrowid
 
     def delete(self, table_name="", id_array=list()):
         self.sqlite_cursor.execute("DELETE FROM {} WHERE {} IN ({})"
