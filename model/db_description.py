@@ -42,7 +42,7 @@ storage.add_table(customers)
 storage.add_table(deals)
 
 order = db.Table('order')
-order.add_column(db.Column('product_id', locale.ID, 1, ''))
+order.add_column(db.Column('id', locale.ID, 1, ''))
 order.add_column(db.Column('name', locale.PRODUCT_NAME, 5, ''))
 order.add_column(db.Column('price', locale.PRICE, 2, ''))
 order.add_column(db.Column('count', locale.COUNT, 2, ''))

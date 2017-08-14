@@ -1,5 +1,4 @@
 class Product:
-
     def __init__(self, from_db):
         self.id = from_db[0]
         self.name = from_db[1]
@@ -8,13 +7,13 @@ class Product:
         self.reserved = from_db[4]
 
     def __str__(self):
-    	return """	Id: {}
-    	name: {}
-    	count: {}
-    	price: {}
-		reserve: {}""".format(
-    		     	self.id,
-    		     	self.name,
-    		     	self.count,
-    		     	self.price,
-    		     	self.reserve)
+        return """	Id: {}
+        name: {}
+        count: {}
+        price: {}
+        reserve: {}""".format(
+            self.id,
+            self.name,
+            self.count,
+            self.price,
+            self.reserved)
