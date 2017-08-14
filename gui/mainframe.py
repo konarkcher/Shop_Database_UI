@@ -5,7 +5,7 @@ import pickle
 import wx
 
 import model
-from . import customertab
+from . import carttab
 from . import dbdialog
 from . import shoptab
 from .locale import rus as locale
@@ -18,7 +18,7 @@ class ShopNotebook(wx.Notebook):
         super(ShopNotebook, self).__init__(parent)
 
         self.AddPage(shoptab.ShopTab(self), locale.SHOP_TAB)
-        self.AddPage(customertab.CustomerTab(self), locale.CART_TAB)
+        self.AddPage(carttab.CustomerTab(self), locale.CART_TAB)
 
 
 class MainFrame(wx.Frame):

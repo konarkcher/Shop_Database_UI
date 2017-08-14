@@ -42,8 +42,10 @@ ADD_PRODUCT = 'Добавить наименование'
 DELETE_BUTTON = 'Удалить'
 TO_CART_BUTTON = 'Добавить в корзину'
 ADD_CUSTOMER = 'Добавить покупателя'
+REMOVE_PRODUCT = 'Убрать товар'
 
 CHOOSE_CUSTOMER_BTN = 'Выбрать покупателя'
+CHANGE_CUSTOMER_BTN = 'Сменить покупателя'
 PLACE_ORDER_BTN = 'Оформить заказ'
 CLEAR_ORDER_BTN = 'Сбросить заказ'
 
@@ -60,3 +62,5 @@ CANCEL = 'Отмена'
 # customer choice
 CHOOSE_CUSTOMER_TITLE = 'Выбор покупателя'
 CHOOSE = 'Выбрать'
+
+SUM = 'Сумма: '

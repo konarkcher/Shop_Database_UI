@@ -9,14 +9,13 @@ from db import exception
 
 
 class Shop(metaclass=SingletonMeta):
-    
     def __init__(self):
         self.database = None
         self.order = Order()
-        self._customers_sig = str([x.name 
-            for x in customers.columns[1:]])[1:-1]
-        self._products_sig = str([x.name 
-            for x in products.columns[1:-1]])[1:-1]
+        self._customers_sig = str([x.name
+                                   for x in customers.columns[1:]])[1:-1]
+        self._products_sig = str([x.name
+                                  for x in products.columns[1:-1]])[1:-1]
 
     def connect_db(self, db_type, action, data):
         if action is enums.Action.CREATE:
@@ -52,14 +51,14 @@ class Shop(metaclass=SingletonMeta):
         self.database.reserve(
             "products",
             [[x.id, x.count] for x in prod_list])
-        self.ui_set_order()
+        self.ui_display_order()
 
     def remove_from_cart(self, prod_list):
         self.order.remove_from_cart(prod_list)
         self.database.unreserve(
             "products",
             [[x.id, x.count] for x in prod_list])
-        self.ui_set_order()
+        self.ui_display_order()
 
     def place_order(self):
         pass
@@ -69,24 +68,18 @@ class Shop(metaclass=SingletonMeta):
             "products",
             [[x.id, x.count] for x in self.order.get_cart()])
         self.order = Order()
-        self.ui_set_order()
+        self.ui_display_order()
 
     def get_order(self):
-        if self.database is None:
-            return list()
-        return list(
-            self.database.select_by_id(
-                "products",
-                [x.id for x in self.order.get_cart()])
-        )
+        return self.order.get_cart()
 
     def get_from(self, table_name):
         if self.database is None:
             return list()
         return self.database.select_all(table_name)
 
-    def set_customer_id(self, id):
-        self.order.set_customer_id(id)
+    def set_customer(self, customer):
+        self.order.set_customer(customer)
 
     def add_customer(self, customer):
         self.database.add_row("customers",
@@ -96,12 +89,13 @@ class Shop(metaclass=SingletonMeta):
                                customer.phone,
                                customer.address])
 
-    def ui_set_products(self):
+    def ui_display_products(self):
         pass
 
-    def ui_set_order(self):
+    def ui_display_order(self):
         pass
 
     def close_connection(self):
+        self.clear_order()
         if self.database is not None:
             self.database.close_connection()

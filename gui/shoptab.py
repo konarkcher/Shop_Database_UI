@@ -19,9 +19,9 @@ class ShopTab(DbPanel):
         self.button_sizer.Add(to_cart_btn, 0, wx.EXPAND)
 
         self.Bind(wx.EVT_BUTTON, self._on_to_cart, to_cart_btn)
-        self.shop.ui_set_products = self.set_data
+        self.shop.ui_display_products = self._display_data
 
-    def set_data(self):
+    def _display_data(self):
         data = [model.Product(x) for x in self.shop.get_from('products')]
         self.db_list.SetObjects(data)
 
@@ -30,5 +30,5 @@ class ShopTab(DbPanel):
         self.shop.delete_from('products', [x.id for x in kill_list])
         self.db_list.RemoveObjects(kill_list)
 
-    def _on_to_cart(self):
-        pass
+    def _on_to_cart(self, e):
+        self.shop.to_cart(self.db_list.GetCheckedObjects())
