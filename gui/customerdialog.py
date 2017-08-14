@@ -40,6 +40,7 @@ class CustomerDial(wx.Dialog):
         self._customer = None
 
         self.panel = CustomerTab(self)
+        self.panel.db_list.SetEmptyListMsg(locale.CUSTOMER_LC)
 
         self.Bind(wx.EVT_BUTTON, self._on_choose, self.panel.choose_btn)
         self.Bind(wx.EVT_BUTTON, self._on_cancel, self.panel.cancel_btn)

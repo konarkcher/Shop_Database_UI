@@ -67,3 +67,8 @@ SUM = 'Сумма: '
 
 #check stuff
 CUSTOMER_TITLE = "Покупатель"
+
+# empty ObjectListView labels
+PRODUCT_LC = 'Товаров нет'
+CUSTOMER_LC = 'Покупателей пока нет'
+ORDER_LC = 'Корзина пуста'

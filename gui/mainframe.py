@@ -32,6 +32,7 @@ class MainFrame(wx.Frame):
 
         panel = wx.Panel(self)
         self.notebook = ShopNotebook(panel)
+        self.notebook.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGING, self._on_page_chg)
 
         sizer = wx.BoxSizer()
         sizer.Add(self.notebook, 1, wx.EXPAND)
@@ -89,6 +90,10 @@ class MainFrame(wx.Frame):
         print('closed correctly')
         self.shop.close_connection()
         self.Destroy()
+
+    def _on_page_chg(self, e):
+        self.shop.ui_display_products()
+        self.shop.ui_display_order()
 
     def _open_default_db(self):
         if os.path.isfile(DEFAULT_DB_PATH):

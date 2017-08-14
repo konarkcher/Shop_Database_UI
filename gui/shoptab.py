@@ -12,6 +12,7 @@ class ShopTab(DbPanel):
                                       locale.ADD_PRODUCT)
 
         self.db_list.CreateCheckStateColumn()
+        self.db_list.SetEmptyListMsg(locale.PRODUCT_LC)
         self.shop = model.Shop()
 
         self.button_sizer.AddSpacer(50)
