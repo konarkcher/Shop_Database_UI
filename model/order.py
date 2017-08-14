@@ -6,11 +6,11 @@ class Order:
 
     def to_cart(self, products):
         for p in products:
-            for elem in self._cart:
-                if elem.id == p.id:
-                    elem.count += p.count
-                    break
-            self._cart.append(p)
+            if p.id in self._cart:
+                self._cart[p.id].count += 1
+            else:
+                self._cart[p.id] = p
+        self._sum = sum([x.price for x in self._cart.values()])
 
     def set_customer(self, customer):
         self._customer = customer
@@ -20,7 +20,8 @@ class Order:
 
     def remove_from_cart(self, products):
         st = set([x.id for x in products])
-        self._cart = [x for x in self._cart if x.id not in st]
+        self._cart = dict([(x.id,x) for x in self._cart.values() if x.id not in st])
+        self._sum = sum([x.price for x in self._cart.values()])
 
     def get_initials(self):
         return self._customer.get_initials()

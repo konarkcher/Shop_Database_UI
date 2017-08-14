@@ -22,12 +22,13 @@ for prod in products:
 
 
 customer = model.Customer([0,
-                           "Vasya",
                            "Pupkin",
+                           "Vasya",
                            "8-800-555-35-35",
                            "NY, Wall Stret 17, 32 floor"])
 shop.add_customer(customer)
 
+shop.order.set_customer(customer)
 
 print(list(shop.get_from("products")))
 
@@ -37,12 +38,17 @@ for p in prodP:
 
 shop.to_cart(prodP)
 
+print("Sum :{}".format(shop.order.get_sum()))
+
+print(shop.order.get_customer().get_initials())
+
 print("=================Products================")
 
 print(list(shop.get_from("products")))
 
 shop.remove_from_cart([prodP[3]])
 
+print("Sum :{}".format(shop.order.get_sum()))
 
 print("============Products {removed last}=======")
 
