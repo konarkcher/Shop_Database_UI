@@ -1,18 +1,16 @@
+from datetime import datetime
+
 import db
 import db.adapter
-from .db_description import customers
-from .db_description import products
-from .db_description import deals
+from .db_description import customers, products, deals
 from model import enums
 from .order import Order
 from .singleton import SingletonMeta
 from .check_creator import CheckCreator
 from db import exception
-from datetime import datetime
 
 
 class Shop(metaclass=SingletonMeta):
-
     def __init__(self):
         self.database = None
         self.order = Order()
@@ -63,15 +61,10 @@ class Shop(metaclass=SingletonMeta):
 
     def place_order(self):
         _now = datetime.now()
-        deal_id = self.database.add_row("deals",
-                              self._deals_sig,
-                              [self.order.get_customer().id,
-                               _now
-                               ])
-        self._check_creator.write_chck(
-            "data/checks/{}.txt".format(deal_id),
-            self.order,
-            _now)
+        deal_id = self.database.add_row("deals", self._deals_sig,
+                                        [self.order.get_customer().id, _now])
+        self._check_creator.write_chck("data/checks/{}.txt".format(deal_id),
+                                       self.order, _now)
 
     def clear_order(self):
         if self.database is None:

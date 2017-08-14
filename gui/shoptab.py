@@ -11,7 +11,7 @@ class ShopTab(DbPanel):
         super(ShopTab, self).__init__(parent, storage['products'],
                                       locale.ADD_PRODUCT)
 
-        self.db_list.CreateCheckStateColumn()
+        self.db_list.InstallCheckStateColumn(self.db_list.columns[0])
         self.db_list.SetEmptyListMsg(locale.PRODUCT_LC)
         self.shop = model.Shop()
 
@@ -32,4 +32,8 @@ class ShopTab(DbPanel):
         self.db_list.RemoveObjects(kill_list)
 
     def _on_to_cart(self, e):
-        self.shop.to_cart(self.db_list.GetCheckedObjects())
+        selected = self.db_list.GetCheckedObjects()
+        if [x for x in selected if x.count <= x.reserved]:
+            wx.MessageBox(locale.LACK, locale.ERROR, wx.OK)
+            return
+        self.shop.to_cart(selected)

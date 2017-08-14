@@ -32,7 +32,7 @@ class MainFrame(wx.Frame):
 
         panel = wx.Panel(self)
         self.notebook = ShopNotebook(panel)
-        self.notebook.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGING, self._on_page_chg)
+        self.notebook.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGING, self._refresh)
 
         sizer = wx.BoxSizer()
         sizer.Add(self.notebook, 1, wx.EXPAND)
@@ -62,10 +62,15 @@ class MainFrame(wx.Frame):
 
     def _init_toolbar(self):
         toolbar = self.CreateToolBar()
-        set_tool = toolbar.AddTool(wx.ID_ANY, locale.SETTINGS,
+
+        refresh_tool = toolbar.AddTool(wx.ID_REFRESH, locale.REFRESH,
+                                       self._get_icon('refresh'))
+        set_tool = toolbar.AddTool(wx.ID_SETUP, locale.SETTINGS,
                                    self._get_icon('set'))
+
         toolbar.Realize()
 
+        self.Bind(wx.EVT_TOOL, self._refresh, refresh_tool)
         self.Bind(wx.EVT_TOOL, self._on_set, set_tool)
 
     def _on_about(self, event):
@@ -80,6 +85,10 @@ class MainFrame(wx.Frame):
                 with open(DEFAULT_DB_PATH, 'wb') as f:
                     pickle.dump(dlg.get_data(), f)
 
+    def _refresh(self, e):
+        self.shop.ui_display_products()
+        self.shop.ui_display_order()
+
     def _get_icon(self, filename):
         path = '{}{}.png'.format(self.path_to_icons, filename)
         if platform.system() == 'Darwin':
@@ -90,10 +99,6 @@ class MainFrame(wx.Frame):
         print('closed correctly')
         self.shop.close_connection()
         self.Destroy()
-
-    def _on_page_chg(self, e):
-        self.shop.ui_display_products()
-        self.shop.ui_display_order()
 
     def _open_default_db(self):
         if os.path.isfile(DEFAULT_DB_PATH):

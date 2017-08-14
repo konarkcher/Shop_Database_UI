@@ -25,7 +25,7 @@ class CartTab(wx.Panel):
 
         self.db_list = DbView(self, order)
         self.db_list.SetEmptyListMsg(locale.ORDER_LC)
-        self.db_list.CreateCheckStateColumn()
+        self.db_list.InstallCheckStateColumn(self.db_list.columns[0])
 
         left_sizer = wx.BoxSizer(wx.VERTICAL)
         left_sizer.Add(self.db_list, 1, wx.EXPAND)
@@ -78,6 +78,13 @@ class CartTab(wx.Panel):
                 self._display_customer()
 
     def _on_place_order(self, e):
+        if self.shop.order.get_customer() is None:
+            wx.MessageBox(locale.CUSTOMER_NOT_CHOSEN, locale.ERROR, wx.OK)
+            return
+        if not self.shop.order.get_cart():
+            wx.MessageBox(locale.NO_PRODUCTS, locale.ERROR, wx.OK)
+            return
+
         self.shop.place_order()
 
     def _on_clear_order(self, e):

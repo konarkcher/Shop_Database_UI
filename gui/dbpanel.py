@@ -5,7 +5,7 @@ from gui.locale import rus as locale
 
 
 class DbPanel(wx.Panel):
-    def __init__(self, parent, table, add_label):
+    def __init__(self, parent, table, add_label, border=0):
         super(DbPanel, self).__init__(parent)
 
         self.table = table
@@ -17,9 +17,11 @@ class DbPanel(wx.Panel):
 
         outer_sizer = wx.BoxSizer(wx.HORIZONTAL)
 
-        outer_sizer.Add(self.db_list, 1, wx.EXPAND)
+        outer_sizer.Add(self.db_list, 1, wx.LEFT | wx.TOP | wx.BOTTOM |
+                        wx.EXPAND, border=border)
         outer_sizer.AddSpacer(4)
-        outer_sizer.Add(self.button_sizer, 0, wx.EXPAND)
+        outer_sizer.Add(self.button_sizer, 0, wx.RIGHT | wx.TOP | wx.BOTTOM |
+                        wx.EXPAND, border=border)
 
         self.SetSizer(outer_sizer)
 
