@@ -7,9 +7,9 @@ from model.db_description import order
 from .locale import rus as locale
 
 
-class CustomerTab(wx.Panel):
+class CartTab(wx.Panel):
     def __init__(self, parent):
-        super(CustomerTab, self).__init__(parent)
+        super(CartTab, self).__init__(parent)
 
         self.shop = model.Shop()
         self.shop.ui_display_order = self._display_order

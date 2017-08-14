@@ -1,10 +1,10 @@
 class Order:
     def __init__(self):
-        self._cart = list()  # list of Product's
+        self._cart = dict()
         self._customer = None
         self._sum = 0
 
-    def to_cart(self, products):  # products = additional list of Product
+    def to_cart(self, products):
         for p in products:
             for elem in self._cart:
                 if elem.id == p.id:
@@ -16,10 +16,7 @@ class Order:
         self._customer = customer
 
     def get_cart(self):
-        if not self._cart:
-            return []
-        else:
-            return self._cart
+        return self._cart.values()
 
     def remove_from_cart(self, products):
         st = set([x.id for x in products])

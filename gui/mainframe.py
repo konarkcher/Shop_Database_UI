@@ -18,7 +18,7 @@ class ShopNotebook(wx.Notebook):
         super(ShopNotebook, self).__init__(parent)
 
         self.AddPage(shoptab.ShopTab(self), locale.SHOP_TAB)
-        self.AddPage(carttab.CustomerTab(self), locale.CART_TAB)
+        self.AddPage(carttab.CartTab(self), locale.CART_TAB)
 
 
 class MainFrame(wx.Frame):
@@ -86,6 +86,7 @@ class MainFrame(wx.Frame):
         return (wx.Image(path).Rescale(40, 40)).ConvertToBitmap()
 
     def _on_close(self, e):
+        print('closed correctly')
         self.shop.close_connection()
         self.Destroy()
 
