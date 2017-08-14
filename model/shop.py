@@ -5,7 +5,6 @@ from .db_description import products
 from model import enums
 from .order import Order
 from .singleton import SingletonMeta
-from db import exception
 
 
 class Shop(metaclass=SingletonMeta):

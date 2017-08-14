@@ -64,3 +64,8 @@ CHOOSE_CUSTOMER_TITLE = 'Выбор покупателя'
 CHOOSE = 'Выбрать'
 
 SUM = 'Сумма: '
+
+# empty ObjectListView labels
+PRODUCT_LC = 'Товаров нет'
+CUSTOMER_LC = 'Покупателей пока нет'
+ORDER_LC = 'Корзина пуста'
