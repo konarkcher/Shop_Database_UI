@@ -44,27 +44,21 @@ class Shop(metaclass=SingletonMeta):
             self.database = db.Manager(db.adapter.Sqlite3(path))
 
     def add_product(self, product):
-        self.database.add_row("products",
-                              self._products_sig,
-                              [product.name,
-                               product.count,
-                               product.price])
+        self.database.add_row("products", self._products_sig,
+                              [product.name, product.count, product.price])
 
     def delete_from(self, table_name, id_list):
         self.database.delete(table_name, id_list)
 
     def to_cart(self, prod_list):
         self.order.to_cart(prod_list)
-        self.database.reserve(
-            "products",
-            [[x.id, 1] for x in prod_list])
+        self.database.reserve("products", [[x.id, 1] for x in prod_list])
         self.ui_display_order()
 
     def remove_from_cart(self, prod_list):
         self.order.remove_from_cart(prod_list)
-        self.database.unreserve(
-            "products",
-            [[x.id, x.count] for x in prod_list])
+        self.database.unreserve("products",
+                                [[x.id, x.count] for x in prod_list])
         self.ui_display_order()
 
     def place_order(self):
@@ -79,13 +73,12 @@ class Shop(metaclass=SingletonMeta):
             self.order,
             _now)
 
-    def clear_order(self):  # TODO: add return of products
+    def clear_order(self):
         if self.database is None:
             self.ui_display_order()
             return
-        self.database.unreserve(
-            "products",
-            [[x.id, x.count] for x in self.order.get_cart()])
+        self.database.unreserve("products", [[x.id, x.count] for x in
+                                             self.order.get_cart()])
         self.order = Order()
         self.ui_display_order()
 
@@ -101,12 +94,9 @@ class Shop(metaclass=SingletonMeta):
         self.order.set_customer(customer)
 
     def add_customer(self, customer):
-        self.database.add_row("customers",
-                              self._customers_sig,
-                              [customer.surname,
-                               customer.name,
-                               customer.phone,
-                               customer.address])
+        self.database.add_row("customers", self._customers_sig,
+                              [customer.surname, customer.name,
+                               customer.phone, customer.address])
 
     def ui_display_products(self):
         pass
