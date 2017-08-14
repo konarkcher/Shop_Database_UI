@@ -8,6 +8,7 @@ ABOUT_ITEM = 'О {}'.format(APP_NAME)
 
 # toolbar item labels
 SETTINGS = 'Настройки'
+REFRESH = 'Обновить'
 
 # dialog messages
 ABOUT_DIAL = 'Программа для учёта товаров сферического магазина в вакууме'
@@ -65,10 +66,15 @@ CHOOSE = 'Выбрать'
 
 SUM = 'Сумма: '
 
-#check stuff
+# check stuff
 CUSTOMER_TITLE = "Покупатель"
 
 # empty ObjectListView labels
 PRODUCT_LC = 'Товаров нет'
 CUSTOMER_LC = 'Покупателей пока нет'
 ORDER_LC = 'Корзина пуста'
+
+# info messages
+ERROR = 'Ошибка'
+LACK = 'Недостаточно единиц товара'
+NO_PRODUCTS = 'Товары не выбраны'
