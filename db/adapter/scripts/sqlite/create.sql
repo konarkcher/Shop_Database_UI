@@ -1,6 +1,6 @@
 CREATE TABLE products (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name VARCHAR(100), 
+    name VARCHAR(100) UNIQUE,
     count INT, 
     price INT, 
     reserved INT DEFAULT 0
@@ -21,8 +21,8 @@ CREATE TABLE deals (
     FOREIGN KEY (customer_id) REFERENCES customers(id)
 );
 
-CREATE UNIQUE INDEX products_ind ON products (name);
+CREATE INDEX products_ind ON products (name);
 
-CREATE UNIQUE INDEX customers_ind ON customers (id);
+CREATE INDEX customers_ind ON customers (id);
 
-CREATE UNIQUE INDEX deals_ind ON customers (id);
+CREATE INDEX deals_ind ON customers (id);
