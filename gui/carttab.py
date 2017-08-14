@@ -24,6 +24,7 @@ class CartTab(wx.Panel):
         self._add_left_buttons()
 
         self.db_list = DbView(self, order)
+        self.db_list.SetEmptyListMsg(locale.ORDER_LC)
         self.db_list.CreateCheckStateColumn()
 
         left_sizer = wx.BoxSizer(wx.VERTICAL)
