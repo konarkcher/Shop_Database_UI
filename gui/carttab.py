@@ -27,6 +27,9 @@ class CartTab(wx.Panel):
         self.db_list.SetEmptyListMsg(locale.ORDER_LC)
         self.db_list.InstallCheckStateColumn(self.db_list.columns[0])
 
+        self.db_list.cellEditMode = self.db_list.CELLEDIT_DOUBLECLICK
+        self.db_list.columns[3].isEditable = True
+
         left_sizer = wx.BoxSizer(wx.VERTICAL)
         left_sizer.Add(self.db_list, 1, wx.EXPAND)
         left_sizer.AddSpacer(4)
