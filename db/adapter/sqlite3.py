@@ -1,5 +1,5 @@
 import sqlite3
-
+from db.exception import *
 
 class Sqlite3:
     """
@@ -38,20 +38,20 @@ class Sqlite3:
         except Exception as e:
             arr = e.args[0].split()
             if (arr[0] == "no") and (arr[2] == "table"):
-                raise DbException(e.args[0], DbException.NO_SUCH_TABLE)
+                raise DbException(e.args[0], DbErrorType.NO_SUCH_TABLE)
             if arr[0] == 'UNIQUE':
                 raise ConstraintException(
                     e.args[0], (arr[-1].split('.'))[-1],
-                    ConstraintException.NOT_UNIQUE)
+                    ConstraintErrorType.NOT_UNIQUE)
             elif arr[0] == 'CHECK':
                 _e = ConstraintException(
                     e.args[0], (arr[-1].split('_'))[-2],
-                    ConstraintException.NOT_UNIQUE)
+                    ConstraintErrorType.NOT_UNIQUE)
                 subarr = arr[-1].split('_')
                 if(subarr[2] == "len"):
-                    _e.typeNum = ConstraintException.TOO_LONG
+                    _e.typeNum = ConstraintErrorType.TOO_LONG
                 elif (subarr[2] == "cor"):
-                    _e.typeNum = ConstraintException.INCORRECT_VALUE
+                    _e.typeNum = ConstraintErrorType.INCORRECT_VALUE
                 raise _e
             else:
                 raise e
@@ -66,7 +66,7 @@ class Sqlite3:
         except Exception as e:
             arr = e.args[0].split()
             if (arr[0] == "no") and (arr[2] == "table"):
-                raise DbException(e.args[0], DbException.NO_SUCH_TABLE)
+                raise DbException(e.args[0], DbErrorType.NO_SUCH_TABLE)
             else:
                 raise e
 
@@ -86,7 +86,7 @@ class Sqlite3:
         except Exception as e:
             arr = e.args[0].split()
             if (arr[0] == "no") and (arr[2] == "table"):
-                raise DbException(e.args[0], DbException.NO_SUCH_TABLE)
+                raise DbException(e.args[0], DbErrorType.NO_SUCH_TABLE)
             else:
                 raise e
 
@@ -106,20 +106,20 @@ class Sqlite3:
         except Exception as e:
             arr = e.args[0].split()
             if (arr[0] == "no") and (arr[2] == "table"):
-                raise DbException(e.args[0], DbException.NO_SUCH_TABLE)
+                raise DbException(e.args[0], DbErrorType.NO_SUCH_TABLE)
             if arr[0] == 'UNIQUE':
                 raise ConstraintException(
                     e.args[0], (arr[-1].split('.'))[-1],
-                    ConstraintException.NOT_UNIQUE)
+                    ConstraintErrorType.NOT_UNIQUE)
             elif arr[0] == 'CHECK':
                 _e = ConstraintException(
                     e.args[0], (arr[-1].split('_'))[-2],
-                    ConstraintException.NOT_UNIQUE)
+                    ConstraintErrorType.NOT_UNIQUE)
                 subarr = arr[-1].split('_')
                 if(subarr[2] == "len"):
-                    _e.typeNum = ConstraintException.TOO_LONG
+                    _e.typeNum = ConstraintErrorType.TOO_LONG
                 elif (subarr[2] == "cor"):
-                    _e.typeNum = ConstraintException.INCORRECT_VALUE
+                    _e.typeNum = ConstraintErrorType.INCORRECT_VALUE
                 raise _e
             else:
                 raise e
@@ -140,20 +140,20 @@ class Sqlite3:
         except Exception as e:
             arr = e.args[0].split()
             if (arr[0] == "no") and (arr[2] == "table"):
-                raise DbException(e.args[0], DbException.NO_SUCH_TABLE)
+                raise DbException(e.args[0], DbErrorType.NO_SUCH_TABLE)
             if arr[0] == 'UNIQUE':
                 raise ConstraintException(
                     e.args[0], (arr[-1].split('.'))[-1],
-                    ConstraintException.NOT_UNIQUE)
+                    ConstraintErrorType.NOT_UNIQUE)
             elif arr[0] == 'CHECK':
                 _e = ConstraintException(
                     e.args[0], (arr[-1].split('_'))[-2],
-                    ConstraintException.NOT_UNIQUE)
+                    ConstraintErrorType.NOT_UNIQUE)
                 subarr = arr[-1].split('_')
                 if(subarr[2] == "len"):
-                    _e.typeNum = ConstraintException.TOO_LONG
+                    _e.typeNum = ConstraintErrorType.TOO_LONG
                 elif (subarr[2] == "cor"):
-                    _e.typeNum = ConstraintException.INCORRECT_VALUE
+                    _e.typeNum = ConstraintErrorType.INCORRECT_VALUE
                 raise _e
             else:
                 raise e
@@ -171,20 +171,20 @@ class Sqlite3:
         except Exception as e:
             arr = e.args[0].split()
             if (arr[0] == "no") and (arr[2] == "table"):
-                raise DbException(e.args[0], DbException.NO_SUCH_TABLE)
+                raise DbException(e.args[0], DbErrorType.NO_SUCH_TABLE)
             if arr[0] == 'UNIQUE':
                 raise ConstraintException(
                     e.args[0], (arr[-1].split('.'))[-1],
-                    ConstraintException.NOT_UNIQUE)
+                    ConstraintErrorType.NOT_UNIQUE)
             elif arr[0] == 'CHECK':
                 _e = ConstraintException(
                     e.args[0], (arr[-1].split('_'))[-2],
-                    ConstraintException.NOT_UNIQUE)
+                    ConstraintErrorType.NOT_UNIQUE)
                 subarr = arr[-1].split('_')
                 if(subarr[2] == "len"):
-                    _e.typeNum = ConstraintException.TOO_LONG
+                    _e.typeNum = ConstraintErrorType.TOO_LONG
                 elif (subarr[2] == "cor"):
-                    _e.typeNum = ConstraintException.INCORRECT_VALUE
+                    _e.typeNum = ConstraintErrorType.INCORRECT_VALUE
                 raise _e
             else:
                 raise e
@@ -199,7 +199,7 @@ class Sqlite3:
         except Exception as e:
             arr = e.args[0].split()
             if (arr[0] == "no") and (arr[2] == "table"):
-                raise DbException(e.args[0], DbException.NO_SUCH_TABLE)
+                raise DbException(e.args[0], DbErrorType.NO_SUCH_TABLE)
             else:
                 raise e
 

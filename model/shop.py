@@ -109,7 +109,7 @@ class Shop(metaclass=SingletonMeta):
             arr = e.message.split()
             if arr[0] == 'CHECK':
                 raise ConstraintException(
-                    e.message, (arr[-1])[4:], ConstraintException.TOO_LONG)
+                    e.message, (arr[-1])[4:], ConstraintErrorType.TOO_LONG)
             else:
                 raise e
 
