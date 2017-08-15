@@ -1,5 +1,6 @@
 from .exception import DbException
-
+from .exception import ConstraintException
+import sqlite3
 
 class Manager:
     """Db managment class"""
@@ -21,7 +22,9 @@ class Manager:
             #autocommit inside
             rid = self.adapter.add_row(table_name,  row_sig, row_array)
             return rid
-        except Exception as e:
+        except sqlite3.IntegrityError as e:
+            print(e.args)
+            print(vars(e))
             raise DbException(e.args[0])
 
     def delete(self, table_name="", id_array=list()):
@@ -51,20 +54,20 @@ class Manager:
         except Exception as e:
             raise DbException(e.args[0])
 
-    def decrease(self, id_array=list()):
-        if not id_array:
+    def decrease(self, table_name="", column_name="", id_array=list()):
+        if (not id_array) or (not table_name) or (not column_name):
             return
         try:
-            self.adapter.decrease(id_array)
+            self.adapter.decrease(table_name, column_name, id_array)
             self.commit()
         except Exception as e:
             raise DbException(e.args[0])
 
-    def update(self, id, row_array=list()):
-        if not row_array or (id < 0):
+    def update(self, table_name, column_name, id, value):
+        if (id < 0) or not column_name:
             return
         try:
-            self.adapter.update(id, row_array)
+            self.adapter.update(table_name, column_name, id, value)
             self.commit()
         except Exception as e:
             raise DbException(e.args[0])

@@ -1,6 +1,5 @@
 import sqlite3
 
-
 class Sqlite3:
     """
     docstring for sqlite3Adapter
@@ -35,10 +34,14 @@ class Sqlite3:
                                            self._id_column_name,
                                            str(id_array)[1:-1]))
 
-    def decrease(self, id_array=list()):
-        if not id_array:
-            return
-        self.adapter.decrease(id_array)
+    def decrease(self, table_name="", column_name="", id_array=list()):
+        self.sqlite_cursor.execute(
+            "UPDATE {} SET {} = {} - 1 WHERE {} in ({})".format(
+                table_name,
+                column_name,
+                self._id_column_name,
+                str(id_array)[1:-1]
+            ))
 
     def reserve(self, table_name="", pair_array=list()):
         for pair in pair_array:
@@ -66,10 +69,22 @@ class Sqlite3:
                 ))
         self.sqlite_connection.commit()
 
-    def update(self, id, row_array=list()):
-        if not row_array or (id < 0):
-            return
-        self.adapter.update(id, row_array)
+    def update(self, table_name, column_name, id, value):
+        print("UPDATE {} SET {} = ? WHERE {} = {}".format(
+                table_name,
+                column_name,
+                self._id_column_name,
+                id
+            ))
+        print(value)
+        self.sqlite_cursor.execute(
+            "UPDATE {} SET {} = ? WHERE {} = {}".format(
+                table_name,
+                column_name,
+                self._id_column_name,
+                id
+            ), tuple([value]))
+        self.sqlite_connection.commit()
 
     def commit(self):
         self.sqlite_connection.commit()

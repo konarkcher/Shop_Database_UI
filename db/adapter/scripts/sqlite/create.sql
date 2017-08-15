@@ -1,24 +1,33 @@
 CREATE TABLE products (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name text UNIQUE check(name is not null and length(name) <= 30),
-    count INT check(count >= 0), 
+    name text,
+    count INT, 
     price INT check(price >= 0), 
-    reserved INT DEFAULT 0 check(reserved >= 0 and reserved <= count)
+    reserved INT DEFAULT 0,
+    CONSTRAINT chk_name_unq UNIQUE (name),
+    CONSTRAINT chk_name_cor check(name is not null and length(name) <= 50),
+    CONSTRAINT chk_count_pos check(count >= 0),
+    CONSTRAINT chk_price_pos check(price >= 0),
+    CONSTRAINT chk_reserved_cor check(reserved >= 0 and reserved <= count)
 );
 
 CREATE TABLE customers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    surname text check(surname is not null or length(surname) <= 30), 
-    name text check(name is not null or length(name) <= 30), 
-    phone text check(phone is not null or length(phone) <= 30), 
-    address text check(address is not null or length(address) <= 300)
+    surname text, 
+    name text , 
+    phone text, 
+    address text,
+    CONSTRAINT chk_surname check(surname is not null and length(surname) <= 30),
+    CONSTRAINT chk_name check(name is not null and length(name) <= 30),
+    CONSTRAINT chk_phone  check(phone is not null and length(phone) <= 30),
+    CONSTRAINT chk_address check(address is not null and length(address) <= 300)
 );
 
 CREATE TABLE deals (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     customer_id INTEGER, 
     dttm timestamp,
-    FOREIGN KEY (customer_id) REFERENCES customers(id)
+    CONSTRAINT chk_customer_frk FOREIGN KEY (customer_id) REFERENCES customers(id)
 );
 
 CREATE INDEX products_ind ON products (name);

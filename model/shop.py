@@ -1,16 +1,16 @@
-from datetime import datetime
-
 import db
 import db.adapter
+from datetime import datetime
 from .db_description import customers, products, deals
 from model import enums
 from .order import Order
 from .singleton import SingletonMeta
 from .check_creator import CheckCreator
-from db import exception
-
+from db.exception import DbException
+from db.exception import ConstraintException
 
 class Shop(metaclass=SingletonMeta):
+
     def __init__(self):
         self.database = None
         self.order = Order()
@@ -87,9 +87,23 @@ class Shop(metaclass=SingletonMeta):
         self.order.set_customer(customer)
 
     def add_customer(self, customer):
-        self.database.add_row("customers", self._customers_sig,
-                              [customer.surname, customer.name,
-                               customer.phone, customer.address])
+        new_id = self.database.add_row("customers",
+                                       self._customers_sig,
+                                       ["surname",
+                                        "name",
+                                        "phone",
+                                        "address"])
+        for v in vars(customer):
+            print(v, vars(customer)[v], str(v))
+            try:
+                self.database.update("customers", str(
+                    v), new_id, vars(customer)[v])
+            except DbException as e:
+                arr = e.message.split()
+                _enm
+                if arr[-1] == "chk_name_unq"
+                    _enm = 
+                ConstraintException(e.message, )
 
     def ui_display_products(self):
         pass

@@ -6,6 +6,7 @@ shop = model.Shop()
 try:
     shop.create_db("data/model_test.db", model.DbType.SQLITE)
 except Exception as e:
+    print(e, e.args, vars(e))
     shop.open_db("data/model_test.db", model.DbType.SQLITE)
 
 products = [[1, "cookie", 42, 1, 0],
@@ -34,7 +35,7 @@ print(list(shop.get_from("products")))
 
 
 for p in prodP:
-	p.count = 1
+    p.count = 1
 
 shop.to_cart(prodP)
 
