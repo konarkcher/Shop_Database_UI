@@ -5,9 +5,9 @@ CREATE TABLE products (
     price INT check(price >= 0), 
     reserved INT DEFAULT 0,
     CONSTRAINT chk_name_unq UNIQUE (name),
-    CONSTRAINT chk_name_cor check(name is not null and length(name) <= 50),
-    CONSTRAINT chk_count_pos check(count >= 0),
-    CONSTRAINT chk_price_pos check(price >= 0),
+    CONSTRAINT chk_name_len check(name is not null and length(name) <= 50),
+    CONSTRAINT chk_count_cor check(count >= 0),
+    CONSTRAINT chk_price_cor check(price >= 0),
     CONSTRAINT chk_reserved_cor check(reserved >= 0 and reserved <= count)
 );
 

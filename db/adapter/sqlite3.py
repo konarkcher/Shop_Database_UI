@@ -1,5 +1,6 @@
 import sqlite3
 
+
 class Sqlite3:
     """
     docstring for sqlite3Adapter
@@ -8,90 +9,199 @@ class Sqlite3:
 
     """
 
-    def __init__(self, path_to_db):
+    def __init__(self,
+                 path_to_db,
+                 id_column_name,
+                 reserved_column_name,
+                 decrease_column_name):
         self._path = path_to_db
-        self._id_column_name = "id"
-        self._reserved_column_name = "reserved"
+        self._id_column_name = id_column_name
+        self._reserved_column_name = reserved_column_name
+        self._decrease_column_name = decrease_column_name
 
     def connect(self):
         self.sqlite_connection = sqlite3.connect(self._path)
         self.sqlite_cursor = self.sqlite_connection.cursor()
+        self.sqlite_cursor.execute("PRAGMA foreign_keys = ON")
 
     def add_row(self, table_name="", row_sig="", row_array=list()):
-        self.sqlite_cursor.execute("INSERT INTO {} ({}) VALUES ({})"
-                                   .format(table_name,
-                                           row_sig,
-                                           ("?, "*len(row_array))[:-2]
-                                           ),
-                                   tuple(row_array)
-                                   )
-        self.sqlite_connection.commit()
-        return self.sqlite_cursor.lastrowid
+        try:
+            self.sqlite_cursor.execute("INSERT INTO {} ({}) VALUES ({})"
+                                       .format(table_name,
+                                               row_sig,
+                                               ("?, "*len(row_array))[:-2]
+                                               ),
+                                       tuple(row_array)
+                                       )
+            self.sqlite_connection.commit()
+            return self.sqlite_cursor.lastrowid
+        except Exception as e:
+            arr = e.args[0].split()
+            if (arr[0] == "no") and (arr[2] == "table"):
+                raise DbException(e.args[0], DbException.NO_SUCH_TABLE)
+            if arr[0] == 'UNIQUE':
+                raise ConstraintException(
+                    e.args[0], (arr[-1].split('.'))[-1],
+                    ConstraintException.NOT_UNIQUE)
+            elif arr[0] == 'CHECK':
+                _e = ConstraintException(
+                    e.args[0], (arr[-1].split('_'))[-2],
+                    ConstraintException.NOT_UNIQUE)
+                subarr = arr[-1].split('_')
+                if(subarr[2] == "len"):
+                    _e.typeNum = ConstraintException.TOO_LONG
+                elif (subarr[2] == "cor"):
+                    _e.typeNum = ConstraintException.INCORRECT_VALUE
+                raise _e
+            else:
+                raise e
 
     def delete(self, table_name="", id_array=list()):
-        self.sqlite_cursor.execute("DELETE FROM {} WHERE {} IN ({})"
-                                   .format(table_name,
-                                           self._id_column_name,
-                                           str(id_array)[1:-1]))
+        try:
+            self.sqlite_cursor.execute("DELETE FROM {} WHERE {} IN ({})"
+                                       .format(table_name,
+                                               self._id_column_name,
+                                               str(id_array)[1:-1]))
+            self.sqlite_connection.commit()
+        except Exception as e:
+            arr = e.args[0].split()
+            if (arr[0] == "no") and (arr[2] == "table"):
+                raise DbException(e.args[0], DbException.NO_SUCH_TABLE)
+            else:
+                raise e
 
-    def decrease(self, table_name="", column_name="", id_array=list()):
-        self.sqlite_cursor.execute(
-            "UPDATE {} SET {} = {} - 1 WHERE {} in ({})".format(
-                table_name,
-                column_name,
-                self._id_column_name,
-                str(id_array)[1:-1]
-            ))
+    def decrease(self, table_name="", pair_array=list()):
+        try:
+            for pair in pair_array:
+                self.sqlite_cursor.execute(
+                    "UPDATE {} SET {} = {} - {} WHERE {} = {}".format(
+                        table_name,
+                        self._decrease_column_name,
+                        self._decrease_column_name,
+                        pair[1],
+                        self._id_column_name,
+                        pair[0]
+                    ))
+            self.sqlite_connection.commit()
+        except Exception as e:
+            arr = e.args[0].split()
+            if (arr[0] == "no") and (arr[2] == "table"):
+                raise DbException(e.args[0], DbException.NO_SUCH_TABLE)
+            else:
+                raise e
 
     def reserve(self, table_name="", pair_array=list()):
-        for pair in pair_array:
-            self.sqlite_cursor.execute(
-                "UPDATE {} SET {} = {} + {} WHERE {} = {}".format(
-                    table_name,
-                    self._reserved_column_name,
-                    self._reserved_column_name,
-                    pair[1],
-                    self._id_column_name,
-                    pair[0]
-                ))
-        self.sqlite_connection.commit()
+        try:
+            for pair in pair_array:
+                self.sqlite_cursor.execute(
+                    "UPDATE {} SET {} = {} + {} WHERE {} = {}".format(
+                        table_name,
+                        self._reserved_column_name,
+                        self._reserved_column_name,
+                        pair[1],
+                        self._id_column_name,
+                        pair[0]
+                    ))
+            self.sqlite_connection.commit()
+        except Exception as e:
+            arr = e.args[0].split()
+            if (arr[0] == "no") and (arr[2] == "table"):
+                raise DbException(e.args[0], DbException.NO_SUCH_TABLE)
+            if arr[0] == 'UNIQUE':
+                raise ConstraintException(
+                    e.args[0], (arr[-1].split('.'))[-1],
+                    ConstraintException.NOT_UNIQUE)
+            elif arr[0] == 'CHECK':
+                _e = ConstraintException(
+                    e.args[0], (arr[-1].split('_'))[-2],
+                    ConstraintException.NOT_UNIQUE)
+                subarr = arr[-1].split('_')
+                if(subarr[2] == "len"):
+                    _e.typeNum = ConstraintException.TOO_LONG
+                elif (subarr[2] == "cor"):
+                    _e.typeNum = ConstraintException.INCORRECT_VALUE
+                raise _e
+            else:
+                raise e
 
     def unreserve(self, table_name="", pair_array=list()):
-        for pair in pair_array:
-            self.sqlite_cursor.execute(
-                "UPDATE {} SET {} = {} - {} WHERE {} = {}".format(
-                    table_name,
-                    self._reserved_column_name,
-                    self._reserved_column_name,
-                    pair[1],
-                    self._id_column_name,
-                    pair[0]
-                ))
-        self.sqlite_connection.commit()
+        try:
+            for pair in pair_array:
+                self.sqlite_cursor.execute(
+                    "UPDATE {} SET {} = {} - {} WHERE {} = {}".format(
+                        table_name,
+                        self._reserved_column_name,
+                        self._reserved_column_name,
+                        pair[1],
+                        self._id_column_name,
+                        pair[0]
+                    ))
+            self.sqlite_connection.commit()
+        except Exception as e:
+            arr = e.args[0].split()
+            if (arr[0] == "no") and (arr[2] == "table"):
+                raise DbException(e.args[0], DbException.NO_SUCH_TABLE)
+            if arr[0] == 'UNIQUE':
+                raise ConstraintException(
+                    e.args[0], (arr[-1].split('.'))[-1],
+                    ConstraintException.NOT_UNIQUE)
+            elif arr[0] == 'CHECK':
+                _e = ConstraintException(
+                    e.args[0], (arr[-1].split('_'))[-2],
+                    ConstraintException.NOT_UNIQUE)
+                subarr = arr[-1].split('_')
+                if(subarr[2] == "len"):
+                    _e.typeNum = ConstraintException.TOO_LONG
+                elif (subarr[2] == "cor"):
+                    _e.typeNum = ConstraintException.INCORRECT_VALUE
+                raise _e
+            else:
+                raise e
 
     def update(self, table_name, column_name, id, value):
-        print("UPDATE {} SET {} = ? WHERE {} = {}".format(
-                table_name,
-                column_name,
-                self._id_column_name,
-                id
-            ))
-        print(value)
-        self.sqlite_cursor.execute(
-            "UPDATE {} SET {} = ? WHERE {} = {}".format(
-                table_name,
-                column_name,
-                self._id_column_name,
-                id
-            ), tuple([value]))
-        self.sqlite_connection.commit()
+        try:
+            self.sqlite_cursor.execute(
+                "UPDATE {} SET {} = ? WHERE {} = {}".format(
+                    table_name,
+                    column_name,
+                    self._id_column_name,
+                    id
+                ), tuple([value]))
+            self.sqlite_connection.commit()
+        except Exception as e:
+            arr = e.args[0].split()
+            if (arr[0] == "no") and (arr[2] == "table"):
+                raise DbException(e.args[0], DbException.NO_SUCH_TABLE)
+            if arr[0] == 'UNIQUE':
+                raise ConstraintException(
+                    e.args[0], (arr[-1].split('.'))[-1],
+                    ConstraintException.NOT_UNIQUE)
+            elif arr[0] == 'CHECK':
+                _e = ConstraintException(
+                    e.args[0], (arr[-1].split('_'))[-2],
+                    ConstraintException.NOT_UNIQUE)
+                subarr = arr[-1].split('_')
+                if(subarr[2] == "len"):
+                    _e.typeNum = ConstraintException.TOO_LONG
+                elif (subarr[2] == "cor"):
+                    _e.typeNum = ConstraintException.INCORRECT_VALUE
+                raise _e
+            else:
+                raise e
 
     def commit(self):
         self.sqlite_connection.commit()
 
     def select_all(self, table_name=""):
-        yield from self.sqlite_cursor.execute("SELECT * FROM {}"
-                                              .format(table_name))
+        try:
+            yield from self.sqlite_cursor.execute("SELECT * FROM {}"
+                                                  .format(table_name))
+        except Exception as e:
+            arr = e.args[0].split()
+            if (arr[0] == "no") and (arr[2] == "table"):
+                raise DbException(e.args[0], DbException.NO_SUCH_TABLE)
+            else:
+                raise e
 
     def select_by_id(self, table_name="", id_array=list()):
         yield from self.sqlite_cursor.execute(

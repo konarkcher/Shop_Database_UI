@@ -2,6 +2,7 @@ from .exception import DbException
 from .exception import ConstraintException
 import sqlite3
 
+
 class Manager:
     """Db managment class"""
 
@@ -19,12 +20,12 @@ class Manager:
         if not row_array or not table_name:
             return
         try:
-            #autocommit inside
+            # autocommit inside
             rid = self.adapter.add_row(table_name,  row_sig, row_array)
             return rid
-        except sqlite3.IntegrityError as e:
-            print(e.args)
-            print(vars(e))
+        except DbException as e:
+            raise e
+        except Exception as e:
             raise DbException(e.args[0])
 
     def delete(self, table_name="", id_array=list()):
@@ -33,6 +34,8 @@ class Manager:
         try:
             self.adapter.delete(table_name, id_array)
             self.commit()
+        except DbException as e:
+            raise e
         except Exception as e:
             raise DbException(e.args[0])
 
@@ -42,6 +45,8 @@ class Manager:
         try:
             self.adapter.reserve(table_name, pair_array)
             self.commit()
+        except DbException as e:
+            raise e
         except Exception as e:
             raise DbException(e.args[0])
 
@@ -51,15 +56,19 @@ class Manager:
         try:
             self.adapter.unreserve(table_name, pair_array)
             self.commit()
+        except DbException as e:
+            raise e
         except Exception as e:
             raise DbException(e.args[0])
 
-    def decrease(self, table_name="", column_name="", id_array=list()):
-        if (not id_array) or (not table_name) or (not column_name):
+    def decrease(self, table_name="", pair_array=list()):
+        if (not pair_array) or (not table_name):
             return
         try:
-            self.adapter.decrease(table_name, column_name, id_array)
+            self.adapter.decrease(table_name, pair_array)
             self.commit()
+        except DbException as e:
+            raise e
         except Exception as e:
             raise DbException(e.args[0])
 
@@ -69,6 +78,8 @@ class Manager:
         try:
             self.adapter.update(table_name, column_name, id, value)
             self.commit()
+        except DbException as e:
+            raise e
         except Exception as e:
             raise DbException(e.args[0])
 
@@ -80,6 +91,8 @@ class Manager:
             return
         try:
             yield from self.adapter.select_all(table_name)
+        except DbException as e:
+            raise e
         except Exception as e:
             raise DbException(e.args[0])
 
@@ -88,6 +101,8 @@ class Manager:
             return []
         try:
             yield from self.adapter.select_by_id(table_name, id_array)
+        except DbException as e:
+            raise e
         except Exception as e:
             raise DbException(e.args[0])
 
@@ -101,4 +116,4 @@ class Manager:
         try:
             self.adapter.create_tables()
         except Exception as e:
-            raise DbException(e.args[0])
+            raise DbException(e.args[0], DbException.ALREADY_EXISTS)

@@ -9,6 +9,7 @@ from .check_creator import CheckCreator
 from db.exception import DbException
 from db.exception import ConstraintException
 
+
 class Shop(metaclass=SingletonMeta):
 
     def __init__(self):
@@ -32,18 +33,21 @@ class Shop(metaclass=SingletonMeta):
 
     def create_db(self, path, db_type):
         if db_type is enums.DbType.SQLITE:
-            self.database = db.Manager(db.adapter.Sqlite3(path))
+            self.database = db.Manager(db.adapter.Sqlite3(path, "id", "reserved", "count"))
             self.database.create_tables()
 
     def open_db(self, path, db_type):
         if db_type is enums.DbType.SQLITE:
             if self.database is not None:
                 self.database.close_connection()
-            self.database = db.Manager(db.adapter.Sqlite3(path))
+            self.database = db.Manager(db.adapter.Sqlite3(path, "id", "reserved", "count"))
 
     def add_product(self, product):
-        self.database.add_row("products", self._products_sig,
-                              [product.name, product.count, product.price])
+        try:
+            self.database.add_row("products", self._products_sig,
+                                  [product.name, product.count, product.price])
+        except DbException as e:
+            raise e
 
     def delete_from(self, table_name, id_list):
         self.database.delete(table_name, id_list)
@@ -63,8 +67,14 @@ class Shop(metaclass=SingletonMeta):
         _now = datetime.now()
         deal_id = self.database.add_row("deals", self._deals_sig,
                                         [self.order.get_customer().id, _now])
+        self.database.unreserve("products", [[x.id, x.count] for x in
+                                             self.order.get_cart()])
+        self.database.decrease("products",  [[x.id, x.count] for x in
+                                             self.order.get_cart()])
         self._check_creator.write_chck("data/checks/{}.txt".format(deal_id),
                                        self.order, _now)
+        self.order = Order()
+        self.ui_display_order()
 
     def clear_order(self):
         if self.database is None:
@@ -87,23 +97,21 @@ class Shop(metaclass=SingletonMeta):
         self.order.set_customer(customer)
 
     def add_customer(self, customer):
-        new_id = self.database.add_row("customers",
-                                       self._customers_sig,
-                                       ["surname",
-                                        "name",
-                                        "phone",
-                                        "address"])
-        for v in vars(customer):
-            print(v, vars(customer)[v], str(v))
-            try:
-                self.database.update("customers", str(
-                    v), new_id, vars(customer)[v])
-            except DbException as e:
-                arr = e.message.split()
-                _enm
-                if arr[-1] == "chk_name_unq"
-                    _enm = 
-                ConstraintException(e.message, )
+        try:
+            ret_id = self.database.add_row("customers",
+                                           self._customers_sig,
+                                           [customer.surname,
+                                            customer.name,
+                                            customer.phone,
+                                            customer.address])
+            customer.id = ret_id
+        except DbException as e:
+            arr = e.message.split()
+            if arr[0] == 'CHECK':
+                raise ConstraintException(
+                    e.message, (arr[-1])[4:], ConstraintException.TOO_LONG)
+            else:
+                raise e
 
     def ui_display_products(self):
         pass

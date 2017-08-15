@@ -18,7 +18,10 @@ products = [[1, "cookie", 42, 1, 0],
 prodP = []
 
 for prod in products:
-    shop.add_product(model.Product(prod))
+    try:
+        shop.add_product(model.Product(prod))
+    except exception.ConstraintException as e:
+        print(e.column_name, e.typeNum)
     prodP.append(model.Product(prod))
 
 
@@ -27,11 +30,17 @@ customer = model.Customer([0,
                            "Vasya",
                            "8-800-555-35-35",
                            "NY, Wall Stret 17, 32 floor"])
+
 shop.add_customer(customer)
+
+
+print("=================Customers===============")
+
+print(list(shop.get_from("customers")))
 
 shop.order.set_customer(customer)
 
-print(list(shop.get_from("products")))
+print(list(shop.get_from("product")))
 
 
 for p in prodP:
