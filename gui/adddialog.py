@@ -6,7 +6,8 @@ from .locale import rus as locale
 class CenterText(wx.StaticText):
     def __init__(self, parent, label=''):
         super(CenterText, self).__init__(parent, label=label,
-                                         style=wx.ALIGN_CENTER)
+                                         style=wx.ALIGN_CENTER_VERTICAL |
+                                               wx.ALIGN_LEFT)
 
 
 class AddDialog(wx.Dialog):
@@ -29,8 +30,8 @@ class AddDialog(wx.Dialog):
                                  (CenterText(self, source[col]), 1, wx.EXPAND),
                                  (self.text_ctrl[col], 1, wx.EXPAND)])
 
-        input_sizer.AddGrowableCol(0, 1)
-        input_sizer.AddGrowableCol(1, 2)
+        input_sizer.AddGrowableCol(0, 0)
+        input_sizer.AddGrowableCol(1, 1)
 
         outer_sizer = wx.BoxSizer(wx.VERTICAL)
         outer_sizer.Add(input_sizer, 0, wx.ALL | wx.EXPAND, border=5)
