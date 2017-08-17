@@ -6,12 +6,10 @@ from model import enums
 from .order import Order
 from .singleton import SingletonMeta
 from .check_creator import CheckCreator
-from db.exception import DbException
-from db.exception import ConstraintException
+from db.exception import *
 
 
 class Shop(metaclass=SingletonMeta):
-
     def __init__(self):
         self.database = None
         self.order = Order()
@@ -33,14 +31,16 @@ class Shop(metaclass=SingletonMeta):
 
     def create_db(self, path, db_type):
         if db_type is enums.DbType.SQLITE:
-            self.database = db.Manager(db.adapter.Sqlite3(path, "id", "reserved", "count"))
+            self.database = db.Manager(
+                db.adapter.Sqlite3(path, "id", "reserved", "count"))
             self.database.create_tables()
 
     def open_db(self, path, db_type):
         if db_type is enums.DbType.SQLITE:
             if self.database is not None:
                 self.database.close_connection()
-            self.database = db.Manager(db.adapter.Sqlite3(path, "id", "reserved", "count"))
+            self.database = db.Manager(
+                db.adapter.Sqlite3(path, "id", "reserved", "count"))
 
     def add_product(self, product):
         try:
@@ -69,8 +69,8 @@ class Shop(metaclass=SingletonMeta):
                                         [self.order.get_customer().id, _now])
         self.database.unreserve("products", [[x.id, x.count] for x in
                                              self.order.get_cart()])
-        self.database.decrease("products",  [[x.id, x.count] for x in
-                                             self.order.get_cart()])
+        self.database.decrease("products", [[x.id, x.count] for x in
+                                            self.order.get_cart()])
         self._check_creator.write_chck("data/checks/{}.txt".format(deal_id),
                                        self.order, _now)
         self.order = Order()
@@ -98,12 +98,9 @@ class Shop(metaclass=SingletonMeta):
 
     def add_customer(self, customer):
         try:
-            ret_id = self.database.add_row("customers",
-                                           self._customers_sig,
-                                           [customer.surname,
-                                            customer.name,
-                                            customer.phone,
-                                            customer.address])
+            ret_id = self.database.add_row("customers", self._customers_sig,
+                                           [customer.surname, customer.name,
+                                            customer.phone, customer.address])
             customer.id = ret_id
         except DbException as e:
             arr = e.message.split()

@@ -1,48 +1,33 @@
 import db
 from gui.locale import rus as locale
 
-products = db.Table('products')
-products.add_column(db.Column('id', locale.ID, 1,
-                              'INTEGER PRIMARY KEY AUTOINCREMENT'))
-products.add_column(db.Column('name', locale.PRODUCT_NAME, 4,
-                              'VARCHAR(100) UNIQUE NUT NULL'))
-products.add_column(db.Column('count', locale.COUNT, 2,
-                              'INT NOT NULL CHECK (count >= 0)'))
-products.add_column(db.Column('price', locale.PRICE, 2,
-                              'INT CHECK (price >= 0)'))
-products.add_column(db.Column('reserved', locale.RESERVED, 3,
+products = db.Table('products', locale.PRODUCT_SOURCE)
+products.add_column(db.Column('id', 1, 'INTEGER PRIMARY KEY AUTOINCREMENT'))
+products.add_column(db.Column('name', 4, 'VARCHAR(100) UNIQUE NUT NULL'))
+products.add_column(db.Column('count', 2, 'INT NOT NULL CHECK (count >= 0)'))
+products.add_column(db.Column('price', 2, 'INT CHECK (price >= 0)'))
+products.add_column(db.Column('reserved', 3,
                               'INT DEFAULT 0 CHECK (reserved >= 0)'))
 
-customers = db.Table('customers')
-customers.add_column(db.Column('id', locale.ID, 1,
-                               'INTEGER PRIMARY KEY AUTOINCREMENT'))
-customers.add_column(db.Column('surname', locale.SURNAME, 4,
-                               'VARCHAR(100) NOT NULL'))
-customers.add_column(db.Column('name', locale.CUSTOMER_NAME, 4,
-                               'VARCHAR(100) NOT NULL'))
-customers.add_column(db.Column('phone', locale.PHONE, 3,
-                               'VARCHAR(30)'))
-customers.add_column(db.Column('address', locale.ADDRESS, 5,
-                               'VARCHAR(200) NOT NULL'))
+customers = db.Table('customers', locale.CUSTOMER_SOURCE)
+customers.add_column(db.Column('id', 1, 'INTEGER PRIMARY KEY AUTOINCREMENT'))
+customers.add_column(db.Column('surname', 4, 'VARCHAR(100) NOT NULL'))
+customers.add_column(db.Column('name', 4, 'VARCHAR(100) NOT NULL'))
+customers.add_column(db.Column('phone', 3, 'VARCHAR(30)'))
+customers.add_column(db.Column('address', 5, 'VARCHAR(200) NOT NULL'))
 
-
-deals = db.Table('deals')
-deals.add_column(db.Column('id', locale.ID, 1,
-                           'INTEGER PRIMARY KEY AUTOINCREMENT'))
-deals.add_column(db.Column('customer_id', locale.CUSTOMER_ID, 2,
-                           'INTEGER FOREIGN KEY customers'))
-deals.add_column(db.Column('dttm', locale.DTTM, 3,
-                           'dttm'))  # TODO: fix date
-deals.add_column(db.Column('products', locale.BUYS, 6,
-                           'some sort of array '))  # TODO: find array
+deals = db.Table('deals', locale.DEALS_SOURCE)
+deals.add_column(db.Column('id', 1, 'INTEGER PRIMARY KEY AUTOINCREMENT'))
+deals.add_column(db.Column('customer_id', 2, 'INTEGER FOREIGN KEY customers'))
+deals.add_column(db.Column('dttm', 3, 'timestamp'))
 
 storage = db.Database('storage')
 storage.add_table(products)
 storage.add_table(customers)
 storage.add_table(deals)
 
-order = db.Table('order')
-order.add_column(db.Column('id', locale.ID, 1, ''))
-order.add_column(db.Column('name', locale.PRODUCT_NAME, 5, ''))
-order.add_column(db.Column('price', locale.PRICE, 2, ''))
-order.add_column(db.Column('count', locale.COUNT, 2, ''))
+order = db.Table('order', locale.PRODUCT_SOURCE)
+order.add_column(db.Column('id', 1))
+order.add_column(db.Column('name', 5))
+order.add_column(db.Column('price', 2))
+order.add_column(db.Column('count', 2))

@@ -1,6 +1,7 @@
 import wx
 
 import model
+from .adddialog import AddDialog
 from .dbpanel import DbPanel
 from model.db_description import storage
 from .locale import rus as locale
@@ -31,6 +32,13 @@ class CustomerTab(DbPanel):
 
         self.shop.delete_from('customers', [select.id])
         self.db_list.RemoveObject(select)
+
+    def _on_add(self, e):
+        with AddDialog(self, locale.NEW_CUSTOMER,
+                       ['surname', 'name', 'phone', 'address'],
+                       locale.CUSTOMER_SOURCE) as dlg:
+            dlg.ShowModal()
+            dlg.Destroy()
 
 
 class CustomerDial(wx.Dialog):

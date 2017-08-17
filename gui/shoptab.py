@@ -1,7 +1,8 @@
 import wx
 
-from .dbpanel import DbPanel
 import model
+from .dbpanel import DbPanel
+from .adddialog import AddDialog
 from model.db_description import storage
 from .locale import rus as locale
 
@@ -37,3 +38,10 @@ class ShopTab(DbPanel):
             wx.MessageBox(locale.LACK, locale.ERROR, wx.OK)
             return
         self.shop.to_cart(selected)
+
+    def _on_add(self, e):
+        with AddDialog(self, locale.NEW_PRODUCT,
+                       ['name', 'count', 'price'],
+                       locale.PRODUCT_SOURCE) as dlg:
+            dlg.ShowModal()
+            dlg.Destroy()

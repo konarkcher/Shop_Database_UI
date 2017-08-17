@@ -18,23 +18,16 @@ SHOP_TAB = 'Магазин'
 CART_TAB = 'Корзина'
 
 # products column labels
-ID = 'ID'
-PRODUCT_NAME = 'Название товара'
-COUNT = 'Количество'
-PRICE = 'Цена'
-RESERVED = 'Зарезервировано'
+PRODUCT_SOURCE = {'id': 'ID', 'name': 'Название товара', 'count': 'Количество',
+                  'price': 'Цена', 'reserved': 'Зарезервировано'}
 
 # customers column labels
-CUSTOMER_NAME = 'Имя'
-SURNAME = 'Фамилия'
-PHONE = 'Телефон'
-ADDRESS = 'Адрес'
-ALL_SUM = 'Общая сумма'
+CUSTOMER_SOURCE = {'id': 'ID', 'surname': 'Фамилия', 'name': 'Имя',
+                   'phone': 'Телефон', 'address': 'Адрес'}
 
 # deals column labels
-CUSTOMER_ID = 'ID покупателя'
-BUYS = 'Покупки'
-DTTM = 'Дата и время'
+DEALS_SOURCE = {'id': 'ID', 'customer_id': 'ID покупателя',
+                'dttm': 'Дата и время'}
 
 CUSTOMER_NOT_CHOSEN = 'Покупатель не выбран'
 
@@ -78,3 +71,10 @@ ORDER_LC = 'Корзина пуста'
 ERROR = 'Ошибка'
 LACK = 'Недостаточно единиц товара'
 NO_PRODUCTS = 'Товары не выбраны'
+
+# add dialog titles
+NEW_PRODUCT = 'Новый товар'
+NEW_CUSTOMER = 'Новый покупатель'
+
+# dialog button
+OK = 'ОК'
