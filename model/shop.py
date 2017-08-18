@@ -57,7 +57,7 @@ class Shop(metaclass=SingletonMeta):
             _e.get_dict()["count"] = ValidationErrorType.INCORRECT_VALUE
         if not re.match(rus.PRODUCT_REGX["price"], str(product.price)):
             _e.get_dict()["price"] = ValidationErrorType.INCORRECT_VALUE
-        if _e.get_dict != dict():
+        if _e.get_dict() != dict():
             raise _e
         try:
             self.database.add_row("products", self._products_sig,
@@ -134,7 +134,7 @@ class Shop(metaclass=SingletonMeta):
                 _e.get_dict()["address"] = ValidationErrorType.TOO_LONG 
             else:
                 _e.get_dict()["address"] = ValidationErrorType.INCORRECT_VALUE
-        if _e.get_dict != dict():
+        if _e.get_dict() != dict():
             raise _e
         try:
             ret_id = self.database.add_row("customers", self._customers_sig,
