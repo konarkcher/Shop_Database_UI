@@ -8,7 +8,9 @@ from .singleton import SingletonMeta
 from .check_creator import CheckCreator
 from db.exception import DbException
 from db.exception import ConstraintException
-
+from .exception import ValidationException
+from .exception import ValidationErrorType
+import re
 
 class Shop(metaclass=SingletonMeta):
 
@@ -43,6 +45,21 @@ class Shop(metaclass=SingletonMeta):
             self.database = db.Manager(db.adapter.Sqlite3(path, "id", "reserved", "count"))
 
     def add_product(self, product):
+        print(isinstance(product.name, str), isinstance(product.count, int), isinstance(product.price,int))
+        # _e = ValidationException("validation failed", dict())
+        # if not re.match("[a-zA-ZА-Яа-Я]{30}", product.name):
+        #     if isinstance(product.name, str) and (len(product.name) > 30):
+        #         _e.get_dict()["name"] = ValidationErrorType.TOO_LONG 
+        #     else:
+        #         _e.get_dict()["name"] = ValidationErrorType.INCORRECT_VALUE
+        # if not re.match("[0-9]{1,12}$", str(product.count)):
+        #     if isinstance(product.name, str) and (len(product.name) > 30):
+        #         _e.get_dict()["name"] = ValidationErrorType.TOO_LONG
+        #     else:
+        #         _e.get_dict()["name"] = ValidationErrorType.INCORRECT_VALUE
+        # if not re.match("[0-9]{1,12}$", str(product.price)):
+        #     if isinstance(product.name, ):
+        #         _e.get_dict()["name"] = ValidationErrorType.INCORRECT_VALUE
         try:
             self.database.add_row("products", self._products_sig,
                                   [product.name, product.count, product.price])

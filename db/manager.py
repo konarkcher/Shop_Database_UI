@@ -25,8 +25,6 @@ class Manager:
             return rid
         except DbException as e:
             raise e
-        except Exception as e:
-            raise DbException(e.args[0])
 
     def delete(self, table_name="", id_array=list()):
         if not id_array:
@@ -36,8 +34,6 @@ class Manager:
             self.commit()
         except DbException as e:
             raise e
-        except Exception as e:
-            raise DbException(e.args[0])
 
     def reserve(self, table_name="", pair_array=list()):
         if ((not pair_array) or (not table_name)):
@@ -80,8 +76,6 @@ class Manager:
             self.commit()
         except DbException as e:
             raise e
-        except Exception as e:
-            raise DbException(e.args[0])
 
     def commit(self):
         self.adapter.commit()

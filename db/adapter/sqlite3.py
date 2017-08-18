@@ -49,12 +49,12 @@ class Sqlite3:
                     ConstraintErrorType.NOT_UNIQUE)
                 subarr = arr[-1].split('_')
                 if(subarr[2] == "len"):
-                    _e.typeNum = ConstraintErrorType.TOO_LONG
+                    _e.set_type(ConstraintErrorType.TOO_LONG)
                 elif (subarr[2] == "cor"):
-                    _e.typeNum = ConstraintErrorType.INCORRECT_VALUE
+                    _e.set_type(ConstraintErrorType.INCORRECT_VALUE)
                 raise _e
             else:
-                raise e
+                raise DbException(e.args[0], DbErrorType.UNDEFINED_ERROR)
 
     def delete(self, table_name="", id_array=list()):
         try:
@@ -88,7 +88,7 @@ class Sqlite3:
             if (arr[0] == "no") and (arr[2] == "table"):
                 raise DbException(e.args[0], DbErrorType.NO_SUCH_TABLE)
             else:
-                raise e
+                raise DbException(e)
 
     def reserve(self, table_name="", pair_array=list()):
         try:
@@ -117,9 +117,9 @@ class Sqlite3:
                     ConstraintErrorType.NOT_UNIQUE)
                 subarr = arr[-1].split('_')
                 if(subarr[2] == "len"):
-                    _e.typeNum = ConstraintErrorType.TOO_LONG
+                    _e.set_type(ConstraintErrorType.TOO_LONG)
                 elif (subarr[2] == "cor"):
-                    _e.typeNum = ConstraintErrorType.INCORRECT_VALUE
+                    _e.set_type(ConstraintErrorType.INCORRECT_VALUE)
                 raise _e
             else:
                 raise e
@@ -151,9 +151,9 @@ class Sqlite3:
                     ConstraintErrorType.NOT_UNIQUE)
                 subarr = arr[-1].split('_')
                 if(subarr[2] == "len"):
-                    _e.typeNum = ConstraintErrorType.TOO_LONG
+                    _e.set_type(ConstraintErrorType.TOO_LONG)
                 elif (subarr[2] == "cor"):
-                    _e.typeNum = ConstraintErrorType.INCORRECT_VALUE
+                    _e.set_type(ConstraintErrorType.INCORRECT_VALUE)
                 raise _e
             else:
                 raise e
@@ -182,9 +182,9 @@ class Sqlite3:
                     ConstraintErrorType.NOT_UNIQUE)
                 subarr = arr[-1].split('_')
                 if(subarr[2] == "len"):
-                    _e.typeNum = ConstraintErrorType.TOO_LONG
+                    _e.set_type(ConstraintErrorType.TOO_LONG)
                 elif (subarr[2] == "cor"):
-                    _e.typeNum = ConstraintErrorType.INCORRECT_VALUE
+                    _e.set_type(ConstraintErrorType.INCORRECT_VALUE)
                 raise _e
             else:
                 raise e
@@ -201,7 +201,7 @@ class Sqlite3:
             if (arr[0] == "no") and (arr[2] == "table"):
                 raise DbException(e.args[0], DbErrorType.NO_SUCH_TABLE)
             else:
-                raise e
+                raise DbException(e.args[0], DbErrorType.UNDEFINED_ERROR)
 
     def select_by_id(self, table_name="", id_array=list()):
         yield from self.sqlite_cursor.execute(

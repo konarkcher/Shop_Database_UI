@@ -20,6 +20,9 @@ class DbException(Exception):
         self.message = message
         self.type_num = type_num
 
+    def set_type(type_num):
+        self.type_num = type_num
+
 
 class ConstraintException(Exception):
     """Cutsom db exception, value infromation is stroed in self.message"""
