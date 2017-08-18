@@ -46,6 +46,12 @@ class Shop(metaclass=SingletonMeta):
             self.database = db.Manager(
                 db.adapter.Sqlite3(path, "id", "reserved", "count"))
 
+    def select_row(self, table_name, id):
+        res = list(self.database.select_by_id(table_name, [id]))
+        if not res:
+            return None
+        return res[0]
+
     def add_product(self, product):
         # print(isinstance(product.name, str), isinstance(product.count, str), isinstance(product.price, str))
         _e = ValidationException("Validation failed", dict())
