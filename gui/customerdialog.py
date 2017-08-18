@@ -14,8 +14,6 @@ class CustomerTab(DbPanel):
         super(CustomerTab, self).__init__(parent, storage['customers'],
                                           locale.ADD_CUSTOMER, 5)
 
-        self.shop = model.Shop()
-
         self.choose_btn = wx.Button(self, label=locale.CHOOSE)
         self.cancel_btn = wx.Button(self, label=locale.CANCEL)
 

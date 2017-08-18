@@ -18,14 +18,7 @@ class ShopTab(DbPanel):
         self.db_list.InstallCheckStateColumn(self.db_list.columns[0])
         self.db_list.SetEmptyListMsg(locale.PRODUCT_LC)
 
-        self.db_list.cellEditMode = self.db_list.CELLEDIT_DOUBLECLICK
-        for i in range(1, 4):
-            self.db_list.columns[i].isEditable = True
-
         self.db_list.Bind(Olv.EVT_CELL_EDIT_STARTING, self._reserve_checker)
-        self.db_list.Bind(Olv.EVT_CELL_EDIT_FINISHING, self._update_checker)
-
-        self.shop = model.Shop()
 
         self.button_sizer.AddSpacer(50)
         to_cart_btn = wx.Button(self, label=locale.TO_CART_BUTTON)
@@ -38,20 +31,6 @@ class ShopTab(DbPanel):
         if e.rowModel.reserved > 0:
             error_message(message=locale.UPDATE_RESERVED)
             e.Veto()
-
-    def _update_checker(self, evt):
-        col_name = evt.objectListView.columns[evt.subItemIndex].valueGetter
-        upd_id = evt.rowModel.id
-        value = evt.editor.Value
-
-        try:
-            self.shop.update('products', col_name, upd_id, value)
-        except ex.DbException as e:
-            error_message(e)
-            evt.Veto()
-        except ex.ConstraintException as e:
-            error_message(message=locale.CE[e.type_num])
-            evt.Veto()
 
     def _display_data(self):
         data = [model.Product(x) for x in self.shop.get_from('products')]
