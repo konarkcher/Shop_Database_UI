@@ -12,4 +12,3 @@ def error_message(exception=None, message=None):
 
     if message is not None:
         wx.MessageBox(message, locale.ERROR)
-        print(message)
