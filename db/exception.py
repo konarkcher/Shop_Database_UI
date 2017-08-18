@@ -32,3 +32,6 @@ class ConstraintException(Exception):
         super(ConstraintException, self).__init__(message)
         self.column_name = column_name
         self.type_num = type_num
+
+    def set_type(self, type_num):
+        self.type_num = type_num
