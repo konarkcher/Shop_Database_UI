@@ -124,19 +124,19 @@ class Shop(metaclass=SingletonMeta):
     def add_customer(self, customer):
         _e = ValidationException("Validation failed", dict())
         if not re.match(rus.CUSTOMER_REGX["name"], customer.name):
-            if (len(product.name) > 30):
+            if (len(customer.name) > 30):
                 _e.get_dict()["name"] = ConstraintErrorType.TOO_LONG 
             else:
                 _e.get_dict()["name"] = ConstraintErrorType.INCORRECT_VALUE
         if not re.match(rus.CUSTOMER_REGX["surname"], customer.surname):
-            if (len(product.name) > 30):
+            if (len(customer.surname) > 30):
                 _e.get_dict()["surname"] = ConstraintErrorType.TOO_LONG 
             else:
                 _e.get_dict()["surname"] = ConstraintErrorType.INCORRECT_VALUE
         if not re.match(rus.CUSTOMER_REGX["phone"], str(customer.phone)):
             _e.get_dict()["phone"] = ConstraintErrorType.INCORRECT_VALUE
-        if not re.match(rus.CUSTOMER_REGX["address"], str(product.address)):
-            if (len(product.address) > 300):
+        if not re.match(rus.CUSTOMER_REGX["address"], str(customer.address)):
+            if (len(customer.address) > 300):
                 _e.get_dict()["address"] = ConstraintErrorType.TOO_LONG 
             else:
                 _e.get_dict()["address"] = ConstraintErrorType.INCORRECT_VALUE

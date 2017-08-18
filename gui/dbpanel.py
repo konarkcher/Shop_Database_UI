@@ -3,7 +3,6 @@ import ObjectListView as Olv
 
 import model
 from db import exception as ex
-from .error_message import error_message
 from .dbview import DbView
 from gui.locale import rus as locale
 

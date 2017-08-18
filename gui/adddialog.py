@@ -1,6 +1,7 @@
 import wx
 
 import model
+import model.exception as vex
 import db.exception as ex
 from .error_message import error_message
 from .locale import rus as locale
@@ -47,7 +48,7 @@ class AddDialog(wx.Dialog):
 
         self.shop = model.Shop()
 
-        self.SetSize(320, -1)
+        self.SetSize(500, -1)
         self.Center()
 
     def _get_buttons(self):
@@ -73,6 +74,9 @@ class AddDialog(wx.Dialog):
                 [x.GetValue() for x in self.text_ctrl])
             self.add_func(new_row)
             self.EndModal(wx.OK)
+        except vex.ValidationException as e:
+            for col, type_num in e.column_dict.items():
+                self.warning_label[col].SetLabel(locale.CE[type_num])
         except ex.DbException as e:
             error_message(e)
         except ex.ConstraintException as e:
