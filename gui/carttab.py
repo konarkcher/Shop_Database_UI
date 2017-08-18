@@ -1,4 +1,5 @@
 import wx
+import ObjectListView as Olv
 
 import model
 from db import exception as ex
@@ -31,6 +32,7 @@ class CartTab(wx.Panel):
 
         self.db_list.cellEditMode = self.db_list.CELLEDIT_DOUBLECLICK
         self.db_list.columns[3].isEditable = True
+        self.db_list.Bind(Olv.EVT_CELL_EDIT_FINISHING, self._change_count)
 
         left_sizer = wx.BoxSizer(wx.VERTICAL)
         left_sizer.Add(self.db_list, 1, wx.EXPAND)
@@ -75,6 +77,23 @@ class CartTab(wx.Panel):
         self.Bind(wx.EVT_BUTTON, self._on_remove, remove_btn)
 
         return bottom_sizer
+
+    def _change_count(self, evt):
+        product = evt.rowModel
+        value = evt.editor.Value
+
+        try:
+            if int(value) <= 0:
+                print('_change_count: ', locale.POSITIVE)
+                evt.Veto()
+                return
+        except ValueError:
+            print('_change_count: ', locale.POSITIVE)
+            evt.Veto()
+            return
+
+        print(self.shop.select_row('products', product.id))
+        evt.Veto()
 
     def _on_change_customer(self, e):
         with CustomerDial(self) as dlg:
