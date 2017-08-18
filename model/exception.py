@@ -1,11 +1,6 @@
 import enum
 
 
-class ValidationErrorType(enum.Enum):
-    INCORRECT_VALUE = enum.auto()
-    TOO_LONG = enum.auto()
-
-
 class ValidationException(Exception):
     """Cutsom db exception, value infromation is stroed in self.message"""
 

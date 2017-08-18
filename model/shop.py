@@ -50,13 +50,13 @@ class Shop(metaclass=SingletonMeta):
         _e = ValidationException("Validation failed", dict())
         if not re.match(rus.PRODUCT_REGX["name"], product.name):
             if (len(product.name) > 30):
-                _e.get_dict()["name"] = ValidationErrorType.TOO_LONG 
+                _e.get_dict()["name"] = ConstraintErrorType.TOO_LONG 
             else:
-                _e.get_dict()["name"] = ValidationErrorType.INCORRECT_VALUE
+                _e.get_dict()["name"] = ConstraintErrorType.INCORRECT_VALUE
         if not re.match(rus.PRODUCT_REGX["count"], str(product.count)):
-            _e.get_dict()["count"] = ValidationErrorType.INCORRECT_VALUE
+            _e.get_dict()["count"] = ConstraintErrorType.INCORRECT_VALUE
         if not re.match(rus.PRODUCT_REGX["price"], str(product.price)):
-            _e.get_dict()["price"] = ValidationErrorType.INCORRECT_VALUE
+            _e.get_dict()["price"] = ConstraintErrorType.INCORRECT_VALUE
         if _e.get_dict() != dict():
             raise _e
         try:
@@ -119,21 +119,21 @@ class Shop(metaclass=SingletonMeta):
         _e = ValidationException("Validation failed", dict())
         if not re.match(rus.CUSTOMER_REGX["name"], customer.name):
             if (len(product.name) > 30):
-                _e.get_dict()["name"] = ValidationErrorType.TOO_LONG 
+                _e.get_dict()["name"] = ConstraintErrorType.TOO_LONG 
             else:
-                _e.get_dict()["name"] = ValidationErrorType.INCORRECT_VALUE
+                _e.get_dict()["name"] = ConstraintErrorType.INCORRECT_VALUE
         if not re.match(rus.CUSTOMER_REGX["surname"], customer.surname):
             if (len(product.name) > 30):
-                _e.get_dict()["surname"] = ValidationErrorType.TOO_LONG 
+                _e.get_dict()["surname"] = ConstraintErrorType.TOO_LONG 
             else:
-                _e.get_dict()["surname"] = ValidationErrorType.INCORRECT_VALUE
+                _e.get_dict()["surname"] = ConstraintErrorType.INCORRECT_VALUE
         if not re.match(rus.CUSTOMER_REGX["phone"], str(customer.phone)):
-            _e.get_dict()["phone"] = ValidationErrorType.INCORRECT_VALUE
+            _e.get_dict()["phone"] = ConstraintErrorType.INCORRECT_VALUE
         if not re.match(rus.CUSTOMER_REGX["address"], str(product.address)):
             if (len(product.address) > 300):
-                _e.get_dict()["address"] = ValidationErrorType.TOO_LONG 
+                _e.get_dict()["address"] = ConstraintErrorType.TOO_LONG 
             else:
-                _e.get_dict()["address"] = ValidationErrorType.INCORRECT_VALUE
+                _e.get_dict()["address"] = ConstraintErrorType.INCORRECT_VALUE
         if _e.get_dict() != dict():
             raise _e
         try:
