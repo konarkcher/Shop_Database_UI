@@ -3,9 +3,7 @@ import enum
 
 class ValidationErrorType(enum.Enum):
     INCORRECT_VALUE = enum.auto()
-    INCORRECT_TYPE = enum.auto()
     TOO_LONG = enum.auto()
-    EMPTY = enum.auto()
 
 
 class ValidationException(Exception):
@@ -15,3 +13,6 @@ class ValidationException(Exception):
         super(ConstraintException, self).__init__(message)
         self.message = message
         self.column_dict = column_dict
+
+    def get_dict(self):
+    	return self.column_dict

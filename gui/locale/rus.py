@@ -63,7 +63,7 @@ CHOOSE = 'Выбрать'
 SUM = 'Сумма: '
 
 # check stuff
-CUSTOMER_TITLE = "Покупатель"
+CUSTOMER_TITLE = 'Покупатель'
 
 # empty ObjectListView labels
 PRODUCT_LC = 'Товаров нет'
@@ -92,3 +92,18 @@ CE = {Cet.INCORRECT_VALUE: 'Некорректное значение',
       Cet.NOT_UNIQUE: 'Такое значение уже существует'}
 
 UPDATE_RESERVED = 'Невозможно изменить зарезервированный товар'
+
+#validation regulars
+
+PRODUCT_REGX = { 
+    'name': '[a-zA-ZА-Яа-Я]{1,30}&',
+    'price': '[0-9]{1,12}$',
+    'count': '[0-9]{1,12}$'
+}
+
+CUSTOMER_REGX = { 
+    'surname': '[a-zA-ZА-Яа-Я]{1,30}$',
+    'name': '[a-zA-ZА-Яа-Я]{1,30}$',
+    'phone': '[0-9]{1,12}$',
+    'address': '[a-zA-ZА-Яа-я0-9\,\.\'\"\: *@]{1,300}$'
+}

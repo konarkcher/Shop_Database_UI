@@ -21,7 +21,7 @@ class DbException(Exception):
         self.message = message
         self.type_num = type_num
 
-    def set_type(type_num):
+    def set_type(self, type_num):
         self.type_num = type_num
 
 

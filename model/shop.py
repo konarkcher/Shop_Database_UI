@@ -8,6 +8,7 @@ from .singleton import SingletonMeta
 from .check_creator import CheckCreator
 from db.exception import *
 from .exception import *
+from gui.locale import rus
 import re
 
 
@@ -45,21 +46,19 @@ class Shop(metaclass=SingletonMeta):
                 db.adapter.Sqlite3(path, "id", "reserved", "count"))
 
     def add_product(self, product):
-        print(isinstance(product.name, str), isinstance(product.count, int), isinstance(product.price,int))
-        # _e = ValidationException("validation failed", dict())
-        # if not re.match("[a-zA-ZА-Яа-Я]{30}", product.name):
-        #     if isinstance(product.name, str) and (len(product.name) > 30):
-        #         _e.get_dict()["name"] = ValidationErrorType.TOO_LONG 
-        #     else:
-        #         _e.get_dict()["name"] = ValidationErrorType.INCORRECT_VALUE
-        # if not re.match("[0-9]{1,12}$", str(product.count)):
-        #     if isinstance(product.name, str) and (len(product.name) > 30):
-        #         _e.get_dict()["name"] = ValidationErrorType.TOO_LONG
-        #     else:
-        #         _e.get_dict()["name"] = ValidationErrorType.INCORRECT_VALUE
-        # if not re.match("[0-9]{1,12}$", str(product.price)):
-        #     if isinstance(product.name, ):
-        #         _e.get_dict()["name"] = ValidationErrorType.INCORRECT_VALUE
+        # print(isinstance(product.name, str), isinstance(product.count, str), isinstance(product.price, str))
+        _e = ValidationException("Validation failed", dict())
+        if not re.match(rus.PRODUCT_REGX["name"], product.name):
+            if (len(product.name) > 30):
+                _e.get_dict()["name"] = ValidationErrorType.TOO_LONG 
+            else:
+                _e.get_dict()["name"] = ValidationErrorType.INCORRECT_VALUE
+        if not re.match(rus.PRODUCT_REGX["count"], str(product.count)):
+            _e.get_dict()["count"] = ValidationErrorType.INCORRECT_VALUE
+        if not re.match(rus.PRODUCT_REGX["price"], str(product.price)):
+            _e.get_dict()["price"] = ValidationErrorType.INCORRECT_VALUE
+        if _e.get_dict != dict():
+            raise _e
         try:
             self.database.add_row("products", self._products_sig,
                                   [product.name, product.count, product.price])
@@ -117,6 +116,26 @@ class Shop(metaclass=SingletonMeta):
         self.order.set_customer(customer)
 
     def add_customer(self, customer):
+        _e = ValidationException("Validation failed", dict())
+        if not re.match(rus.CUSTOMER_REGX["name"], customer.name):
+            if (len(product.name) > 30):
+                _e.get_dict()["name"] = ValidationErrorType.TOO_LONG 
+            else:
+                _e.get_dict()["name"] = ValidationErrorType.INCORRECT_VALUE
+        if not re.match(rus.CUSTOMER_REGX["surname"], customer.surname):
+            if (len(product.name) > 30):
+                _e.get_dict()["surname"] = ValidationErrorType.TOO_LONG 
+            else:
+                _e.get_dict()["surname"] = ValidationErrorType.INCORRECT_VALUE
+        if not re.match(rus.CUSTOMER_REGX["phone"], str(customer.phone)):
+            _e.get_dict()["phone"] = ValidationErrorType.INCORRECT_VALUE
+        if not re.match(rus.CUSTOMER_REGX["address"], str(product.address)):
+            if (len(product.address) > 300):
+                _e.get_dict()["address"] = ValidationErrorType.TOO_LONG 
+            else:
+                _e.get_dict()["address"] = ValidationErrorType.INCORRECT_VALUE
+        if _e.get_dict != dict():
+            raise _e
         try:
             ret_id = self.database.add_row("customers", self._customers_sig,
                                            [customer.surname, customer.name,
