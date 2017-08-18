@@ -90,10 +90,12 @@ class CartTab(wx.Panel):
             wx.MessageBox(locale.NO_PRODUCTS, locale.ERROR)
             return
 
-        try:
-            self.shop.place_order()
-        except ex.DbException as e:
-            error_message(e)
+        # try:
+        self.shop.place_order()
+        # except ex.DbException as e:
+        #     print(e)
+        #     error_message(e)
+
 
     def _on_clear_order(self, e):
         try:

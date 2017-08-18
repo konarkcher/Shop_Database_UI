@@ -42,11 +42,11 @@ class CheckCreator:
         ))
 
         _list.append("{} : {}".format(
-            locale.PHONE,
+            locale.CUSTOMER_SOURCE['phone'],
             order.get_customer().phone))
 
         _list.append("{} : {}".format(
-            locale.ADDRESS,
+            locale.CUSTOMER_SOURCE['address'],
             order.get_customer().address))
 
         _list.append("="*width)
@@ -73,7 +73,7 @@ class CheckCreator:
         _list.append("="*width)
 
         _list.append("{} : {}".format(
-            locale.DTTM,
+            locale.DEALS_SOURCE['dttm'],
             tm))
 
         _list.append("="*width)

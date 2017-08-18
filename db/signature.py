@@ -1,11 +1,12 @@
 class Column:
-    def __init__(self, name, prop, description='', user_init=True):
+    def __init__(self, name, prop, description='', user_init=True, max_length=30):
         self.name = name  # for db and class of each string
         self.display_name = None  # link to locale
 
         self.user_init = user_init
         self.proportion = prop  # for auto resize
         self.description = description  # approx type for db
+        self.max_length = max_length
 
 
 class Table:
