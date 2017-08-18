@@ -1,6 +1,8 @@
 import wx
 
 import model
+from db import exception as ex
+from .error_message import error_message
 from .adddialog import AddDialog
 from .dbpanel import DbPanel
 from model.db_description import storage
@@ -29,7 +31,10 @@ class CustomerTab(DbPanel):
         if select is None:
             return
 
-        self.shop.delete_from('customers', [select.id])
+        try:
+            self.shop.delete_from('customers', [select.id])
+        except ex.DbException as e:
+            error_message(e)
         self.db_list.RemoveObject(select)
 
     def _on_add(self, e):

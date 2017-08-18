@@ -1,6 +1,8 @@
 import wx
 
 import model
+import db.exception
+from .error_message import error_message
 from .dbpanel import DbPanel
 from .adddialog import AddDialog
 from model.db_description import storage
@@ -29,7 +31,10 @@ class ShopTab(DbPanel):
 
     def _on_delete(self, e):
         kill_list = self.db_list.GetCheckedObjects()
-        self.shop.delete_from('products', [x.id for x in kill_list])
+        try:
+            self.shop.delete_from('products', [x.id for x in kill_list])
+        except db.exception.DbException as e:
+            error_message(e)
         self.db_list.RemoveObjects(kill_list)
 
     def _on_to_cart(self, e):
@@ -37,7 +42,11 @@ class ShopTab(DbPanel):
         if [x for x in selected if x.count <= x.reserved]:
             wx.MessageBox(locale.LACK, locale.ERROR)
             return
-        self.shop.to_cart(selected)
+
+        try:
+            self.shop.to_cart(selected)
+        except db.exception.DbException as e:
+            error_message(e)
 
     def _on_add(self, e):
         with AddDialog(self, locale.NEW_PRODUCT, storage['products'],

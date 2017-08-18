@@ -2,6 +2,7 @@ import wx
 
 import model
 import db.exception as ex
+from .error_message import error_message
 from .locale import rus as locale
 
 
@@ -73,7 +74,7 @@ class AddDialog(wx.Dialog):
             self.add_func(new_row)
             self.EndModal(wx.OK)
         except ex.DbException as e:
-            wx.MessageBox(locale.DE[e.type_num], locale.ERROR)
+            error_message(e)
             print(e.message)
         except ex.ConstraintException as e:
             self.warning_label[e.column_name].SetLabel(locale.CE[e.type_num])
