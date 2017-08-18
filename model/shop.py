@@ -49,6 +49,9 @@ class Shop(metaclass=SingletonMeta):
         except DbException as e:
             raise e
 
+    def update(self, table_name, column_name, id, value):
+        self.database.update(table_name, column_name, id, value)
+
     def delete_from(self, table_name, id_list):
         self.database.delete(table_name, id_list)
 

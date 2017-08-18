@@ -40,7 +40,7 @@ class Manager:
             raise DbException(e.args[0])
 
     def reserve(self, table_name="", pair_array=list()):
-        if ((not pair_array) or (not table_name)):
+        if (not pair_array) or (not table_name):
             return
         try:
             self.adapter.reserve(table_name, pair_array)
@@ -51,7 +51,7 @@ class Manager:
             raise DbException(e.args[0])
 
     def unreserve(self, table_name="", pair_array=list()):
-        if ((not pair_array) or (not table_name)):
+        if (not pair_array) or (not table_name):
             return
         try:
             self.adapter.unreserve(table_name, pair_array)

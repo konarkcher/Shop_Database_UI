@@ -75,7 +75,6 @@ class AddDialog(wx.Dialog):
             self.EndModal(wx.OK)
         except ex.DbException as e:
             error_message(e)
-            print(e.message)
         except ex.ConstraintException as e:
             self.warning_label[e.column_name].SetLabel(locale.CE[e.type_num])
 
