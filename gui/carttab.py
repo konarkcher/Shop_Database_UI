@@ -33,6 +33,7 @@ class CartTab(wx.Panel):
         self.db_list.cellEditMode = self.db_list.CELLEDIT_DOUBLECLICK
         self.db_list.columns[3].isEditable = True
         self.db_list.Bind(Olv.EVT_CELL_EDIT_FINISHING, self._change_count)
+        self.db_list.Bind(Olv.EVT_CELL_EDIT_FINISHED, self._after_dc)
 
         left_sizer = wx.BoxSizer(wx.VERTICAL)
         left_sizer.Add(self.db_list, 1, wx.EXPAND)
@@ -79,21 +80,36 @@ class CartTab(wx.Panel):
         return bottom_sizer
 
     def _change_count(self, evt):
-        product = evt.rowModel
-        value = evt.editor.Value
+        on_cart = evt.rowModel
 
         try:
-            if int(value) <= 0:
-                print('_change_count: ', locale.POSITIVE)
-                evt.Veto()
-                return
+            value = int(evt.editor.Value)
         except ValueError:
             print('_change_count: ', locale.POSITIVE)
             evt.Veto()
             return
 
-        print(self.shop.select_row('products', product.id))
-        evt.Veto()
+        if value <= 0:
+            print('_change_count: ', locale.POSITIVE)
+            evt.Veto()
+            return
+
+        in_db = model.Product(self.shop.select_row('products', on_cart.id))
+
+        new_reserved = value + in_db.reserved - on_cart.count
+        if new_reserved > in_db.count:
+            print('_change_count: ', locale.LACK)
+            evt.Veto()
+            return
+
+        try:
+            self.shop.update('products', 'reserved', in_db.id, new_reserved)
+        except ex.DbException as e:
+            print('_change_count: ', e.message)
+            evt.Veto()
+
+    def _after_dc(self, e):
+        self.shop.ui_display_order()
 
     def _on_change_customer(self, e):
         with CustomerDial(self) as dlg:
