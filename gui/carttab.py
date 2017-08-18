@@ -1,6 +1,8 @@
 import wx
 
 import model
+from db import exception as ex
+from .error_message import error_message
 from .dbview import DbView
 from .customerdialog import CustomerDial
 from model.db_description import order
@@ -82,19 +84,28 @@ class CartTab(wx.Panel):
 
     def _on_place_order(self, e):
         if self.shop.order.get_customer() is None:
-            wx.MessageBox(locale.CUSTOMER_NOT_CHOSEN, locale.ERROR, wx.OK)
+            wx.MessageBox(locale.CUSTOMER_NOT_CHOSEN, locale.ERROR)
             return
         if not self.shop.order.get_cart():
-            wx.MessageBox(locale.NO_PRODUCTS, locale.ERROR, wx.OK)
+            wx.MessageBox(locale.NO_PRODUCTS, locale.ERROR)
             return
 
-        self.shop.place_order()
+        try:
+            self.shop.place_order()
+        except ex.DbException as e:
+            error_message(e)
 
     def _on_clear_order(self, e):
-        self.shop.clear_order()
+        try:
+            self.shop.clear_order()
+        except ex.DbException as e:
+            error_message(e)
 
     def _on_remove(self, e):
-        self.shop.remove_from_cart(self.db_list.GetCheckedObjects())
+        try:
+            self.shop.remove_from_cart(self.db_list.GetCheckedObjects())
+        except ex.DbException as e:
+            error_message(e)
 
     def _display_order(self):
         self.shop.ui_display_products()

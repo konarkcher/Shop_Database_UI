@@ -1,17 +1,22 @@
 class Column:
-    def __init__(self, name, display_name, prop, description):
+    def __init__(self, name, prop, description='', user_init=True):
         self.name = name  # for db and class of each string
-        self.display_name = display_name  # link to locale
+        self.display_name = None  # link to locale
+
+        self.user_init = user_init
         self.proportion = prop  # for auto resize
         self.description = description  # approx type for db
 
 
 class Table:
-    def __init__(self, name):
+    def __init__(self, name, source, row_class=None):
         self.name = name
+        self.display_source = source
+        self.row_class = row_class
         self.columns = list()
 
     def add_column(self, column):
+        column.display_name = self.display_source[column.name]
         self.columns.append(column)
 
 

@@ -6,6 +6,10 @@ class Customer:
         self.phone = from_db[3]
         self.address = from_db[4]
 
+    @classmethod
+    def add(cls, data):
+        return Customer([None, *data])
+
     def get_initials(self):
         return '{} {}.'.format(self.surname, self.name[0])
 

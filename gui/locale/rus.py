@@ -1,3 +1,6 @@
+from db.exception import DbErrorType as Dbt
+from db.exception import ConstraintErrorType as Cet
+
 APP_NAME = 'Shop UI'
 
 # menubar labels
@@ -18,23 +21,16 @@ SHOP_TAB = 'Магазин'
 CART_TAB = 'Корзина'
 
 # products column labels
-ID = 'ID'
-PRODUCT_NAME = 'Название товара'
-COUNT = 'Количество'
-PRICE = 'Цена'
-RESERVED = 'Зарезервировано'
+PRODUCT_SOURCE = {'id': 'ID', 'name': 'Название товара', 'count': 'Количество',
+                  'price': 'Цена', 'reserved': 'Зарезервировано'}
 
 # customers column labels
-CUSTOMER_NAME = 'Имя'
-SURNAME = 'Фамилия'
-PHONE = 'Телефон'
-ADDRESS = 'Адрес'
-ALL_SUM = 'Общая сумма'
+CUSTOMER_SOURCE = {'id': 'ID', 'surname': 'Фамилия', 'name': 'Имя',
+                   'phone': 'Телефон', 'address': 'Адрес'}
 
 # deals column labels
-CUSTOMER_ID = 'ID покупателя'
-BUYS = 'Покупки'
-DTTM = 'Дата и время'
+DEALS_SOURCE = {'id': 'ID', 'customer_id': 'ID покупателя',
+                'dttm': 'Дата и время'}
 
 CUSTOMER_NOT_CHOSEN = 'Покупатель не выбран'
 
@@ -78,3 +74,21 @@ ORDER_LC = 'Корзина пуста'
 ERROR = 'Ошибка'
 LACK = 'Недостаточно единиц товара'
 NO_PRODUCTS = 'Товары не выбраны'
+
+# add dialog titles
+NEW_PRODUCT = 'Новый товар'
+NEW_CUSTOMER = 'Новый покупатель'
+
+# dialog button
+OK = 'ОК'
+
+# Exception messages
+DE = {Dbt.UNDEFINED_ERROR: 'Неизвестная ошибка',
+      Dbt.ALREADY_EXISTS: 'Таблица уже создана',
+      Dbt.NO_SUCH_TABLE: 'Таблица не существует'}
+
+CE = {Cet.INCORRECT_VALUE: 'Некорректное значение',
+      Cet.TOO_LONG: 'Превышено ограничение по длине',
+      Cet.NOT_UNIQUE: 'Такое значение уже существует'}
+
+UPDATE_RESERVED = 'Невозможно изменить зарезервированный товар'

@@ -1,5 +1,9 @@
 import wx
+import ObjectListView as Olv
 
+import model
+from db import exception as ex
+from .error_message import error_message
 from .dbview import DbView
 from gui.locale import rus as locale
 
@@ -9,11 +13,18 @@ class DbPanel(wx.Panel):
         super(DbPanel, self).__init__(parent)
 
         self.table = table
+        self.shop = model.Shop()
 
         self.button_sizer = wx.BoxSizer(wx.VERTICAL)
         self.button_sizer.Add(self._get_view_buttons(add_label), 0)
 
         self.db_list = DbView(self, table)
+
+        self.db_list.cellEditMode = self.db_list.CELLEDIT_DOUBLECLICK
+        for i, col in enumerate(table.columns):
+            self.db_list.columns[i].isEditable = col.user_init
+
+        self.db_list.Bind(Olv.EVT_CELL_EDIT_FINISHING, self._update_checker)
 
         outer_sizer = wx.BoxSizer(wx.HORIZONTAL)
 
@@ -36,6 +47,20 @@ class DbPanel(wx.Panel):
             self.Bind(wx.EVT_BUTTON, func, button)
 
         return sizer
+
+    def _update_checker(self, evt):
+        col_name = evt.objectListView.columns[evt.subItemIndex].valueGetter
+        upd_id = evt.rowModel.id
+        value = evt.editor.Value
+
+        try:
+            self.shop.update(self.table.name, col_name, upd_id, value)
+        except ex.DbException as e:
+            error_message(e)
+            evt.Veto()
+        except ex.ConstraintException as e:
+            error_message(message=locale.CE[e.type_num])
+            evt.Veto()
 
     def _on_add(self, e):
         print('on add')
