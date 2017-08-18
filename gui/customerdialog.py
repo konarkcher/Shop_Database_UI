@@ -22,8 +22,7 @@ class CustomerTab(DbPanel):
                               border=10)
         self.button_sizer.Add(self.cancel_btn, 0, wx.EXPAND)
 
-        self.db_list.SetObjects([model.Customer(x) for x in
-                                 self.shop.get_from('customers')])
+        self._display_data()
 
     def _on_delete(self, e):
         select = self.db_list.GetSelectedObject()
@@ -34,11 +33,14 @@ class CustomerTab(DbPanel):
         self.db_list.RemoveObject(select)
 
     def _on_add(self, e):
-        with AddDialog(self, locale.NEW_CUSTOMER,
-                       ['surname', 'name', 'phone', 'address'],
-                       locale.CUSTOMER_SOURCE) as dlg:
-            dlg.ShowModal()
-            dlg.Destroy()
+        with AddDialog(self, locale.NEW_CUSTOMER, storage['customers'],
+                       self.shop.add_customer) as dlg:
+            if dlg.ShowModal() == wx.OK:
+                self._display_data()
+
+    def _display_data(self):
+        self.db_list.SetObjects([model.Customer(x) for x in
+                                 self.shop.get_from('customers')])
 
 
 class CustomerDial(wx.Dialog):

@@ -5,6 +5,7 @@ import pickle
 import wx
 
 import model
+from model import enums as en
 from . import carttab
 from . import dbdialog
 from . import shoptab
@@ -74,8 +75,7 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_TOOL, self._on_set, set_tool)
 
     def _on_about(self, event):
-        wx.MessageBox(locale.ABOUT_DIAL, locale.ABOUT_ITEM,
-                      wx.OK | wx.ICON_INFORMATION)
+        wx.MessageBox(locale.ABOUT_DIAL, locale.ABOUT_ITEM)
 
     def _on_set(self, event):
         with dbdialog.DbSetDial(self) as dlg:
@@ -83,7 +83,8 @@ class MainFrame(wx.Frame):
                 self.shop.connect_db(*dlg.get_data())
 
                 with open(DEFAULT_DB_PATH, 'wb') as f:
-                    pickle.dump(dlg.get_data(), f)
+                    data = dlg.get_data()
+                    pickle.dump((data[0], en.Action.OPEN, data[2]), f)
 
     def _refresh(self, e):
         self.shop.ui_display_products()

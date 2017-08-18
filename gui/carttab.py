@@ -82,10 +82,10 @@ class CartTab(wx.Panel):
 
     def _on_place_order(self, e):
         if self.shop.order.get_customer() is None:
-            wx.MessageBox(locale.CUSTOMER_NOT_CHOSEN, locale.ERROR, wx.OK)
+            wx.MessageBox(locale.CUSTOMER_NOT_CHOSEN, locale.ERROR)
             return
         if not self.shop.order.get_cart():
-            wx.MessageBox(locale.NO_PRODUCTS, locale.ERROR, wx.OK)
+            wx.MessageBox(locale.NO_PRODUCTS, locale.ERROR)
             return
 
         self.shop.place_order()

@@ -1,3 +1,6 @@
+from db.exception import DbErrorType as Dbt
+from db.exception import ConstraintErrorType as Cet
+
 APP_NAME = 'Shop UI'
 
 # menubar labels
@@ -78,3 +81,12 @@ NEW_CUSTOMER = 'Новый покупатель'
 
 # dialog button
 OK = 'ОК'
+
+# Exception messages
+DE = {Dbt.UNDEFINED_ERROR: 'Неизвестная ошибка',
+      Dbt.ALREADY_EXISTS: 'Таблица уже создана',
+      Dbt.NO_SUCH_TABLE: 'Таблица не существует'}
+
+CE = {Cet.INCORRECT_VALUE: 'Некорректное значение',
+      Cet.TOO_LONG: 'Превышено ограничение по длине',
+      Cet.NOT_UNIQUE: 'Такое значение уже существует'}

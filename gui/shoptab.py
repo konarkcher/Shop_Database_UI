@@ -35,13 +35,12 @@ class ShopTab(DbPanel):
     def _on_to_cart(self, e):
         selected = self.db_list.GetCheckedObjects()
         if [x for x in selected if x.count <= x.reserved]:
-            wx.MessageBox(locale.LACK, locale.ERROR, wx.OK)
+            wx.MessageBox(locale.LACK, locale.ERROR)
             return
         self.shop.to_cart(selected)
 
     def _on_add(self, e):
-        with AddDialog(self, locale.NEW_PRODUCT,
-                       ['name', 'count', 'price'],
-                       locale.PRODUCT_SOURCE) as dlg:
-            dlg.ShowModal()
-            dlg.Destroy()
+        with AddDialog(self, locale.NEW_PRODUCT, storage['products'],
+                       self.shop.add_product) as dlg:
+            if dlg.ShowModal() == wx.OK:
+                self._display_data()

@@ -6,6 +6,10 @@ class Product:
         self.price = from_db[3]
         self.reserved = from_db[4]
 
+    @classmethod
+    def add(cls, data):
+        return cls([None, *data, None])
+
     def __str__(self):
         return """	Id: {}
         name: {}

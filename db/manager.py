@@ -1,5 +1,5 @@
-from .exception import DbException
-from .exception import ConstraintException
+from .exception import DbException, DbErrorType
+from .exception import ConstraintException, ConstraintErrorType
 import sqlite3
 
 
@@ -21,7 +21,7 @@ class Manager:
             return
         try:
             # autocommit inside
-            rid = self.adapter.add_row(table_name,  row_sig, row_array)
+            rid = self.adapter.add_row(table_name, row_sig, row_array)
             return rid
         except DbException as e:
             raise e
@@ -116,4 +116,4 @@ class Manager:
         try:
             self.adapter.create_tables()
         except Exception as e:
-            raise DbException(e.args[0], DbException.ALREADY_EXISTS)
+            raise DbException(e.args[0], DbErrorType.ALREADY_EXISTS)
