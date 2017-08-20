@@ -1,5 +1,6 @@
 class Column:
-    def __init__(self, name, prop, description='', user_init=True, max_length=30):
+    def __init__(self, name, prop, description='', user_init=True,
+                 max_length=30):
         self.name = name  # for db and class of each string
         self.display_name = None  # link to locale
 

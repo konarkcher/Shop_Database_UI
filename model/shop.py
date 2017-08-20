@@ -13,7 +13,6 @@ import re
 
 
 class Shop(metaclass=SingletonMeta):
-
     def __init__(self):
         self.database = None
         self.order = Order()
@@ -53,17 +52,17 @@ class Shop(metaclass=SingletonMeta):
         return res[0]
 
     def add_product(self, product):
-        # print(isinstance(product.name, str), isinstance(product.count, str), isinstance(product.price, str))
         _e = ValidationException("Validation failed", dict())
         _names = list(vars(product))[1:-1]
         for i in range(len(_names)):
             if not re.match(rus.PRODUCT_REGX[_names[i]],
                             product.__dict__[_names[i]]):
-                if (products.columns[i+1].max_length
+                if (products.columns[i + 1].max_length
                         > len(product.__dict__[_names[i]])):
                     _e.get_dict()[_names[i]] = ConstraintErrorType.TOO_LONG
                 else:
-                    _e.get_dict()[_names[i]] = ConstraintErrorType.INCORRECT_VALUE
+                    _e.get_dict()[_names[i]] = \
+                        ConstraintErrorType.INCORRECT_VALUE
         if _e.get_dict() != dict():
             raise _e
         try:
@@ -128,11 +127,12 @@ class Shop(metaclass=SingletonMeta):
         for i in range(len(_names)):
             if not re.match(rus.CUSTOMER_REGX[_names[i]],
                             customer.__dict__[_names[i]]):
-                if (customers.columns[i+1].max_length
+                if (customers.columns[i + 1].max_length
                         > len(customer.__dict__[_names[i]])):
                     _e.get_dict()[_names[i]] = ConstraintErrorType.TOO_LONG
                 else:
-                    _e.get_dict()[_names[i]] = ConstraintErrorType.INCORRECT_VALUE
+                    _e.get_dict()[
+                        _names[i]] = ConstraintErrorType.INCORRECT_VALUE
         if _e.get_dict() != dict():
             raise _e
         try:

@@ -94,15 +94,15 @@ CE = {Cet.INCORRECT_VALUE: 'Некорректное значение',
 UPDATE_RESERVED = 'Невозможно изменить зарезервированный товар'
 POSITIVE = 'Введите целое положительное число'
 
-#validation regulars
+# validation regulars
 
-PRODUCT_REGX = { 
+PRODUCT_REGX = {
     'name': '.{1,30}$',
     'price': '[0-9]{1,12}$',
     'count': '[0-9]{1,12}$'
 }
 
-CUSTOMER_REGX = { 
+CUSTOMER_REGX = {
     'surname': '[a-zA-Zа-яА-Я]{1,30}$',
     'name': '[a-zA-Zа-яА-Я]{1,30}$',
     'phone': '[0-9]{1,12}$',
