@@ -1,5 +1,6 @@
 from db.exception import DbErrorType as Dbt
 from db.exception import ConstraintErrorType as Cet
+from model.constants import constants as cnst
 
 APP_NAME = 'Shop UI'
 
@@ -97,14 +98,16 @@ POSITIVE = 'Введите целое положительное число'
 #validation regulars
 
 PRODUCT_REGX = { 
-    'name': '.{1,30}$',
-    'price': '[0-9]{1,12}$',
-    'count': '[0-9]{1,12}$'
+    'name': '.{1,' + str(cnst.DEFAULT_LENGTH) + '}$',
+    'price': '[0-9]{1,' + str(cnst.MAX_INT_LENGTH) + '}$',
+    'count': '[0-9]{1,' + str(cnst.MAX_INT_LENGTH) + '}$'
 }
 
+
+
 CUSTOMER_REGX = { 
-    'surname': '[a-zA-Zа-яА-Я]{1,30}$',
-    'name': '[a-zA-Zа-яА-Я]{1,30}$',
-    'phone': '[0-9]{1,12}$',
-    'address': '.{1,300}$'
+    'surname': '[a-zA-Zа-яА-Я]{1,' + str(cnst.DEFAULT_LENGTH) + '}$',
+    'name': '[a-zA-Zа-яА-Я]{1,' + str(cnst.DEFAULT_LENGTH) + '}$',
+    'phone': '[0-9]{1,' + str(cnst.MAX_PHONE_LENGTH) + '}$',
+    'address': '.{1,' + str(cnst.MAX_ADDRESS_LENGTH) + '}$'
 }

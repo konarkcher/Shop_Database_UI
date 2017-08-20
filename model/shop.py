@@ -60,7 +60,7 @@ class Shop(metaclass=SingletonMeta):
             if not re.match(rus.PRODUCT_REGX[_names[i]],
                             product.__dict__[_names[i]]):
                 if (products.columns[i+1].max_length
-                        > len(product.__dict__[_names[i]])):
+                        < len(product.__dict__[_names[i]])):
                     _e.get_dict()[_names[i]] = ConstraintErrorType.TOO_LONG
                 else:
                     _e.get_dict()[_names[i]] = ConstraintErrorType.INCORRECT_VALUE
@@ -129,7 +129,7 @@ class Shop(metaclass=SingletonMeta):
             if not re.match(rus.CUSTOMER_REGX[_names[i]],
                             customer.__dict__[_names[i]]):
                 if (customers.columns[i+1].max_length
-                        > len(customer.__dict__[_names[i]])):
+                        < len(customer.__dict__[_names[i]])):
                     _e.get_dict()[_names[i]] = ConstraintErrorType.TOO_LONG
                 else:
                     _e.get_dict()[_names[i]] = ConstraintErrorType.INCORRECT_VALUE
