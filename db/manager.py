@@ -1,10 +1,8 @@
 from .exception import DbException, DbErrorType
-from .exception import ConstraintException, ConstraintErrorType
-import sqlite3
 
 
 class Manager:
-    """Db managment class"""
+    """Db management class"""
 
     def __init__(self, adapter):
         self.adapter = adapter

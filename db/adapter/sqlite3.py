@@ -1,5 +1,7 @@
 import sqlite3
+
 from db.exception import *
+
 
 class Sqlite3:
     """
@@ -9,10 +11,7 @@ class Sqlite3:
 
     """
 
-    def __init__(self,
-                 path_to_db,
-                 id_column_name,
-                 reserved_column_name,
+    def __init__(self, path_to_db, id_column_name, reserved_column_name,
                  decrease_column_name):
         self._path = path_to_db
         self._id_column_name = id_column_name
@@ -27,10 +26,8 @@ class Sqlite3:
     def add_row(self, table_name="", row_sig="", row_array=list()):
         try:
             self.sqlite_cursor.execute("INSERT INTO {} ({}) VALUES ({})"
-                                       .format(table_name,
-                                               row_sig,
-                                               ("?, "*len(row_array))[:-2]
-                                               ),
+                                       .format(table_name, row_sig,
+                                               ("?, " * len(row_array))[:-2]),
                                        tuple(row_array)
                                        )
             self.sqlite_connection.commit()
@@ -47,10 +44,10 @@ class Sqlite3:
                 _e = ConstraintException(
                     e.args[0], (arr[-1].split('_'))[-2],
                     ConstraintErrorType.NOT_UNIQUE)
-                subarr = arr[-1].split('_')
-                if(subarr[2] == "len"):
+                sub_arr = arr[-1].split('_')
+                if sub_arr[2] == "len":
                     _e.set_type(ConstraintErrorType.TOO_LONG)
-                elif (subarr[2] == "cor"):
+                elif sub_arr[2] == "cor":
                     _e.set_type(ConstraintErrorType.INCORRECT_VALUE)
                 raise _e
             else:
@@ -115,10 +112,10 @@ class Sqlite3:
                 _e = ConstraintException(
                     e.args[0], (arr[-1].split('_'))[-2],
                     ConstraintErrorType.NOT_UNIQUE)
-                subarr = arr[-1].split('_')
-                if(subarr[2] == "len"):
+                sub_arr = arr[-1].split('_')
+                if sub_arr[2] == "len":
                     _e.set_type(ConstraintErrorType.TOO_LONG)
-                elif (subarr[2] == "cor"):
+                elif sub_arr[2] == "cor":
                     _e.set_type(ConstraintErrorType.INCORRECT_VALUE)
                 raise _e
             else:
@@ -149,10 +146,10 @@ class Sqlite3:
                 _e = ConstraintException(
                     e.args[0], (arr[-1].split('_'))[-2],
                     ConstraintErrorType.NOT_UNIQUE)
-                subarr = arr[-1].split('_')
-                if(subarr[2] == "len"):
+                sub_arr = arr[-1].split('_')
+                if sub_arr[2] == "len":
                     _e.set_type(ConstraintErrorType.TOO_LONG)
-                elif (subarr[2] == "cor"):
+                elif sub_arr[2] == "cor":
                     _e.set_type(ConstraintErrorType.INCORRECT_VALUE)
                 raise _e
             else:
@@ -180,10 +177,10 @@ class Sqlite3:
                 _e = ConstraintException(
                     e.args[0], (arr[-1].split('_'))[-2],
                     ConstraintErrorType.NOT_UNIQUE)
-                subarr = arr[-1].split('_')
-                if(subarr[2] == "len"):
+                sub_arr = arr[-1].split('_')
+                if sub_arr[2] == "len":
                     _e.set_type(ConstraintErrorType.TOO_LONG)
-                elif (subarr[2] == "cor"):
+                elif sub_arr[2] == "cor":
                     _e.set_type(ConstraintErrorType.INCORRECT_VALUE)
                 raise _e
             else:
@@ -205,8 +202,7 @@ class Sqlite3:
 
     def select_by_id(self, table_name="", id_array=list()):
         yield from self.sqlite_cursor.execute(
-            "SELECT * FROM {} WHERE {} IN ({})"
-            .format(
+            "SELECT * FROM {} WHERE {} IN ({})".format(
                 table_name,
                 self._id_column_name,
                 str(id_array)[1:-1]))

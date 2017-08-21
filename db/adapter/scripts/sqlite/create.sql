@@ -38,4 +38,4 @@ CREATE INDEX IF NOT EXISTS customers_ind
 
 CREATE INDEX IF NOT EXISTS deals_ind
   ON customers (id);
-  
+

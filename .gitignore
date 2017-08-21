@@ -3,14 +3,18 @@
 
 # But not these directories...
 !data/
+
 !db/
 !db/adapter/
+!db/adapter/scripts/
+!db/adapter/scripts/sqlite/
+
 !gui/
 !gui/icon/
 !gui/locale/
+
 !model/
-!db/adapter/scripts
-!db/adapter/scripts/sqlite
+!model/constants
 
 # And not these files...
 !.gitignore
