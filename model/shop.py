@@ -1,8 +1,5 @@
 import re
-<<<<<<< HEAD
 import os
-=======
->>>>>>> dev
 
 import db
 import db.adapter
