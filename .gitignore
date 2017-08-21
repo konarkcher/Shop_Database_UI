@@ -2,9 +2,6 @@
 *
 
 # But not these directories...
-!data/
-!data/ckecks
-
 !db/
 !db/adapter/
 !db/adapter/scripts/
