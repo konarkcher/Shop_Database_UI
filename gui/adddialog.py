@@ -78,7 +78,7 @@ class AddDialog(wx.Dialog):
             for col, type_num in e.column_dict.items():
                 self.warning_label[col].SetLabel(locale.CE[type_num])
         except ex.DbException as e:
-            error_message(e)
+            error_message(self, exception=e)
         except ex.ConstraintException as e:
             self.warning_label[e.column_name].SetLabel(locale.CE[e.type_num])
 

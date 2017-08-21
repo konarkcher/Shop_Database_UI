@@ -29,7 +29,7 @@ class ShopTab(DbPanel):
 
     def _reserve_checker(self, e):
         if e.rowModel.reserved > 0:
-            error_message(message=locale.UPDATE_RESERVED)
+            error_message(self, message=locale.UPDATE_RESERVED)
             e.Veto()
 
     def _display_data(self):
@@ -42,20 +42,20 @@ class ShopTab(DbPanel):
         try:
             self.shop.delete_from('products', [x.id for x in kill_list])
         except ex.DbException as e:
-            error_message(e)
+            error_message(self, exception=e)
 
         self.db_list.RemoveObjects(kill_list)
 
     def _on_to_cart(self, e):
         selected = self.db_list.GetCheckedObjects()
         if [x for x in selected if x.count <= x.reserved]:
-            wx.MessageBox(locale.LACK, locale.ERROR)
+            wx.MessageBox(locale.LACK, locale.ERROR, parent=self)
             return
 
         try:
             self.shop.to_cart(selected)
         except ex.DbException as e:
-            error_message(e)
+            error_message(self, exception=e)
 
     def _on_add(self, e):
         with AddDialog(self, locale.NEW_PRODUCT, storage['products'],

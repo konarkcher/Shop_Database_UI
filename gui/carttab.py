@@ -119,10 +119,11 @@ class CartTab(wx.Panel):
 
     def _on_place_order(self, e):
         if self.shop.order.get_customer() is None:
-            wx.MessageBox(locale.CUSTOMER_NOT_CHOSEN, locale.ERROR)
+            wx.MessageBox(locale.CUSTOMER_NOT_CHOSEN, locale.ERROR,
+                          parent=self)
             return
         if not self.shop.order.get_cart():
-            wx.MessageBox(locale.NO_PRODUCTS, locale.ERROR)
+            wx.MessageBox(locale.NO_PRODUCTS, locale.ERROR, parent=self)
             return
 
         # try:
@@ -135,13 +136,13 @@ class CartTab(wx.Panel):
         try:
             self.shop.clear_order()
         except ex.DbException as e:
-            error_message(e)
+            error_message(self, exception=e)
 
     def _on_remove(self, e):
         try:
             self.shop.remove_from_cart(self.db_list.GetCheckedObjects())
         except ex.DbException as e:
-            error_message(e)
+            error_message(self, exception=e)
 
     def _display_order(self):
         self.shop.ui_display_products()

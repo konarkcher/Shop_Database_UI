@@ -75,7 +75,7 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_TOOL, self._on_set, set_tool)
 
     def _on_about(self, event):
-        wx.MessageBox(locale.ABOUT_DIAL, locale.ABOUT_ITEM)
+        wx.MessageBox(locale.ABOUT_DIAL, locale.ABOUT_ITEM, parent=self)
 
     def _on_set(self, event):
         with dbdialog.DbSetDial(self) as dlg:
