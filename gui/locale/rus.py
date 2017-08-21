@@ -86,7 +86,8 @@ OK = 'ОК'
 # Exception messages
 DE = {Dbt.UNDEFINED_ERROR: 'Неизвестная ошибка',
       Dbt.ALREADY_EXISTS: 'Таблица уже создана',
-      Dbt.NO_SUCH_TABLE: 'Таблица не существует'}
+      Dbt.NO_SUCH_TABLE: 'Таблица не существует',
+      Dbt.DB_NOT_CONNECTED: 'База не подключена'}
 
 CE = {Cet.INCORRECT_VALUE: 'Некорректное значение',
       Cet.TOO_LONG: 'Превышено ограничение по длине',

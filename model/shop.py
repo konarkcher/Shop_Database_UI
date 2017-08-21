@@ -15,6 +15,7 @@ from gui.locale import rus
 
 
 class Shop(metaclass=SingletonMeta):
+
     def __init__(self):
         self.database = None
         self.order = Order()
@@ -64,8 +65,8 @@ class Shop(metaclass=SingletonMeta):
 
     def add_product(self, product):
         if self.database is None:
-            self.ui_display_order()
-            return
+            raise DbException("Database not connected",
+                              DbErrorType.DB_NOT_CONNECTED)
         _e = ValidationException("Validation failed", dict())
         _names = list(vars(product))[1:-1]
         for i in range(len(_names)):
@@ -87,14 +88,14 @@ class Shop(metaclass=SingletonMeta):
 
     def update(self, table_name, column_name, id, value):
         if self.database is None:
-            raise DbException("Database not connected", 
-                DbErrorType.DB_NOT_CONNECTED)
+            raise DbException("Database not connected",
+                              DbErrorType.DB_NOT_CONNECTED)
         self.database.update(table_name, column_name, id, value)
 
     def delete_from(self, table_name, id_list):
         if self.database is None:
-            raise DbException("Database not connected", 
-                DbErrorType.DB_NOT_CONNECTED)
+            raise DbException("Database not connected",
+                              DbErrorType.DB_NOT_CONNECTED)
         self.database.delete(table_name, id_list)
 
     def to_cart(self, prod_list):
@@ -116,8 +117,8 @@ class Shop(metaclass=SingletonMeta):
 
     def place_order(self):
         if self.database is None:
-            raise DbException("Database not connected", 
-                DbErrorType.DB_NOT_CONNECTED)
+            raise DbException("Database not connected",
+                              DbErrorType.DB_NOT_CONNECTED)
         _now = datetime.now()
         deal_id = self.database.add_row("deals", self._deals_sig,
                                         [self.order.get_customer().id, _now])
@@ -132,8 +133,8 @@ class Shop(metaclass=SingletonMeta):
 
     def clear_order(self):
         if self.database is None:
-            raise DbException("Database not connected", 
-                DbErrorType.DB_NOT_CONNECTED)
+            raise DbException("Database not connected",
+                              DbErrorType.DB_NOT_CONNECTED)
         self.database.unreserve("products", [[x.id, x.count] for x in
                                              self.order.get_cart()])
         self.order = Order()
@@ -141,8 +142,7 @@ class Shop(metaclass=SingletonMeta):
 
     def get_order(self):
         if self.database is None:
-            raise DbException("Database not connected", 
-                DbErrorType.DB_NOT_CONNECTED)
+            return []
         return self.order.get_cart()
 
     def get_from(self, table_name):
@@ -155,8 +155,8 @@ class Shop(metaclass=SingletonMeta):
 
     def add_customer(self, customer):
         if self.database is None:
-            raise DbException("Database not connected", 
-                DbErrorType.DB_NOT_CONNECTED)
+            raise DbException("Database not connected",
+                              DbErrorType.DB_NOT_CONNECTED)
         _e = ValidationException("Validation failed", dict())
         _names = list(vars(customer))[1:]
         for i in range(len(_names)):
@@ -190,6 +190,6 @@ class Shop(metaclass=SingletonMeta):
         pass
 
     def close_connection(self):
-        self.clear_order()
         if self.database is not None:
+            self.clear_order()
             self.database.close_connection()
