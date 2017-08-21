@@ -14,6 +14,7 @@
 !gui/locale/
 
 !model/
+!model/constants
 
 # And not these files...
 !.gitignore
