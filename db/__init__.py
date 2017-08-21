@@ -2,6 +2,6 @@
 from .manager import *
 from .signature import *
 
-# Clean up the package namespace
+# clean up the package namespace
 del manager
 del signature

@@ -1,6 +1,5 @@
 import wx
 
-import db.exception as ex
 from .locale import rus as locale
 
 

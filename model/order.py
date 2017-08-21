@@ -18,9 +18,8 @@ class Order:
         return list(self._cart.values())
 
     def remove_from_cart(self, products):
-        st = set([x.id for x in products])
-        self._cart = dict(
-            [(x.id, x) for x in self._cart.values() if x.id not in st])
+        for prod in products:
+            self._cart.pop(prod.id, None)
 
     def get_initials(self):
         return self._customer.get_initials()
