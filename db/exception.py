@@ -11,6 +11,7 @@ class DbErrorType(enum.Enum):
     UNDEFINED_ERROR = enum.auto()
     ALREADY_EXISTS = enum.auto()
     NO_SUCH_TABLE = enum.auto()
+    DB_NOT_CONNECTED = enum.auto()
 
 
 class DbException(Exception):
