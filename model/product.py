@@ -11,13 +11,5 @@ class Product:
         return cls([None, *data, None])
 
     def __str__(self):
-        return """	Id: {}
-        name: {}
-        count: {}
-        price: {}
-        reserve: {}""".format(
-            self.id,
-            self.name,
-            self.count,
-            self.price,
-            self.reserved)
+        return "id: {}\nname: {}\ncount: {}\nprice: {}\nreserve: {}".format(
+            self.id, self.name, self.count, self.price, self.reserved)

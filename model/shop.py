@@ -1,3 +1,5 @@
+import re
+
 import db
 import db.adapter
 from datetime import datetime
@@ -9,7 +11,6 @@ from .check_creator import CheckCreator
 from db.exception import *
 from .exception import *
 from gui.locale import rus
-import re
 
 
 class Shop(metaclass=SingletonMeta):
@@ -57,7 +58,7 @@ class Shop(metaclass=SingletonMeta):
         for i in range(len(_names)):
             if not re.match(rus.PRODUCT_REGX[_names[i]],
                             product.__dict__[_names[i]]):
-                if (products.columns[i+1].max_length
+                if (products.columns[i + 1].max_length
                         < len(product.__dict__[_names[i]])):
                     _e.get_dict()[_names[i]] = ConstraintErrorType.TOO_LONG
                 else:
@@ -127,7 +128,7 @@ class Shop(metaclass=SingletonMeta):
         for i in range(len(_names)):
             if not re.match(rus.CUSTOMER_REGX[_names[i]],
                             customer.__dict__[_names[i]]):
-                if (customers.columns[i+1].max_length
+                if (customers.columns[i + 1].max_length
                         < len(customer.__dict__[_names[i]])):
                     _e.get_dict()[_names[i]] = ConstraintErrorType.TOO_LONG
                 else:

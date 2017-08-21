@@ -1,4 +1,3 @@
-import os
 from gui.locale import rus as locale
 
 

@@ -1,6 +1,3 @@
-import enum
-
-
 class ValidationException(Exception):
     """Custom db exception, value information is stored in self.message"""
 
