@@ -19,12 +19,17 @@ for different database-management systems
 
 ## Installation
 
+## Requirements
+
+1. Python 3.6
+2. wxPython 4.0.0a3
+3. ObjectListView 1.3.1
+
 ### ObjectListView fix
 
-In this project was used ObjectListView 1.3.1
-downloaded from pip, and this library contains several
-bugs. There is a list of fixes which are necessary
-to be done in order to run the program:
+Last version of ObjectListView library downloaded from pip
+contains several bugs. There is a list of fixes
+which are necessary to be done in order to run the program:
 
 1. In `ObjectListView.py` on line 3753:
 
