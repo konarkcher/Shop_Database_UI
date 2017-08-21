@@ -26,7 +26,7 @@ downloaded from pip, and this library contains several
 bugs. There is a list of fixes which are necessary
 to be done in order to run the program:
 
-1. In `ObjectListView.py` on line 3753
+1. In `ObjectListView.py` on line 3753:
 
 change this
 
@@ -40,7 +40,7 @@ to this
 if not converter and value is None:
 ```
 
-2. In CellEditor.py on line 100:
+2. In `CellEditor.py` on line 100:
 
 change this
 
