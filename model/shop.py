@@ -1,3 +1,6 @@
+import re
+import os
+
 import db
 import db.adapter
 from datetime import datetime
@@ -9,7 +12,6 @@ from .check_creator import CheckCreator
 from db.exception import *
 from .exception import *
 from gui.locale import rus
-import re
 
 
 class Shop(metaclass=SingletonMeta):
@@ -17,6 +19,8 @@ class Shop(metaclass=SingletonMeta):
     def __init__(self):
         self.database = None
         self.order = Order()
+        if not os.path.exists("data/checks"):
+            os.makedirs("data/checks")
         self._check_creator = CheckCreator()
         self._customers_sig = str([x.name
                                    for x in customers.columns[1:]])[1:-1]
@@ -45,6 +49,10 @@ class Shop(metaclass=SingletonMeta):
                 self.database.close_connection()
             self.database = db.Manager(
                 db.adapter.Sqlite3(path, "id", "reserved", "count"))
+            for i in ["deals", "products", "customers"]:
+                if tuple([i]) not in list(self.database.get_all_tables()):
+                    self.database.create_tables()
+                    break
 
     def select_row(self, table_name, id):
         res = list(self.database.select_by_id(table_name, [id]))

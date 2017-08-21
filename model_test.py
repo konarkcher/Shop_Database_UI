@@ -17,12 +17,16 @@ products = [[1, "cookie", 42, 1, 0],
 
 prodP = []
 
+for i in ['deals','products','customers']:
+    print(tuple([i]) in list(shop.database.adapter.sqlite_cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")))
+
 for prod in products:
     try:
         shop.add_product(model.Product(prod))
     except exception.ConstraintException as e:
         print(e.column_name, e.typeNum)
     prodP.append(model.Product(prod))
+
 
 
 customer = model.Customer([0,

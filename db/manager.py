@@ -111,3 +111,9 @@ class Manager:
             self.adapter.create_tables()
         except Exception as e:
             raise DbException(e.args[0], DbErrorType.ALREADY_EXISTS)
+
+    def get_all_tables(self):
+        try:
+            yield self.adapter.get_all_tables()
+        except Exception as e:
+            raise DbException(e.args[0])

@@ -221,3 +221,6 @@ class Sqlite3:
 
     def execute(self, exec_str):
         self.sqlite_cursor.execute(exec_str)
+
+    def get_all_tables(self):
+        yield self.sqlite_cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
