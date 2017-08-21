@@ -131,7 +131,6 @@ class CartTab(wx.Panel):
         #     print(e)
         #     error_message(e)
 
-
     def _on_clear_order(self, e):
         try:
             self.shop.clear_order()

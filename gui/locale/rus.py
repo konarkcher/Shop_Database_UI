@@ -95,7 +95,7 @@ CE = {Cet.INCORRECT_VALUE: 'Некорректное значение',
 UPDATE_RESERVED = 'Невозможно изменить зарезервированный товар'
 POSITIVE = 'Введите целое положительное число'
 
-#validation regulars
+# validation regulars
 
 PRODUCT_REGX = { 
     'name': '.{1,' + str(cnst.DEFAULT_LENGTH) + '}$',

@@ -1,8 +1,8 @@
 import os
 from gui.locale import rus as locale
 
-class CheckCreator:
 
+class CheckCreator:
     def __init__(self):
         pass
 
@@ -30,11 +30,11 @@ class CheckCreator:
 
         _list = []
 
-        _list.append("="*width)
+        _list.append("=" * width)
 
         _list.append(locale.APP_NAME.center(width, " "))
 
-        _list.append("="*width)
+        _list.append("=" * width)
 
         _list.append("{} : {}".format(
             locale.CUSTOMER_TITLE,
@@ -49,20 +49,20 @@ class CheckCreator:
             locale.CUSTOMER_SOURCE['address'],
             order.get_customer().address))
 
-        _list.append("="*width)
+        _list.append("=" * width)
 
         for index, item in enumerate(order.get_cart()):
             _list.append("{}. {:.{width}}".format(
                 index,
                 item.name,
-                width=width-3))
+                width=width - 3))
             _list.append("x{:.<{widthL}}{:.>{widthR}}".format(
                 item.count,
-                item.price*item.count,
+                item.price * item.count,
                 widthL=width // 2,
                 widthR=width // 2 + width % 2 - 1))
 
-        _list.append("-"*width)
+        _list.append("-" * width)
 
         _list.append("{:<{widthL}}{:>{widthR}}".format(
             locale.SUM,
@@ -70,12 +70,12 @@ class CheckCreator:
             widthL=width // 2,
             widthR=width // 2 + width % 2))
 
-        _list.append("="*width)
+        _list.append("=" * width)
 
         _list.append("{} : {}".format(
             locale.DEALS_SOURCE['dttm'],
             tm))
 
-        _list.append("="*width)
+        _list.append("=" * width)
 
         return _list
