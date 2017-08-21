@@ -14,12 +14,17 @@
 !model/
 !model/constants
 
+!screenshots/
+
 # And not these files...
 !.gitignore
 
 !*.py
 !*.sql
 !gui/icon/*.png
+
+!README.md
+!screenshots/*.png
 
 # But definitely these...
 .DS_Store
